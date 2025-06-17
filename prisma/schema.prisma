@@ -1,0 +1,159 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String            @id @default(uuid())
+  email               String            @unique
+  username            String            @unique
+  firstname           String
+  lastname            String
+  password            String
+  profilePicture      String?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  bio                 String?
+  isPro               Boolean           @default(false)
+  tasks               Tasks[]
+  attachments         Attachments[]
+  workspaces          Workspace[]       @relation("WorkspaceUsers")
+  ownedWorkspaces     Workspace[]       @relation("WorkspaceOwner")
+  workspaceMemberships WorkspaceMember[]
+}
+
+model Workspace {
+  id                  String            @id @default(uuid())
+  workspacename       String
+  description         String?
+  imageUrl            String?
+  type                WorkspaceType     @default(PERSONAL)
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  users               User[]            @relation("WorkspaceUsers")
+  tasks               Tasks[]
+  organizationName    String?
+  workspaceSize       String?
+  organizationDomain  String?
+  isPro               Boolean           @default(false)
+  subscriptionEndsAt  DateTime?
+  ownerId             String
+  owner               User              @relation("WorkspaceOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members             WorkspaceMember[]
+  tags                Tag[]             @relation("TagsOnWorkspace")
+}
+
+model Tasks {
+  id              String          @id @default(uuid())
+  title           String
+  completed       Boolean         @default(false)
+  priority        priorityEnum
+  dueDate         DateTime?       // Optional; use @db.Date if only date needed
+
+  userId          String
+  user            User            @relation(fields: [userId], references: [id])
+
+  workspaceId     String
+  workspace       Workspace       @relation(fields: [workspaceId], references: [id])
+
+  parentTaskId    String?
+  parentTask      Tasks?          @relation("TaskSubtasks", fields: [parentTaskId], references: [id])
+  subtasks        Tasks[]         @relation("TaskSubtasks")
+
+  tags            Tag[]           @relation("TaskTags")
+  taskVersions    TaskVersion[]
+  attachments     Attachments[]
+
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([title])
+}
+
+model Tag {
+  id              String          @id @default(uuid())
+  name            String          @unique
+  tasks           Tasks[]         @relation("TaskTags")
+  color           String          @default("#3b82f6")
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  workspaceId     String
+  workspace       Workspace       @relation("TagsOnWorkspace", fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model Attachments {
+  id              String          @id @default(uuid())
+  url             String
+  filename        String
+  attachmentType  AttachmentTypeEnum
+  mimeType        String
+  fileSize        Int
+
+  taskId          String?
+  task            Tasks?          @relation(fields: [taskId], references: [id])
+
+  userId          String
+  user            User            @relation(fields: [userId], references: [id])
+
+  taskVersionId   String?
+  taskVersion     TaskVersion?    @relation(fields: [taskVersionId], references: [id])
+
+  createdAt       DateTime        @default(now())
+}
+
+model TaskVersion {
+  id              String          @id @default(uuid())
+  taskId          String
+  task            Tasks           @relation(fields: [taskId], references: [id])
+  version         Int             @default(1)
+  description     String
+  attachments     Attachments[]
+  createdAt       DateTime        @default(now())
+
+  @@unique([taskId, version])
+}
+
+model WorkspaceMember {
+  id              String          @id @default(uuid())
+  role            MemberRole      @default(MEMBER)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspaceId     String
+  workspace       Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+}
+
+enum priorityEnum {
+  low
+  medium
+  high
+  no_priority
+}
+
+enum AttachmentTypeEnum {
+  IMAGE
+  DOCUMENT
+  AUDIO
+  VIDEO
+}
+
+enum WorkspaceType {
+  PERSONAL
+  PROFESSIONAL
+}
+
+enum MemberRole {
+  OWNER
+  ADMIN
+  MEMBER
+  GUEST
+}
