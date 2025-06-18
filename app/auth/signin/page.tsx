@@ -1,99 +1,127 @@
-// app/auth/signin/page.tsx
 "use client";
-import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import {
+  signIn,
+  getProviders,
+  ClientSafeProvider,
+  LiteralUnion,
+} from "next-auth/react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { BuiltInProviderType } from "next-auth/providers/index";
 
-export default function SignInPage() {
+export default function SignIn() {
+  const [providers, setProviders] = useState<Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  > | null>(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    const setAuthProviders = async () => {
+      const res = await getProviders();
+      setProviders(res);
+    };
+    setAuthProviders();
+  }, []);
+
+  const handleCredentialsSignIn = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError(null);
+    setLoading(true);
 
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
 
-    try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        setError(result.error);
-      } else {
-        router.push(callbackUrl);
-        router.refresh();
-      }
-    } catch (error) {
-      setError("An error occurred during sign in");
-    } finally {
-      setIsLoading(false);
+    if (result?.error) {
+      alert("Invalid credentials");
+    } else {
+      router.push("/dashboard");
     }
+    setLoading(false);
+  };
+
+  const handleEmailSignIn = async () => {
+    await signIn("email", { email, callbackUrl: "/dashboard" });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-lg">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded">
-              {error}
-            </div>
-          )}
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-              />
-            </div>
-          </div>
+    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold mb-6">Sign In</h1>
 
-          <div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? "Signing in..." : "Sign in"}
-            </button>
-          </div>
-        </form>
+      {/* Email/Password Form */}
+      <form onSubmit={handleCredentialsSignIn} className="mb-6">
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-2 border rounded-md"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 border rounded-md"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 disabled:opacity-50"
+        >
+          {loading ? "Signing in..." : "Sign in with Email/Password"}
+        </button>
+      </form>
+
+      <div className="mb-4">
+        <button
+          onClick={handleEmailSignIn}
+          className="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600"
+        >
+          Send Magic Link
+        </button>
       </div>
+
+      <div className="space-y-2">
+        {/* OAuth Providers */}
+        {providers &&
+          Object.values(providers).map((provider) => {
+            if (provider.id === "credentials" || provider.id === "email")
+              return null;
+
+            return (
+              <button
+                key={provider.name}
+                onClick={() =>
+                  signIn(provider.id, { callbackUrl: "/dashboard" })
+                }
+                className="w-full bg-gray-800 text-white p-2 rounded-md hover:bg-gray-700"
+              >
+                Sign in with {provider.name}
+              </button>
+            );
+          })}
+      </div>
+
+      <p className="mt-4 text-center">
+        Don't have an account?{" "}
+        <a href="/auth/signup" className="text-blue-500 hover:underline">
+          Sign up
+        </a>
+      </p>
     </div>
   );
 }
