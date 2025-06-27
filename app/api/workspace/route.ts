@@ -17,6 +17,10 @@ export async function GET(request: Request) {
   try {
     const userId = await getUser();
 
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const workspaces = await prisma.workspace.findMany({
       where: {
         OR: [{ ownerId: userId }, { members: { some: { userId: userId } } }],
@@ -38,7 +42,7 @@ export async function GET(request: Request) {
     if (!workspaces) {
       return NextResponse.json(
         { message: "no workspace exists" },
-        { status: 401 }
+        { status: 404 }
       );
     }
 
@@ -55,7 +59,11 @@ export async function POST(request: Request) {
   try {
     const userId = await getUser();
 
-    const data = request.json();
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const data = await request.json();
     const parsedData = workspaceSchema.safeParse(data);
 
     if (!parsedData.success) {

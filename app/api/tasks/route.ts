@@ -1,8 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma/prisma";
 import { z } from "zod";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]/route";
+import getUser from "@/lib/getUser";
 
 const tasksSchema = z.object({
   title: z.string().min(1, "Title is required").max(200),
@@ -16,13 +15,11 @@ const tasksSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const userId = await getUser();
 
-    if (!session) {
+    if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
-    const userId = session.user.id;
 
     const data = request.json();
 
@@ -31,7 +28,7 @@ export async function POST(request: Request) {
       console.log("Validation errors:", parsedData.error.errors);
       return NextResponse.json(
         { error: parsedData.error.errors },
-        { status: 400 }
+        { status: 404 }
       );
     }
 
@@ -59,9 +56,14 @@ export async function POST(request: Request) {
       },
     });
 
-    if (response) {
-      console.log("task created", response.id);
+    if (!response) {
+      return NextResponse.json(
+        { error: "Failed to create tasks" },
+        { status: 404 }
+      );
     }
+
+    return NextResponse.json(response);
   } catch (error) {
     console.error("Error creating task:", error);
     return NextResponse.json(
@@ -73,13 +75,7 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const userId = session.user.id;
+    const userId = await getUser();
 
     const tasks = await prisma.tasks.findMany({
       where: { userId },
@@ -87,9 +83,15 @@ export async function GET(request: Request) {
         createdAt: "desc",
       },
     });
-    if (tasks) {
-      console.log("fetched tasks successfully");
+
+    if (!tasks) {
+      return NextResponse.json(
+        { error: "failed to fetch tasks" },
+        { status: 404 }
+      );
     }
+
+    return NextResponse.json(tasks);
   } catch (error) {
     console.error("Error creating task:", error);
     return NextResponse.json(
@@ -98,5 +100,3 @@ export async function GET(request: Request) {
     );
   }
 }
-
-export async function PUT(request: Request) {}
