@@ -77,7 +77,7 @@ model Workspace {
   users               User[]            @relation("WorkspaceUsers")
   tasks               Tasks[]
   organizationName    String?
-  workspaceSize       String?
+  workspaceSize       Int               @default(1)
   organizationDomain  String?
   isPro               Boolean           @default(false)
   subscriptionEndsAt  DateTime?

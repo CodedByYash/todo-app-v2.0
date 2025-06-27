@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma/prisma";
 import { z } from "zod";
 import getUser from "@/lib/getUser";
@@ -88,6 +86,41 @@ export async function PUT(
       },
     });
     return NextResponse.json(response);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const id = params.id;
+
+    if (!id) {
+      return NextResponse.json({ error: "id is missing" }, { status: 401 });
+    }
+
+    const existingTask = await prisma.tasks.findUnique({ where: { id } });
+
+    if (!existingTask) {
+      return NextResponse.json({ error: "task is missing" }, { status: 404 });
+    }
+
+    const response = await prisma.tasks.delete({ where: { id } });
+
+    if (!response) {
+      return NextResponse.json(
+        { error: "Failed to delete task" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(
       { error: "Internal server error" },
