@@ -1,4 +1,3 @@
-import { Prisma } from "@/app/generated/prisma";
 import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
 import { createUserSchema } from "@/lib/schema/schema";
