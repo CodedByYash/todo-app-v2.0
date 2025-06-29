@@ -2,23 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma/prisma";
 import { z } from "zod";
 import getUser from "@/lib/getUser";
-
-const tasksSchema = z.object({
-  title: z.string().min(1, "Title is required").max(200),
-  completed: z.boolean(),
-  priority: z.enum(["low", "medium", "high", "no_priority"]),
-  dueDate: z.string().datetime(),
-  userId: z.string(),
-  workspaceId: z.string(),
-  parentTaskId: z.string().optional(),
-});
+import { tasksSchema } from "@/lib/schema/schema";
 
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    const userId = await getUser();
+    const user = await getUser();
+
+    if (!user || !params.id || user.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
+    }
+
+    const userId = user.id;
 
     const task = await prisma.tasks.findUnique({
       where: { id: params.id, userId },
@@ -40,12 +37,12 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string; workspaceId: string } }
 ) {
   try {
-    const userId = await getUser();
+    const user = await getUser();
 
-    if (!userId) {
+    if (!user || !params.id || !params.workspaceId || user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -59,6 +56,8 @@ export async function PUT(
       );
     }
 
+    const userId = user.id;
+
     const existingTask = await prisma.tasks.findUnique({
       where: { id: params.id, userId },
     });
@@ -69,21 +68,7 @@ export async function PUT(
 
     const response = await prisma.tasks.update({
       where: { id: params.id },
-      data: {
-        ...(parsedData.data.title && { title: parsedData.data.title }),
-        ...(parsedData.data.userId && { userId: parsedData.data.userId }),
-        ...(parsedData.data.completed && {
-          completed: parsedData.data.completed,
-        }),
-        ...(parsedData.data.dueDate && { dueDate: parsedData.data.dueDate }),
-        ...(parsedData.data.parentTaskId && {
-          parentTaskId: parsedData.data.parentTaskId,
-        }),
-        ...(parsedData.data.priority && { priority: parsedData.data.priority }),
-        ...(parsedData.data.workspaceId && {
-          workspaceId: parsedData.data.workspaceId,
-        }),
-      },
+      data: parsedData.data,
     });
     return NextResponse.json(response);
   } catch (error) {
@@ -100,8 +85,9 @@ export async function DELETE(
 ) {
   try {
     const id = params.id;
+    const user = await getUser();
 
-    if (!id) {
+    if (!id || !user || !user.id) {
       return NextResponse.json({ error: "id is missing" }, { status: 401 });
     }
 
@@ -111,7 +97,9 @@ export async function DELETE(
       return NextResponse.json({ error: "task is missing" }, { status: 404 });
     }
 
-    const response = await prisma.tasks.delete({ where: { id } });
+    const userId = user?.id;
+
+    const response = await prisma.tasks.delete({ where: { id, userId } });
 
     if (!response) {
       return NextResponse.json(

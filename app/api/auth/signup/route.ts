@@ -1,13 +1,21 @@
 import bcrypt from "bcryptjs";
-import { PrismaClient } from "@/app/generated/prisma";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma/prisma";
+import { z } from "zod";
+import { NextResponse } from "next/server";
+import { signupSchema } from "@/lib/schema/schema";
 
 export async function POST(request: Request) {
   try {
-    const { email, password, name } = await request.json();
+    const body = await request.json();
+    const parsedBody = signupSchema.safeParse(body);
 
-    if (!email || !password) {
+    if (!parsedBody.success) {
+      return NextResponse.json({ error: "invalid message" }, { status: 401 });
+    }
+
+    const { email, password, name } = parsedBody.data;
+
+    if (!email || !password || !name) {
       return Response.json(
         { error: "Email and password required" },
         { status: 400 }

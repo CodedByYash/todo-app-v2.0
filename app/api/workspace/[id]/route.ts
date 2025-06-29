@@ -1,28 +1,20 @@
 import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
+import { workspaceSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const workspaceSchema = z.object({
-  workspacename: z.string(),
-  description: z.string().optional(),
-  imageUrl: z.string().optional(),
-  type: z.enum(["PERSONAL", "PROFESSIONAL"]),
-  organizationName: z.string().optional(),
-  workspaceSize: z.number(),
-  organizationDomain: z.string().optional(),
-});
 
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    const userId = await getUser();
+    const user = await getUser();
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user || !params.id || !user.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
     }
+
+    const userId = user.id;
 
     const workspace = await prisma.workspace.findFirst({
       where: {
@@ -56,11 +48,13 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const userId = await getUser();
+    const user = await getUser();
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user || !params.id || !user.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
     }
+
+    const userId = user.id;
 
     const data = await request.json();
     const parsedData = workspaceSchema.safeParse(data);
@@ -104,11 +98,13 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const userId = await getUser();
+    const user = await getUser();
 
-    if (!userId) {
+    if (!user || !params.id || !user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const userId = user.id;
 
     const existingWorkspace = await prisma.workspace.delete({
       where: { id: params.id },

@@ -3,11 +3,12 @@
 import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -21,13 +22,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Card,
   CardContent,
   CardDescription,
@@ -37,44 +31,7 @@ import {
 import { AnimatedGradientBorder } from "@/components/ui/animated-gradient-border";
 import { Badge } from "@/components/ui/badge";
 
-const personalInfoSchema = z.object({
-  username: z
-    .string()
-    .min(3, "Username must be at least 3 characters")
-    .regex(
-      /^[a-z0-9_-]+$/,
-      "Username can only contain lowercase letters, numbers, underscores and hyphens"
-    ),
-  firstname: z
-    .string()
-    .min(3, "firstname must be at least 2 characters")
-    .max(20),
-  lastname: z
-    .string()
-    .min(3, "lasttname must be at least 2 characters")
-    .max(20),
-  // password: z
-  //   .string()
-  //   .min(12, "password must be at least 12 characters")
-  //   .max(20),
-  profilePicture: z.string().max(300).optional(),
-  // jobtitle: z.string().optional(),
-  // department: z.string().optional(),
-  bio: z.string().optional(),
-  // phoneNumber: z.string().optional(),
-});
-
-const workspaceSchema = z.object({
-  Workspacename: z.string().min(2, "Workspace name is required"),
-  description: z.string().max(400).optional(),
-  imageUrl: z.string().max(300).optional(),
-  type: z.enum(["PERSONAL", "PROFESSIONAL"]),
-  organizationName: z.string().min(3).max(30).optional(),
-
-  // Professional workspace fields
-  workspaceSize: z.string().optional(),
-  organizationDomain: z.string().optional(),
-});
+import { personalInfoSchema, workspaceSchema } from "@/lib/schema/schema";
 
 type OnboardingFormProps = {
   userId: string;
@@ -112,19 +69,19 @@ const OnboardingForm = ({
   const workspaceForm = useForm<z.infer<typeof workspaceSchema>>({
     resolver: zodResolver(workspaceSchema),
     defaultValues: {
-      Workspacename: `${userName || ""}'s Workspace`,
+      workspacename: `${userName || ""}'s Workspace`,
       description: "",
       imageUrl: "",
       type: "PERSONAL",
       organizationName: "",
-      workspaceSize: "",
+      workspaceSize: 1,
       organizationDomain: "",
     },
   });
 
   async function onPersonalSubmit(values: z.infer<typeof personalInfoSchema>) {
     try {
-      const response = await fetch("/api/users/profile", {
+      const response = await fetch("/api/user/profile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -369,7 +326,7 @@ const OnboardingForm = ({
                     >
                       <FormField
                         control={workspaceForm.control}
-                        name="Workspacename"
+                        name="workspacename"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Workspace Name</FormLabel>
@@ -440,33 +397,12 @@ const OnboardingForm = ({
                               render={({ field }) => (
                                 <FormItem>
                                   <FormLabel>Workspace Size</FormLabel>
-                                  <Select
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                  >
-                                    <FormControl>
-                                      <SelectTrigger>
-                                        <SelectValue placeholder="Select company size" />
-                                      </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                      <SelectItem value="1-10">
-                                        1-10 employees
-                                      </SelectItem>
-                                      <SelectItem value="11-50">
-                                        11-50 employees
-                                      </SelectItem>
-                                      <SelectItem value="51-200">
-                                        51-200 employees
-                                      </SelectItem>
-                                      <SelectItem value="201-500">
-                                        201-500 employees
-                                      </SelectItem>
-                                      <SelectItem value="501+">
-                                        501+ employees
-                                      </SelectItem>
-                                    </SelectContent>
-                                  </Select>
+                                  <FormControl>
+                                    <Input
+                                      placeholder="Workspace Size"
+                                      {...field}
+                                    />
+                                  </FormControl>
                                   <FormMessage />
                                 </FormItem>
                               )}

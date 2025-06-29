@@ -1,26 +1,18 @@
 import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
+import { workspaceSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-const workspaceSchema = z.object({
-  workspacename: z.string(),
-  description: z.string().optional(),
-  imageUrl: z.string().optional(),
-  type: z.enum(["PERSONAL", "PROFESSIONAL"]),
-  organizationName: z.string().optional(),
-  workspaceSize: z.number(),
-  organizationDomain: z.string().optional(),
-});
-
 export async function GET(request: Request) {
   try {
-    const userId = await getUser();
+    const user = await getUser();
 
-    if (!userId) {
+    if (!user || !user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const userId = user.id;
     const workspaces = await prisma.workspace.findMany({
       where: {
         OR: [{ ownerId: userId }, { members: { some: { userId: userId } } }],
@@ -57,11 +49,13 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const userId = await getUser();
+    const user = await getUser();
 
-    if (!userId) {
+    if (!user || !user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const userId = user.id;
 
     const data = await request.json();
     const parsedData = workspaceSchema.safeParse(data);
@@ -82,6 +76,21 @@ export async function POST(request: Request) {
       organizationDomain,
       workspaceSize,
     } = parsedData.data;
+
+    if (
+      !description ||
+      !imageUrl ||
+      !workspacename ||
+      !type ||
+      !organizationName ||
+      !organizationDomain ||
+      !workspaceSize
+    ) {
+      return NextResponse.json(
+        { error: "information is missing" },
+        { status: 400 }
+      );
+    }
 
     const workspace = await prisma.workspace.create({
       data: {
