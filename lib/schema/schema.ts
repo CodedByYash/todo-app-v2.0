@@ -66,3 +66,11 @@ export const createUserSchema = z.object({
   bio: z.string().max(500).optional(),
   isPro: z.boolean().optional(),
 });
+
+export const AddMemberSchema = z.object({
+  userId: z.string().uuid(),
+  role: z
+    .enum(["OWNER", "ADMIN", "MEMBER", "GUEST"])
+    .optional()
+    .default("MEMBER"),
+});

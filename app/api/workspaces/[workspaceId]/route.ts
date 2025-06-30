@@ -5,12 +5,12 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { workspaceId: string } }
 ) {
   try {
     const user = await getUser();
 
-    if (!user || !params.id || !user.id) {
+    if (!user || !params.workspaceId || !user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
     }
 
@@ -18,7 +18,7 @@ export async function GET(
 
     const workspace = await prisma.workspace.findFirst({
       where: {
-        id: params.id,
+        id: params.workspaceId,
         OR: [{ ownerId: userId }, { members: { some: { userId } } }],
       },
       include: {
@@ -45,12 +45,12 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { workspaceId: string } }
 ) {
   try {
     const user = await getUser();
 
-    if (!user || !params.id || !user.id) {
+    if (!user || !params.workspaceId || !user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
     }
 
@@ -64,7 +64,7 @@ export async function PUT(
     }
 
     const existingWorkspace = await prisma.workspace.findFirst({
-      where: { id: params.id },
+      where: { id: params.workspaceId },
     });
     if (!existingWorkspace || existingWorkspace.ownerId !== userId) {
       return NextResponse.json(
@@ -74,7 +74,7 @@ export async function PUT(
     }
 
     const updated = await prisma.workspace.update({
-      where: { id: params.id },
+      where: { id: params.workspaceId },
       data: parsedData.data,
     });
 
@@ -95,19 +95,19 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { workspaceId: string } }
 ) {
   try {
     const user = await getUser();
 
-    if (!user || !params.id || !user.id) {
+    if (!user || !params.workspaceId || !user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const userId = user.id;
 
     const existingWorkspace = await prisma.workspace.delete({
-      where: { id: params.id },
+      where: { id: params.workspaceId },
     });
 
     if (!existingWorkspace || existingWorkspace.ownerId !== userId) {
@@ -115,7 +115,7 @@ export async function DELETE(
     }
 
     const response = await prisma.workspace.delete({
-      where: { id: params.id },
+      where: { id: params.workspaceId },
     });
 
     if (!response) {

@@ -6,19 +6,19 @@ import { tasksSchema } from "@/lib/schema/schema";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { taskId: string } }
 ) {
   try {
     const user = await getUser();
 
-    if (!user || !params.id || user.id) {
+    if (!user || !params.taskId || user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
     }
 
     const userId = user.id;
 
     const task = await prisma.tasks.findUnique({
-      where: { id: params.id, userId },
+      where: { id: params.taskId, userId },
       include: { tags: true, subtasks: true },
     });
 
@@ -37,12 +37,12 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string; workspaceId: string } }
+  { params }: { params: { taskId: string; workspaceId: string } }
 ) {
   try {
     const user = await getUser();
 
-    if (!user || !params.id || !params.workspaceId || user.id) {
+    if (!user || !params.taskId || !params.workspaceId || user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -59,7 +59,7 @@ export async function PUT(
     const userId = user.id;
 
     const existingTask = await prisma.tasks.findUnique({
-      where: { id: params.id, userId },
+      where: { id: params.taskId, userId },
     });
 
     if (!existingTask) {
@@ -67,7 +67,7 @@ export async function PUT(
     }
 
     const response = await prisma.tasks.update({
-      where: { id: params.id },
+      where: { id: params.taskId },
       data: parsedData.data,
     });
     return NextResponse.json(response);
@@ -81,10 +81,10 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { taskid: string } }
 ) {
   try {
-    const id = params.id;
+    const id = params.taskid;
     const user = await getUser();
 
     if (!id || !user || !user.id) {

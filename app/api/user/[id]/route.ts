@@ -3,44 +3,11 @@ import { prisma } from "@/lib/prisma/prisma";
 import { createUserSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const id = params.id;
-    const user = await getUser();
-
-    if (!id || !user || !user.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const userProfile = await prisma.user.findUnique({
-      where: { id, email: user.email },
-    });
-
-    if (!userProfile) {
-      return NextResponse.json(
-        { error: "unable to find profile" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(userProfile);
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
-  }
-}
-
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { userId: string } }
 ) {
-  const id = params.id;
+  const id = params.userId;
   const user = await getUser();
   const data = request.json();
   const parsedData = createUserSchema.safeParse(data);
@@ -74,9 +41,9 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { userId: string } }
 ) {
-  const id = params.id;
+  const id = params.userId;
   const user = await getUser();
 
   if (!id || !user || !user.email) {
