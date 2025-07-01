@@ -81,3 +81,53 @@ export async function POST(
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+export async function GET(
+  request: Request,
+  { params }: { params: { workspaceId: string } }
+) {
+  try {
+    const user = await getUser();
+    const workspaceId = params.workspaceId;
+    if (!user || !user.id || !workspaceId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const Member = await prisma.workspaceMember.findUnique({
+      where: {
+        userId_workspaceId: {
+          userId: user.id,
+          workspaceId,
+        },
+      },
+    });
+
+    if (!Member) {
+      return new NextResponse("Member not found", { status: 403 });
+    }
+
+    const members = await prisma.workspaceMember.findMany({
+      where: {
+        workspaceId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            profilePicture: true,
+            username: true,
+          },
+        },
+      },
+      orderBy: {
+        role: "asc",
+      },
+    });
+
+    return NextResponse.json(members);
+  } catch (err) {
+    console.error("[GET_WORKSPACE_MEMBERS]", err);
+  }
+}

@@ -74,3 +74,7 @@ export const AddMemberSchema = z.object({
     .optional()
     .default("MEMBER"),
 });
+
+export const UpdateMemberRoleSchema = z.object({
+  role: z.enum(["OWNER", "ADMIN", "MEMBER", "GUEST"]),
+});
