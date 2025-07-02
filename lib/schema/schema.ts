@@ -78,3 +78,41 @@ export const AddMemberSchema = z.object({
 export const UpdateMemberRoleSchema = z.object({
   role: z.enum(["OWNER", "ADMIN", "MEMBER", "GUEST"]),
 });
+
+export const createTagSchema = z.object({
+  name: z.string().min(1, "Tag name is required"),
+  color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Invalid hex color code"),
+});
+
+export const updateTagSchema = z.object({
+  name: z.string().min(1).max(50).optional(),
+  color: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/)
+    .optional(),
+});
+
+export const AttachmentSchema = z.object({
+  url: z.string().url(),
+  filename: z.string(),
+  mimeType: z.string(),
+  fileSize: z.number().min(1),
+  attachmentType: z.enum(["IMAGE", "DOCUMENT", "AUDIO", "VIDEO"]),
+});
+
+const AttachmentsArraySchema = z.array(AttachmentSchema);
+
+export const RequestBodySchema = z.object({
+  description: z.string().min(1),
+  attachments: AttachmentsArraySchema.optional(),
+});
+
+export const AttachmentSchemaforpost = z.object({
+  url: z.string().url(),
+  filename: z.string(),
+  mimeType: z.string(),
+  fileSize: z.number().min(1),
+  taskVersionId: z.string().uuid().optional(),
+  taskId: z.string().uuid().optional(),
+  attachmentType: z.enum(["IMAGE", "DOCUMENT", "AUDIO", "VIDEO"]),
+});
