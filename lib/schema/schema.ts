@@ -116,3 +116,17 @@ export const AttachmentSchemaforpost = z.object({
   taskId: z.string().uuid().optional(),
   attachmentType: z.enum(["IMAGE", "DOCUMENT", "AUDIO", "VIDEO"]),
 });
+
+export const UserPreferenceSchema = z.object({
+  theme: z.enum(["LIGHT", "DARK", "SYSTEM"]).optional(),
+  receiveEmailNotifications: z.boolean().optional(),
+  defaultWorkspaceView: z.enum(["KANBAN", "LIST", "CALENDAR"]).optional(),
+  enableTaskAutoSave: z.boolean().optional(),
+  language: z.string().min(2).optional(),
+});
+
+export const NotificationSchema = z.object({
+  title: z.string().min(1),
+  body: z.string().min(1),
+  userId: z.string(),
+});
