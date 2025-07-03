@@ -31,6 +31,8 @@ model User {
   sessions              Session[]
   userPreference        UserPreference[]
   notification          Notification[]
+  activityLog           ActivityLog[]
+  comment               Comment[]
 }
 
 model Account{
@@ -109,6 +111,8 @@ model Tasks {
   tags                  Tag[]             @relation("TaskTags")
   taskVersions          TaskVersion[]
   attachments           Attachments[]
+  activityLog           ActivityLog[]
+  comment               Comment[]
 
   createdAt             DateTime        @default(now())
   updatedAt             DateTime        @updatedAt
@@ -198,6 +202,25 @@ model Notification {
   createdAt DateTime @default(now())
 }
 
+model ActivityLog {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  tasks      Tasks?    @relation(fields: [taskId], references: [id])
+  taskId    String?
+  action    String
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  task      Tasks     @relation(fields: [taskId], references: [id])
+  taskId    String
+  createdAt DateTime @default(now())
+}
 
 enum Theme {
   LIGHT

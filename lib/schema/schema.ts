@@ -130,3 +130,15 @@ export const NotificationSchema = z.object({
   body: z.string().min(1),
   userId: z.string(),
 });
+
+export const ActivityLogSchema = z.object({
+  userId: z.string(),
+  taskId: z.string().optional(),
+  action: z.string().min(1),
+});
+
+export const CommentSchema = z.object({
+  content: z.string().min(1, "Comment cannot be empty."),
+  userId: z.string(),
+  taskId: z.string(),
+});
