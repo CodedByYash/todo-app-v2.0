@@ -13,7 +13,7 @@ export async function GET() {
 
     const userId = user.id;
 
-    const tasks = await prisma.tasks.findMany({
+    const tasks = await prisma.task.findMany({
       where: { userId },
       orderBy: {
         createdAt: "desc",
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const response = await prisma.tasks.create({
+    const response = await prisma.task.create({
       data: {
         title,
         completed,

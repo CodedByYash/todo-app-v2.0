@@ -1,6 +1,6 @@
 "use client";
 
-import OnboardingForm from "@/components/OnboardingForm";
+// import OnboardingForm from "@/components/OnboardingForm";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -24,11 +24,11 @@ const OnboardingPage = () => {
           Let&apos;s set up your account, {session?.user?.username || ""}.
           we&apos;ll need a few details to get you started
         </p>
-        <OnboardingForm
+        {/* <OnboardingForm
           userId={session?.user?.id}
           userEmail={session?.user?.email}
           userName={session?.user?.username}
-        />
+        /> */}
       </div>
     </div>
   );

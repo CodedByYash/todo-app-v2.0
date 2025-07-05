@@ -44,7 +44,7 @@ export async function POST(
     });
 
     if (attachments && attachments.length > 0) {
-      await prisma.attachments.createMany({
+      await prisma.attachment.createMany({
         data: attachments.map((att) => ({
           url: att.url,
           filename: att.filename,

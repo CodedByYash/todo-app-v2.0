@@ -22,17 +22,17 @@ model User {
   updatedAt             DateTime          @updatedAt
   bio                   String?
   isPro                 Boolean           @default(false)
-  tasks                 Tasks[]
-  attachments           Attachments[]
+  tasks                 Task[]
+  attachments           Attachment[]
   workspaces            Workspace[]       @relation("WorkspaceUsers")
   ownedWorkspaces       Workspace[]       @relation("WorkspaceOwner")
   workspaceMemberships  WorkspaceMember[]
   accounts              Account[]
   sessions              Session[]
-  userPreference        UserPreference[]
-  notification          Notification[]
-  activityLog           ActivityLog[]
-  comment               Comment[]
+  userPreferences       UserPreference[]
+  notifications         Notification[]
+  activityLogs          ActivityLog[]
+  comments              Comment[]
 }
 
 model Account{
@@ -79,7 +79,7 @@ model Workspace {
   createdAt             DateTime          @default(now())
   updatedAt             DateTime          @updatedAt
   users                 User[]            @relation("WorkspaceUsers")
-  tasks                 Tasks[]
+  tasks                 Task[]
   organizationName      String?
   workspaceSize         Int               @default(1)
   organizationDomain    String?
@@ -91,7 +91,7 @@ model Workspace {
   tags                  Tag[]             @relation("TagsOnWorkspace")
 }
 
-model Tasks {
+model Task {
   id                    String            @id @default(uuid())
   title                 String
   completed             Boolean           @default(false)
@@ -105,12 +105,12 @@ model Tasks {
   workspace             Workspace         @relation(fields: [workspaceId], references: [id])
 
   parentTaskId          String?
-  parentTask            Tasks?            @relation("TaskSubtasks", fields: [parentTaskId], references: [id])
-  subtasks              Tasks[]           @relation("TaskSubtasks")
+  parentTask            Task?            @relation("TaskSubtasks", fields: [parentTaskId], references: [id])
+  subtasks              Task[]           @relation("TaskSubtasks")
 
   tags                  Tag[]             @relation("TaskTags")
   taskVersions          TaskVersion[]
-  attachments           Attachments[]
+  attachments           Attachment[]
   activityLog           ActivityLog[]
   comment               Comment[]
 
@@ -123,7 +123,7 @@ model Tasks {
 model Tag {
   id                    String          @id @default(uuid())
   name                  String          @unique
-  tasks                 Tasks[]         @relation("TaskTags")
+  tasks                 Task[]         @relation("TaskTags")
   color                 String          @default("#3b82f6")
   createdAt             DateTime        @default(now())
   updatedAt             DateTime        @updatedAt
@@ -131,7 +131,7 @@ model Tag {
   workspace             Workspace       @relation("TagsOnWorkspace", fields: [workspaceId], references: [id], onDelete: Cascade)
 }
 
-model Attachments {
+model Attachment {
   id                    String          @id @default(uuid())
   url                   String
   filename              String
@@ -140,7 +140,7 @@ model Attachments {
   fileSize              Int
 
   taskId                String?
-  task                  Tasks?          @relation(fields: [taskId], references: [id])
+  task                  Task?          @relation(fields: [taskId], references: [id])
 
   userId                String
   user                  User            @relation(fields: [userId], references: [id])
@@ -154,10 +154,10 @@ model Attachments {
 model TaskVersion {
   id                    String          @id @default(uuid())
   taskId                String
-  task                  Tasks           @relation(fields: [taskId], references: [id])
+  task                  Task           @relation(fields: [taskId], references: [id])
   version               Int             @default(1)
   description           String
-  attachments           Attachments[]
+  attachments           Attachment[]
   createdAt             DateTime        @default(now())
 
   @@unique([taskId, version])
@@ -206,7 +206,7 @@ model ActivityLog {
   id        String   @id @default(cuid())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  tasks      Tasks?    @relation(fields: [taskId], references: [id])
+  tasks     Task?    @relation(fields: [taskId], references: [id])
   taskId    String?
   action    String
   createdAt DateTime @default(now())
@@ -217,7 +217,7 @@ model Comment {
   content   String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  task      Tasks     @relation(fields: [taskId], references: [id])
+  task      Task     @relation(fields: [taskId], references: [id])
   taskId    String
   createdAt DateTime @default(now())
 }

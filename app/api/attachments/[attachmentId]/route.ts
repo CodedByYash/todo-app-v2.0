@@ -15,7 +15,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const existingAttachment = await prisma.attachments.findUnique({
+    const existingAttachment = await prisma.attachment.findUnique({
       where: { id: attachmentId },
     });
     if (!existingAttachment)
@@ -26,7 +26,7 @@ export async function DELETE(
 
     await deleteFromS3(fileKey);
 
-    await prisma.attachments.delete({
+    await prisma.attachment.delete({
       where: { id: attachmentId },
     });
 

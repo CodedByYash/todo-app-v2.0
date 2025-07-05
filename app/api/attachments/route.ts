@@ -39,7 +39,7 @@ export async function POST(req: Request) {
       attachmentType,
     } = parsed.data;
 
-    const attachment = await prisma.attachments.create({
+    const attachment = await prisma.attachment.create({
       data: {
         url,
         filename,

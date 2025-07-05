@@ -39,20 +39,20 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  */
 export type Workspace = $Result.DefaultSelection<Prisma.$WorkspacePayload>
 /**
- * Model Tasks
+ * Model Task
  * 
  */
-export type Tasks = $Result.DefaultSelection<Prisma.$TasksPayload>
+export type Task = $Result.DefaultSelection<Prisma.$TaskPayload>
 /**
  * Model Tag
  * 
  */
 export type Tag = $Result.DefaultSelection<Prisma.$TagPayload>
 /**
- * Model Attachments
+ * Model Attachment
  * 
  */
-export type Attachments = $Result.DefaultSelection<Prisma.$AttachmentsPayload>
+export type Attachment = $Result.DefaultSelection<Prisma.$AttachmentPayload>
 /**
  * Model TaskVersion
  * 
@@ -345,14 +345,14 @@ export class PrismaClient<
   get workspace(): Prisma.WorkspaceDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.tasks`: Exposes CRUD operations for the **Tasks** model.
+   * `prisma.task`: Exposes CRUD operations for the **Task** model.
     * Example usage:
     * ```ts
     * // Fetch zero or more Tasks
-    * const tasks = await prisma.tasks.findMany()
+    * const tasks = await prisma.task.findMany()
     * ```
     */
-  get tasks(): Prisma.TasksDelegate<ExtArgs, ClientOptions>;
+  get task(): Prisma.TaskDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.tag`: Exposes CRUD operations for the **Tag** model.
@@ -365,14 +365,14 @@ export class PrismaClient<
   get tag(): Prisma.TagDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.attachments`: Exposes CRUD operations for the **Attachments** model.
+   * `prisma.attachment`: Exposes CRUD operations for the **Attachment** model.
     * Example usage:
     * ```ts
     * // Fetch zero or more Attachments
-    * const attachments = await prisma.attachments.findMany()
+    * const attachments = await prisma.attachment.findMany()
     * ```
     */
-  get attachments(): Prisma.AttachmentsDelegate<ExtArgs, ClientOptions>;
+  get attachment(): Prisma.AttachmentDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.taskVersion`: Exposes CRUD operations for the **TaskVersion** model.
@@ -878,9 +878,9 @@ export namespace Prisma {
     Session: 'Session',
     VerificationToken: 'VerificationToken',
     Workspace: 'Workspace',
-    Tasks: 'Tasks',
+    Task: 'Task',
     Tag: 'Tag',
-    Attachments: 'Attachments',
+    Attachment: 'Attachment',
     TaskVersion: 'TaskVersion',
     WorkspaceMember: 'WorkspaceMember',
     UserPreference: 'UserPreference',
@@ -905,7 +905,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "workspace" | "tasks" | "tag" | "attachments" | "taskVersion" | "workspaceMember" | "userPreference" | "notification" | "activityLog" | "comment"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "workspace" | "task" | "tag" | "attachment" | "taskVersion" | "workspaceMember" | "userPreference" | "notification" | "activityLog" | "comment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1279,77 +1279,77 @@ export namespace Prisma {
           }
         }
       }
-      Tasks: {
-        payload: Prisma.$TasksPayload<ExtArgs>
-        fields: Prisma.TasksFieldRefs
+      Task: {
+        payload: Prisma.$TaskPayload<ExtArgs>
+        fields: Prisma.TaskFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.TasksFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TasksPayload> | null
+            args: Prisma.TaskFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.TasksFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TasksPayload>
+            args: Prisma.TaskFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
           }
           findFirst: {
-            args: Prisma.TasksFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TasksPayload> | null
+            args: Prisma.TaskFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.TasksFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TasksPayload>
+            args: Prisma.TaskFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
           }
           findMany: {
-            args: Prisma.TasksFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TasksPayload>[]
+            args: Prisma.TaskFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>[]
           }
           create: {
-            args: Prisma.TasksCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TasksPayload>
+            args: Prisma.TaskCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
           }
           createMany: {
-            args: Prisma.TasksCreateManyArgs<ExtArgs>
+            args: Prisma.TaskCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.TasksCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TasksPayload>[]
+            args: Prisma.TaskCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>[]
           }
           delete: {
-            args: Prisma.TasksDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TasksPayload>
+            args: Prisma.TaskDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
           }
           update: {
-            args: Prisma.TasksUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TasksPayload>
+            args: Prisma.TaskUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
           }
           deleteMany: {
-            args: Prisma.TasksDeleteManyArgs<ExtArgs>
+            args: Prisma.TaskDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.TasksUpdateManyArgs<ExtArgs>
+            args: Prisma.TaskUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.TasksUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TasksPayload>[]
+            args: Prisma.TaskUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>[]
           }
           upsert: {
-            args: Prisma.TasksUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$TasksPayload>
+            args: Prisma.TaskUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TaskPayload>
           }
           aggregate: {
-            args: Prisma.TasksAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateTasks>
+            args: Prisma.TaskAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTask>
           }
           groupBy: {
-            args: Prisma.TasksGroupByArgs<ExtArgs>
-            result: $Utils.Optional<TasksGroupByOutputType>[]
+            args: Prisma.TaskGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TaskGroupByOutputType>[]
           }
           count: {
-            args: Prisma.TasksCountArgs<ExtArgs>
-            result: $Utils.Optional<TasksCountAggregateOutputType> | number
+            args: Prisma.TaskCountArgs<ExtArgs>
+            result: $Utils.Optional<TaskCountAggregateOutputType> | number
           }
         }
       }
@@ -1427,77 +1427,77 @@ export namespace Prisma {
           }
         }
       }
-      Attachments: {
-        payload: Prisma.$AttachmentsPayload<ExtArgs>
-        fields: Prisma.AttachmentsFieldRefs
+      Attachment: {
+        payload: Prisma.$AttachmentPayload<ExtArgs>
+        fields: Prisma.AttachmentFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.AttachmentsFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentsPayload> | null
+            args: Prisma.AttachmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.AttachmentsFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentsPayload>
+            args: Prisma.AttachmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
           }
           findFirst: {
-            args: Prisma.AttachmentsFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentsPayload> | null
+            args: Prisma.AttachmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.AttachmentsFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentsPayload>
+            args: Prisma.AttachmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
           }
           findMany: {
-            args: Prisma.AttachmentsFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentsPayload>[]
+            args: Prisma.AttachmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
           }
           create: {
-            args: Prisma.AttachmentsCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentsPayload>
+            args: Prisma.AttachmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
           }
           createMany: {
-            args: Prisma.AttachmentsCreateManyArgs<ExtArgs>
+            args: Prisma.AttachmentCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.AttachmentsCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentsPayload>[]
+            args: Prisma.AttachmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
           }
           delete: {
-            args: Prisma.AttachmentsDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentsPayload>
+            args: Prisma.AttachmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
           }
           update: {
-            args: Prisma.AttachmentsUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentsPayload>
+            args: Prisma.AttachmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
           }
           deleteMany: {
-            args: Prisma.AttachmentsDeleteManyArgs<ExtArgs>
+            args: Prisma.AttachmentDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.AttachmentsUpdateManyArgs<ExtArgs>
+            args: Prisma.AttachmentUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.AttachmentsUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentsPayload>[]
+            args: Prisma.AttachmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
           }
           upsert: {
-            args: Prisma.AttachmentsUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentsPayload>
+            args: Prisma.AttachmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
           }
           aggregate: {
-            args: Prisma.AttachmentsAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateAttachments>
+            args: Prisma.AttachmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttachment>
           }
           groupBy: {
-            args: Prisma.AttachmentsGroupByArgs<ExtArgs>
-            result: $Utils.Optional<AttachmentsGroupByOutputType>[]
+            args: Prisma.AttachmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttachmentGroupByOutputType>[]
           }
           count: {
-            args: Prisma.AttachmentsCountArgs<ExtArgs>
-            result: $Utils.Optional<AttachmentsCountAggregateOutputType> | number
+            args: Prisma.AttachmentCountArgs<ExtArgs>
+            result: $Utils.Optional<AttachmentCountAggregateOutputType> | number
           }
         }
       }
@@ -2034,9 +2034,9 @@ export namespace Prisma {
     session?: SessionOmit
     verificationToken?: VerificationTokenOmit
     workspace?: WorkspaceOmit
-    tasks?: TasksOmit
+    task?: TaskOmit
     tag?: TagOmit
-    attachments?: AttachmentsOmit
+    attachment?: AttachmentOmit
     taskVersion?: TaskVersionOmit
     workspaceMember?: WorkspaceMemberOmit
     userPreference?: UserPreferenceOmit
@@ -2144,10 +2144,10 @@ export namespace Prisma {
     workspaceMemberships: number
     accounts: number
     sessions: number
-    userPreference: number
-    notification: number
-    activityLog: number
-    comment: number
+    userPreferences: number
+    notifications: number
+    activityLogs: number
+    comments: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2158,10 +2158,10 @@ export namespace Prisma {
     workspaceMemberships?: boolean | UserCountOutputTypeCountWorkspaceMembershipsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
-    userPreference?: boolean | UserCountOutputTypeCountUserPreferenceArgs
-    notification?: boolean | UserCountOutputTypeCountNotificationArgs
-    activityLog?: boolean | UserCountOutputTypeCountActivityLogArgs
-    comment?: boolean | UserCountOutputTypeCountCommentArgs
+    userPreferences?: boolean | UserCountOutputTypeCountUserPreferencesArgs
+    notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    activityLogs?: boolean | UserCountOutputTypeCountActivityLogsArgs
+    comments?: boolean | UserCountOutputTypeCountCommentsArgs
   }
 
   // Custom InputTypes
@@ -2179,14 +2179,14 @@ export namespace Prisma {
    * UserCountOutputType without action
    */
   export type UserCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TasksWhereInput
+    where?: TaskWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
   export type UserCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AttachmentsWhereInput
+    where?: AttachmentWhereInput
   }
 
   /**
@@ -2227,28 +2227,28 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountUserPreferenceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountUserPreferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserPreferenceWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountNotificationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountActivityLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountActivityLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ActivityLogWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommentWhereInput
   }
 
@@ -2293,7 +2293,7 @@ export namespace Prisma {
    * WorkspaceCountOutputType without action
    */
   export type WorkspaceCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TasksWhereInput
+    where?: TaskWhereInput
   }
 
   /**
@@ -2312,10 +2312,10 @@ export namespace Prisma {
 
 
   /**
-   * Count Type TasksCountOutputType
+   * Count Type TaskCountOutputType
    */
 
-  export type TasksCountOutputType = {
+  export type TaskCountOutputType = {
     subtasks: number
     tags: number
     taskVersions: number
@@ -2324,65 +2324,65 @@ export namespace Prisma {
     comment: number
   }
 
-  export type TasksCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subtasks?: boolean | TasksCountOutputTypeCountSubtasksArgs
-    tags?: boolean | TasksCountOutputTypeCountTagsArgs
-    taskVersions?: boolean | TasksCountOutputTypeCountTaskVersionsArgs
-    attachments?: boolean | TasksCountOutputTypeCountAttachmentsArgs
-    activityLog?: boolean | TasksCountOutputTypeCountActivityLogArgs
-    comment?: boolean | TasksCountOutputTypeCountCommentArgs
+  export type TaskCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    subtasks?: boolean | TaskCountOutputTypeCountSubtasksArgs
+    tags?: boolean | TaskCountOutputTypeCountTagsArgs
+    taskVersions?: boolean | TaskCountOutputTypeCountTaskVersionsArgs
+    attachments?: boolean | TaskCountOutputTypeCountAttachmentsArgs
+    activityLog?: boolean | TaskCountOutputTypeCountActivityLogArgs
+    comment?: boolean | TaskCountOutputTypeCountCommentArgs
   }
 
   // Custom InputTypes
   /**
-   * TasksCountOutputType without action
+   * TaskCountOutputType without action
    */
-  export type TasksCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the TasksCountOutputType
+     * Select specific fields to fetch from the TaskCountOutputType
      */
-    select?: TasksCountOutputTypeSelect<ExtArgs> | null
+    select?: TaskCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * TasksCountOutputType without action
+   * TaskCountOutputType without action
    */
-  export type TasksCountOutputTypeCountSubtasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TasksWhereInput
+  export type TaskCountOutputTypeCountSubtasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
   }
 
   /**
-   * TasksCountOutputType without action
+   * TaskCountOutputType without action
    */
-  export type TasksCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TagWhereInput
   }
 
   /**
-   * TasksCountOutputType without action
+   * TaskCountOutputType without action
    */
-  export type TasksCountOutputTypeCountTaskVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskCountOutputTypeCountTaskVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TaskVersionWhereInput
   }
 
   /**
-   * TasksCountOutputType without action
+   * TaskCountOutputType without action
    */
-  export type TasksCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AttachmentsWhereInput
+  export type TaskCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttachmentWhereInput
   }
 
   /**
-   * TasksCountOutputType without action
+   * TaskCountOutputType without action
    */
-  export type TasksCountOutputTypeCountActivityLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskCountOutputTypeCountActivityLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ActivityLogWhereInput
   }
 
   /**
-   * TasksCountOutputType without action
+   * TaskCountOutputType without action
    */
-  export type TasksCountOutputTypeCountCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskCountOutputTypeCountCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommentWhereInput
   }
 
@@ -2414,7 +2414,7 @@ export namespace Prisma {
    * TagCountOutputType without action
    */
   export type TagCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TasksWhereInput
+    where?: TaskWhereInput
   }
 
 
@@ -2445,7 +2445,7 @@ export namespace Prisma {
    * TaskVersionCountOutputType without action
    */
   export type TaskVersionCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AttachmentsWhereInput
+    where?: AttachmentWhereInput
   }
 
 
@@ -2688,10 +2688,10 @@ export namespace Prisma {
     workspaceMemberships?: boolean | User$workspaceMembershipsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
-    userPreference?: boolean | User$userPreferenceArgs<ExtArgs>
-    notification?: boolean | User$notificationArgs<ExtArgs>
-    activityLog?: boolean | User$activityLogArgs<ExtArgs>
-    comment?: boolean | User$commentArgs<ExtArgs>
+    userPreferences?: boolean | User$userPreferencesArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
+    activityLogs?: boolean | User$activityLogsArgs<ExtArgs>
+    comments?: boolean | User$commentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2752,10 +2752,10 @@ export namespace Prisma {
     workspaceMemberships?: boolean | User$workspaceMembershipsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
-    userPreference?: boolean | User$userPreferenceArgs<ExtArgs>
-    notification?: boolean | User$notificationArgs<ExtArgs>
-    activityLog?: boolean | User$activityLogArgs<ExtArgs>
-    comment?: boolean | User$commentArgs<ExtArgs>
+    userPreferences?: boolean | User$userPreferencesArgs<ExtArgs>
+    notifications?: boolean | User$notificationsArgs<ExtArgs>
+    activityLogs?: boolean | User$activityLogsArgs<ExtArgs>
+    comments?: boolean | User$commentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2764,17 +2764,17 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      tasks: Prisma.$TasksPayload<ExtArgs>[]
-      attachments: Prisma.$AttachmentsPayload<ExtArgs>[]
+      tasks: Prisma.$TaskPayload<ExtArgs>[]
+      attachments: Prisma.$AttachmentPayload<ExtArgs>[]
       workspaces: Prisma.$WorkspacePayload<ExtArgs>[]
       ownedWorkspaces: Prisma.$WorkspacePayload<ExtArgs>[]
       workspaceMemberships: Prisma.$WorkspaceMemberPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
-      userPreference: Prisma.$UserPreferencePayload<ExtArgs>[]
-      notification: Prisma.$NotificationPayload<ExtArgs>[]
-      activityLog: Prisma.$ActivityLogPayload<ExtArgs>[]
-      comment: Prisma.$CommentPayload<ExtArgs>[]
+      userPreferences: Prisma.$UserPreferencePayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      activityLogs: Prisma.$ActivityLogPayload<ExtArgs>[]
+      comments: Prisma.$CommentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3184,17 +3184,17 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    tasks<T extends User$tasksArgs<ExtArgs> = {}>(args?: Subset<T, User$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    attachments<T extends User$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tasks<T extends User$tasksArgs<ExtArgs> = {}>(args?: Subset<T, User$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attachments<T extends User$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workspaces<T extends User$workspacesArgs<ExtArgs> = {}>(args?: Subset<T, User$workspacesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ownedWorkspaces<T extends User$ownedWorkspacesArgs<ExtArgs> = {}>(args?: Subset<T, User$ownedWorkspacesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workspaceMemberships<T extends User$workspaceMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$workspaceMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspaceMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    userPreference<T extends User$userPreferenceArgs<ExtArgs> = {}>(args?: Subset<T, User$userPreferenceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPreferencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    notification<T extends User$notificationArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    activityLog<T extends User$activityLogArgs<ExtArgs> = {}>(args?: Subset<T, User$activityLogArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    comment<T extends User$commentArgs<ExtArgs> = {}>(args?: Subset<T, User$commentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userPreferences<T extends User$userPreferencesArgs<ExtArgs> = {}>(args?: Subset<T, User$userPreferencesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPreferencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    activityLogs<T extends User$activityLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$activityLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3629,23 +3629,23 @@ export namespace Prisma {
    */
   export type User$tasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
-    where?: TasksWhereInput
-    orderBy?: TasksOrderByWithRelationInput | TasksOrderByWithRelationInput[]
-    cursor?: TasksWhereUniqueInput
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: TasksScalarFieldEnum | TasksScalarFieldEnum[]
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
   }
 
   /**
@@ -3653,23 +3653,23 @@ export namespace Prisma {
    */
   export type User$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
-    where?: AttachmentsWhereInput
-    orderBy?: AttachmentsOrderByWithRelationInput | AttachmentsOrderByWithRelationInput[]
-    cursor?: AttachmentsWhereUniqueInput
+    include?: AttachmentInclude<ExtArgs> | null
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    cursor?: AttachmentWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: AttachmentsScalarFieldEnum | AttachmentsScalarFieldEnum[]
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
   }
 
   /**
@@ -3793,9 +3793,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.userPreference
+   * User.userPreferences
    */
-  export type User$userPreferenceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$userPreferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserPreference
      */
@@ -3817,9 +3817,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.notification
+   * User.notifications
    */
-  export type User$notificationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Notification
      */
@@ -3841,9 +3841,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.activityLog
+   * User.activityLogs
    */
-  export type User$activityLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$activityLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ActivityLog
      */
@@ -3865,9 +3865,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.comment
+   * User.comments
    */
-  export type User$commentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Comment
      */
@@ -7444,7 +7444,7 @@ export namespace Prisma {
     name: "Workspace"
     objects: {
       users: Prisma.$UserPayload<ExtArgs>[]
-      tasks: Prisma.$TasksPayload<ExtArgs>[]
+      tasks: Prisma.$TaskPayload<ExtArgs>[]
       owner: Prisma.$UserPayload<ExtArgs>
       members: Prisma.$WorkspaceMemberPayload<ExtArgs>[]
       tags: Prisma.$TagPayload<ExtArgs>[]
@@ -7858,7 +7858,7 @@ export namespace Prisma {
   export interface Prisma__WorkspaceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     users<T extends Workspace$usersArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    tasks<T extends Workspace$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tasks<T extends Workspace$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     members<T extends Workspace$membersArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspaceMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tags<T extends Workspace$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8328,23 +8328,23 @@ export namespace Prisma {
    */
   export type Workspace$tasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
-    where?: TasksWhereInput
-    orderBy?: TasksOrderByWithRelationInput | TasksOrderByWithRelationInput[]
-    cursor?: TasksWhereUniqueInput
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: TasksScalarFieldEnum | TasksScalarFieldEnum[]
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
   }
 
   /**
@@ -8415,16 +8415,16 @@ export namespace Prisma {
 
 
   /**
-   * Model Tasks
+   * Model Task
    */
 
-  export type AggregateTasks = {
-    _count: TasksCountAggregateOutputType | null
-    _min: TasksMinAggregateOutputType | null
-    _max: TasksMaxAggregateOutputType | null
+  export type AggregateTask = {
+    _count: TaskCountAggregateOutputType | null
+    _min: TaskMinAggregateOutputType | null
+    _max: TaskMaxAggregateOutputType | null
   }
 
-  export type TasksMinAggregateOutputType = {
+  export type TaskMinAggregateOutputType = {
     id: string | null
     title: string | null
     completed: boolean | null
@@ -8437,7 +8437,7 @@ export namespace Prisma {
     updatedAt: Date | null
   }
 
-  export type TasksMaxAggregateOutputType = {
+  export type TaskMaxAggregateOutputType = {
     id: string | null
     title: string | null
     completed: boolean | null
@@ -8450,7 +8450,7 @@ export namespace Prisma {
     updatedAt: Date | null
   }
 
-  export type TasksCountAggregateOutputType = {
+  export type TaskCountAggregateOutputType = {
     id: number
     title: number
     completed: number
@@ -8465,7 +8465,7 @@ export namespace Prisma {
   }
 
 
-  export type TasksMinAggregateInputType = {
+  export type TaskMinAggregateInputType = {
     id?: true
     title?: true
     completed?: true
@@ -8478,7 +8478,7 @@ export namespace Prisma {
     updatedAt?: true
   }
 
-  export type TasksMaxAggregateInputType = {
+  export type TaskMaxAggregateInputType = {
     id?: true
     title?: true
     completed?: true
@@ -8491,7 +8491,7 @@ export namespace Prisma {
     updatedAt?: true
   }
 
-  export type TasksCountAggregateInputType = {
+  export type TaskCountAggregateInputType = {
     id?: true
     title?: true
     completed?: true
@@ -8505,23 +8505,23 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type TasksAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Tasks to aggregate.
+     * Filter which Task to aggregate.
      */
-    where?: TasksWhereInput
+    where?: TaskWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Tasks to fetch.
      */
-    orderBy?: TasksOrderByWithRelationInput | TasksOrderByWithRelationInput[]
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: TasksWhereUniqueInput
+    cursor?: TaskWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -8539,45 +8539,45 @@ export namespace Prisma {
      * 
      * Count returned Tasks
     **/
-    _count?: true | TasksCountAggregateInputType
+    _count?: true | TaskCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: TasksMinAggregateInputType
+    _min?: TaskMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: TasksMaxAggregateInputType
+    _max?: TaskMaxAggregateInputType
   }
 
-  export type GetTasksAggregateType<T extends TasksAggregateArgs> = {
-        [P in keyof T & keyof AggregateTasks]: P extends '_count' | 'count'
+  export type GetTaskAggregateType<T extends TaskAggregateArgs> = {
+        [P in keyof T & keyof AggregateTask]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateTasks[P]>
-      : GetScalarType<T[P], AggregateTasks[P]>
+        : GetScalarType<T[P], AggregateTask[P]>
+      : GetScalarType<T[P], AggregateTask[P]>
   }
 
 
 
 
-  export type TasksGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TasksWhereInput
-    orderBy?: TasksOrderByWithAggregationInput | TasksOrderByWithAggregationInput[]
-    by: TasksScalarFieldEnum[] | TasksScalarFieldEnum
-    having?: TasksScalarWhereWithAggregatesInput
+  export type TaskGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithAggregationInput | TaskOrderByWithAggregationInput[]
+    by: TaskScalarFieldEnum[] | TaskScalarFieldEnum
+    having?: TaskScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: TasksCountAggregateInputType | true
-    _min?: TasksMinAggregateInputType
-    _max?: TasksMaxAggregateInputType
+    _count?: TaskCountAggregateInputType | true
+    _min?: TaskMinAggregateInputType
+    _max?: TaskMaxAggregateInputType
   }
 
-  export type TasksGroupByOutputType = {
+  export type TaskGroupByOutputType = {
     id: string
     title: string
     completed: boolean
@@ -8588,26 +8588,26 @@ export namespace Prisma {
     parentTaskId: string | null
     createdAt: Date
     updatedAt: Date
-    _count: TasksCountAggregateOutputType | null
-    _min: TasksMinAggregateOutputType | null
-    _max: TasksMaxAggregateOutputType | null
+    _count: TaskCountAggregateOutputType | null
+    _min: TaskMinAggregateOutputType | null
+    _max: TaskMaxAggregateOutputType | null
   }
 
-  type GetTasksGroupByPayload<T extends TasksGroupByArgs> = Prisma.PrismaPromise<
+  type GetTaskGroupByPayload<T extends TaskGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<TasksGroupByOutputType, T['by']> &
+      PickEnumerable<TaskGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof TasksGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof TaskGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], TasksGroupByOutputType[P]>
-            : GetScalarType<T[P], TasksGroupByOutputType[P]>
+              : GetScalarType<T[P], TaskGroupByOutputType[P]>
+            : GetScalarType<T[P], TaskGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type TasksSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type TaskSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     completed?: boolean
@@ -8620,17 +8620,17 @@ export namespace Prisma {
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
-    parentTask?: boolean | Tasks$parentTaskArgs<ExtArgs>
-    subtasks?: boolean | Tasks$subtasksArgs<ExtArgs>
-    tags?: boolean | Tasks$tagsArgs<ExtArgs>
-    taskVersions?: boolean | Tasks$taskVersionsArgs<ExtArgs>
-    attachments?: boolean | Tasks$attachmentsArgs<ExtArgs>
-    activityLog?: boolean | Tasks$activityLogArgs<ExtArgs>
-    comment?: boolean | Tasks$commentArgs<ExtArgs>
-    _count?: boolean | TasksCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["tasks"]>
+    parentTask?: boolean | Task$parentTaskArgs<ExtArgs>
+    subtasks?: boolean | Task$subtasksArgs<ExtArgs>
+    tags?: boolean | Task$tagsArgs<ExtArgs>
+    taskVersions?: boolean | Task$taskVersionsArgs<ExtArgs>
+    attachments?: boolean | Task$attachmentsArgs<ExtArgs>
+    activityLog?: boolean | Task$activityLogArgs<ExtArgs>
+    comment?: boolean | Task$commentArgs<ExtArgs>
+    _count?: boolean | TaskCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["task"]>
 
-  export type TasksSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type TaskSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     completed?: boolean
@@ -8643,10 +8643,10 @@ export namespace Prisma {
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
-    parentTask?: boolean | Tasks$parentTaskArgs<ExtArgs>
-  }, ExtArgs["result"]["tasks"]>
+    parentTask?: boolean | Task$parentTaskArgs<ExtArgs>
+  }, ExtArgs["result"]["task"]>
 
-  export type TasksSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type TaskSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     completed?: boolean
@@ -8659,10 +8659,10 @@ export namespace Prisma {
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
-    parentTask?: boolean | Tasks$parentTaskArgs<ExtArgs>
-  }, ExtArgs["result"]["tasks"]>
+    parentTask?: boolean | Task$parentTaskArgs<ExtArgs>
+  }, ExtArgs["result"]["task"]>
 
-  export type TasksSelectScalar = {
+  export type TaskSelectScalar = {
     id?: boolean
     title?: boolean
     completed?: boolean
@@ -8675,40 +8675,40 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type TasksOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "completed" | "priority" | "dueDate" | "userId" | "workspaceId" | "parentTaskId" | "createdAt" | "updatedAt", ExtArgs["result"]["tasks"]>
-  export type TasksInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "completed" | "priority" | "dueDate" | "userId" | "workspaceId" | "parentTaskId" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
+  export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
-    parentTask?: boolean | Tasks$parentTaskArgs<ExtArgs>
-    subtasks?: boolean | Tasks$subtasksArgs<ExtArgs>
-    tags?: boolean | Tasks$tagsArgs<ExtArgs>
-    taskVersions?: boolean | Tasks$taskVersionsArgs<ExtArgs>
-    attachments?: boolean | Tasks$attachmentsArgs<ExtArgs>
-    activityLog?: boolean | Tasks$activityLogArgs<ExtArgs>
-    comment?: boolean | Tasks$commentArgs<ExtArgs>
-    _count?: boolean | TasksCountOutputTypeDefaultArgs<ExtArgs>
+    parentTask?: boolean | Task$parentTaskArgs<ExtArgs>
+    subtasks?: boolean | Task$subtasksArgs<ExtArgs>
+    tags?: boolean | Task$tagsArgs<ExtArgs>
+    taskVersions?: boolean | Task$taskVersionsArgs<ExtArgs>
+    attachments?: boolean | Task$attachmentsArgs<ExtArgs>
+    activityLog?: boolean | Task$activityLogArgs<ExtArgs>
+    comment?: boolean | Task$commentArgs<ExtArgs>
+    _count?: boolean | TaskCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type TasksIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
-    parentTask?: boolean | Tasks$parentTaskArgs<ExtArgs>
+    parentTask?: boolean | Task$parentTaskArgs<ExtArgs>
   }
-  export type TasksIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
-    parentTask?: boolean | Tasks$parentTaskArgs<ExtArgs>
+    parentTask?: boolean | Task$parentTaskArgs<ExtArgs>
   }
 
-  export type $TasksPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Tasks"
+  export type $TaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Task"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       workspace: Prisma.$WorkspacePayload<ExtArgs>
-      parentTask: Prisma.$TasksPayload<ExtArgs> | null
-      subtasks: Prisma.$TasksPayload<ExtArgs>[]
+      parentTask: Prisma.$TaskPayload<ExtArgs> | null
+      subtasks: Prisma.$TaskPayload<ExtArgs>[]
       tags: Prisma.$TagPayload<ExtArgs>[]
       taskVersions: Prisma.$TaskVersionPayload<ExtArgs>[]
-      attachments: Prisma.$AttachmentsPayload<ExtArgs>[]
+      attachments: Prisma.$AttachmentPayload<ExtArgs>[]
       activityLog: Prisma.$ActivityLogPayload<ExtArgs>[]
       comment: Prisma.$CommentPayload<ExtArgs>[]
     }
@@ -8723,136 +8723,136 @@ export namespace Prisma {
       parentTaskId: string | null
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["tasks"]>
+    }, ExtArgs["result"]["task"]>
     composites: {}
   }
 
-  type TasksGetPayload<S extends boolean | null | undefined | TasksDefaultArgs> = $Result.GetResult<Prisma.$TasksPayload, S>
+  type TaskGetPayload<S extends boolean | null | undefined | TaskDefaultArgs> = $Result.GetResult<Prisma.$TaskPayload, S>
 
-  type TasksCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<TasksFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: TasksCountAggregateInputType | true
+  type TaskCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TaskFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TaskCountAggregateInputType | true
     }
 
-  export interface TasksDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Tasks'], meta: { name: 'Tasks' } }
+  export interface TaskDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Task'], meta: { name: 'Task' } }
     /**
-     * Find zero or one Tasks that matches the filter.
-     * @param {TasksFindUniqueArgs} args - Arguments to find a Tasks
+     * Find zero or one Task that matches the filter.
+     * @param {TaskFindUniqueArgs} args - Arguments to find a Task
      * @example
-     * // Get one Tasks
-     * const tasks = await prisma.tasks.findUnique({
+     * // Get one Task
+     * const task = await prisma.task.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends TasksFindUniqueArgs>(args: SelectSubset<T, TasksFindUniqueArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends TaskFindUniqueArgs>(args: SelectSubset<T, TaskFindUniqueArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Tasks that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Task that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {TasksFindUniqueOrThrowArgs} args - Arguments to find a Tasks
+     * @param {TaskFindUniqueOrThrowArgs} args - Arguments to find a Task
      * @example
-     * // Get one Tasks
-     * const tasks = await prisma.tasks.findUniqueOrThrow({
+     * // Get one Task
+     * const task = await prisma.task.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends TasksFindUniqueOrThrowArgs>(args: SelectSubset<T, TasksFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends TaskFindUniqueOrThrowArgs>(args: SelectSubset<T, TaskFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Tasks that matches the filter.
+     * Find the first Task that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TasksFindFirstArgs} args - Arguments to find a Tasks
+     * @param {TaskFindFirstArgs} args - Arguments to find a Task
      * @example
-     * // Get one Tasks
-     * const tasks = await prisma.tasks.findFirst({
+     * // Get one Task
+     * const task = await prisma.task.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends TasksFindFirstArgs>(args?: SelectSubset<T, TasksFindFirstArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends TaskFindFirstArgs>(args?: SelectSubset<T, TaskFindFirstArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Tasks that matches the filter or
+     * Find the first Task that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TasksFindFirstOrThrowArgs} args - Arguments to find a Tasks
+     * @param {TaskFindFirstOrThrowArgs} args - Arguments to find a Task
      * @example
-     * // Get one Tasks
-     * const tasks = await prisma.tasks.findFirstOrThrow({
+     * // Get one Task
+     * const task = await prisma.task.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends TasksFindFirstOrThrowArgs>(args?: SelectSubset<T, TasksFindFirstOrThrowArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends TaskFindFirstOrThrowArgs>(args?: SelectSubset<T, TaskFindFirstOrThrowArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Tasks that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TasksFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {TaskFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
      * // Get all Tasks
-     * const tasks = await prisma.tasks.findMany()
+     * const tasks = await prisma.task.findMany()
      * 
      * // Get first 10 Tasks
-     * const tasks = await prisma.tasks.findMany({ take: 10 })
+     * const tasks = await prisma.task.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const tasksWithIdOnly = await prisma.tasks.findMany({ select: { id: true } })
+     * const taskWithIdOnly = await prisma.task.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends TasksFindManyArgs>(args?: SelectSubset<T, TasksFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends TaskFindManyArgs>(args?: SelectSubset<T, TaskFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Tasks.
-     * @param {TasksCreateArgs} args - Arguments to create a Tasks.
+     * Create a Task.
+     * @param {TaskCreateArgs} args - Arguments to create a Task.
      * @example
-     * // Create one Tasks
-     * const Tasks = await prisma.tasks.create({
+     * // Create one Task
+     * const Task = await prisma.task.create({
      *   data: {
-     *     // ... data to create a Tasks
+     *     // ... data to create a Task
      *   }
      * })
      * 
      */
-    create<T extends TasksCreateArgs>(args: SelectSubset<T, TasksCreateArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends TaskCreateArgs>(args: SelectSubset<T, TaskCreateArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Tasks.
-     * @param {TasksCreateManyArgs} args - Arguments to create many Tasks.
+     * @param {TaskCreateManyArgs} args - Arguments to create many Tasks.
      * @example
      * // Create many Tasks
-     * const tasks = await prisma.tasks.createMany({
+     * const task = await prisma.task.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends TasksCreateManyArgs>(args?: SelectSubset<T, TasksCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends TaskCreateManyArgs>(args?: SelectSubset<T, TaskCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create many Tasks and returns the data saved in the database.
-     * @param {TasksCreateManyAndReturnArgs} args - Arguments to create many Tasks.
+     * @param {TaskCreateManyAndReturnArgs} args - Arguments to create many Tasks.
      * @example
      * // Create many Tasks
-     * const tasks = await prisma.tasks.createManyAndReturn({
+     * const task = await prisma.task.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
      * // Create many Tasks and only return the `id`
-     * const tasksWithIdOnly = await prisma.tasks.createManyAndReturn({
+     * const taskWithIdOnly = await prisma.task.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -8862,28 +8862,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends TasksCreateManyAndReturnArgs>(args?: SelectSubset<T, TasksCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends TaskCreateManyAndReturnArgs>(args?: SelectSubset<T, TaskCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Tasks.
-     * @param {TasksDeleteArgs} args - Arguments to delete one Tasks.
+     * Delete a Task.
+     * @param {TaskDeleteArgs} args - Arguments to delete one Task.
      * @example
-     * // Delete one Tasks
-     * const Tasks = await prisma.tasks.delete({
+     * // Delete one Task
+     * const Task = await prisma.task.delete({
      *   where: {
-     *     // ... filter to delete one Tasks
+     *     // ... filter to delete one Task
      *   }
      * })
      * 
      */
-    delete<T extends TasksDeleteArgs>(args: SelectSubset<T, TasksDeleteArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends TaskDeleteArgs>(args: SelectSubset<T, TaskDeleteArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Tasks.
-     * @param {TasksUpdateArgs} args - Arguments to update one Tasks.
+     * Update one Task.
+     * @param {TaskUpdateArgs} args - Arguments to update one Task.
      * @example
-     * // Update one Tasks
-     * const tasks = await prisma.tasks.update({
+     * // Update one Task
+     * const task = await prisma.task.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -8893,30 +8893,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends TasksUpdateArgs>(args: SelectSubset<T, TasksUpdateArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends TaskUpdateArgs>(args: SelectSubset<T, TaskUpdateArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Tasks.
-     * @param {TasksDeleteManyArgs} args - Arguments to filter Tasks to delete.
+     * @param {TaskDeleteManyArgs} args - Arguments to filter Tasks to delete.
      * @example
      * // Delete a few Tasks
-     * const { count } = await prisma.tasks.deleteMany({
+     * const { count } = await prisma.task.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends TasksDeleteManyArgs>(args?: SelectSubset<T, TasksDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends TaskDeleteManyArgs>(args?: SelectSubset<T, TaskDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Tasks.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TasksUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {TaskUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
      * // Update many Tasks
-     * const tasks = await prisma.tasks.updateMany({
+     * const task = await prisma.task.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -8926,14 +8926,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends TasksUpdateManyArgs>(args: SelectSubset<T, TasksUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends TaskUpdateManyArgs>(args: SelectSubset<T, TaskUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Tasks and returns the data updated in the database.
-     * @param {TasksUpdateManyAndReturnArgs} args - Arguments to update many Tasks.
+     * @param {TaskUpdateManyAndReturnArgs} args - Arguments to update many Tasks.
      * @example
      * // Update many Tasks
-     * const tasks = await prisma.tasks.updateManyAndReturn({
+     * const task = await prisma.task.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -8943,7 +8943,7 @@ export namespace Prisma {
      * })
      * 
      * // Update zero or more Tasks and only return the `id`
-     * const tasksWithIdOnly = await prisma.tasks.updateManyAndReturn({
+     * const taskWithIdOnly = await prisma.task.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -8956,56 +8956,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends TasksUpdateManyAndReturnArgs>(args: SelectSubset<T, TasksUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends TaskUpdateManyAndReturnArgs>(args: SelectSubset<T, TaskUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Tasks.
-     * @param {TasksUpsertArgs} args - Arguments to update or create a Tasks.
+     * Create or update one Task.
+     * @param {TaskUpsertArgs} args - Arguments to update or create a Task.
      * @example
-     * // Update or create a Tasks
-     * const tasks = await prisma.tasks.upsert({
+     * // Update or create a Task
+     * const task = await prisma.task.upsert({
      *   create: {
-     *     // ... data to create a Tasks
+     *     // ... data to create a Task
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Tasks we want to update
+     *     // ... the filter for the Task we want to update
      *   }
      * })
      */
-    upsert<T extends TasksUpsertArgs>(args: SelectSubset<T, TasksUpsertArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends TaskUpsertArgs>(args: SelectSubset<T, TaskUpsertArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
      * Count the number of Tasks.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TasksCountArgs} args - Arguments to filter Tasks to count.
+     * @param {TaskCountArgs} args - Arguments to filter Tasks to count.
      * @example
      * // Count the number of Tasks
-     * const count = await prisma.tasks.count({
+     * const count = await prisma.task.count({
      *   where: {
      *     // ... the filter for the Tasks we want to count
      *   }
      * })
     **/
-    count<T extends TasksCountArgs>(
-      args?: Subset<T, TasksCountArgs>,
+    count<T extends TaskCountArgs>(
+      args?: Subset<T, TaskCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], TasksCountAggregateOutputType>
+          : GetScalarType<T['select'], TaskCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Tasks.
+     * Allows you to perform aggregations operations on a Task.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TasksAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {TaskAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -9025,13 +9025,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends TasksAggregateArgs>(args: Subset<T, TasksAggregateArgs>): Prisma.PrismaPromise<GetTasksAggregateType<T>>
+    aggregate<T extends TaskAggregateArgs>(args: Subset<T, TaskAggregateArgs>): Prisma.PrismaPromise<GetTaskAggregateType<T>>
 
     /**
-     * Group by Tasks.
+     * Group by Task.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {TasksGroupByArgs} args - Group by arguments.
+     * @param {TaskGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -9046,14 +9046,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends TasksGroupByArgs,
+      T extends TaskGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: TasksGroupByArgs['orderBy'] }
-        : { orderBy?: TasksGroupByArgs['orderBy'] },
+        ? { orderBy: TaskGroupByArgs['orderBy'] }
+        : { orderBy?: TaskGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -9102,30 +9102,30 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, TasksGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTasksGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, TaskGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTaskGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Tasks model
+   * Fields of the Task model
    */
-  readonly fields: TasksFieldRefs;
+  readonly fields: TaskFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Tasks.
+   * The delegate class that acts as a "Promise-like" for Task.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__TasksClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__TaskClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     workspace<T extends WorkspaceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkspaceDefaultArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    parentTask<T extends Tasks$parentTaskArgs<ExtArgs> = {}>(args?: Subset<T, Tasks$parentTaskArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    subtasks<T extends Tasks$subtasksArgs<ExtArgs> = {}>(args?: Subset<T, Tasks$subtasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    tags<T extends Tasks$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Tasks$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    taskVersions<T extends Tasks$taskVersionsArgs<ExtArgs> = {}>(args?: Subset<T, Tasks$taskVersionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    attachments<T extends Tasks$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Tasks$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    activityLog<T extends Tasks$activityLogArgs<ExtArgs> = {}>(args?: Subset<T, Tasks$activityLogArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    comment<T extends Tasks$commentArgs<ExtArgs> = {}>(args?: Subset<T, Tasks$commentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    parentTask<T extends Task$parentTaskArgs<ExtArgs> = {}>(args?: Subset<T, Task$parentTaskArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    subtasks<T extends Task$subtasksArgs<ExtArgs> = {}>(args?: Subset<T, Task$subtasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tags<T extends Task$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Task$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    taskVersions<T extends Task$taskVersionsArgs<ExtArgs> = {}>(args?: Subset<T, Task$taskVersionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attachments<T extends Task$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Task$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    activityLog<T extends Task$activityLogArgs<ExtArgs> = {}>(args?: Subset<T, Task$activityLogArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    comment<T extends Task$commentArgs<ExtArgs> = {}>(args?: Subset<T, Task$commentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9152,99 +9152,99 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Tasks model
+   * Fields of the Task model
    */
-  interface TasksFieldRefs {
-    readonly id: FieldRef<"Tasks", 'String'>
-    readonly title: FieldRef<"Tasks", 'String'>
-    readonly completed: FieldRef<"Tasks", 'Boolean'>
-    readonly priority: FieldRef<"Tasks", 'priorityEnum'>
-    readonly dueDate: FieldRef<"Tasks", 'DateTime'>
-    readonly userId: FieldRef<"Tasks", 'String'>
-    readonly workspaceId: FieldRef<"Tasks", 'String'>
-    readonly parentTaskId: FieldRef<"Tasks", 'String'>
-    readonly createdAt: FieldRef<"Tasks", 'DateTime'>
-    readonly updatedAt: FieldRef<"Tasks", 'DateTime'>
+  interface TaskFieldRefs {
+    readonly id: FieldRef<"Task", 'String'>
+    readonly title: FieldRef<"Task", 'String'>
+    readonly completed: FieldRef<"Task", 'Boolean'>
+    readonly priority: FieldRef<"Task", 'priorityEnum'>
+    readonly dueDate: FieldRef<"Task", 'DateTime'>
+    readonly userId: FieldRef<"Task", 'String'>
+    readonly workspaceId: FieldRef<"Task", 'String'>
+    readonly parentTaskId: FieldRef<"Task", 'String'>
+    readonly createdAt: FieldRef<"Task", 'DateTime'>
+    readonly updatedAt: FieldRef<"Task", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * Tasks findUnique
+   * Task findUnique
    */
-  export type TasksFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
+    include?: TaskInclude<ExtArgs> | null
     /**
-     * Filter, which Tasks to fetch.
+     * Filter, which Task to fetch.
      */
-    where: TasksWhereUniqueInput
+    where: TaskWhereUniqueInput
   }
 
   /**
-   * Tasks findUniqueOrThrow
+   * Task findUniqueOrThrow
    */
-  export type TasksFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
+    include?: TaskInclude<ExtArgs> | null
     /**
-     * Filter, which Tasks to fetch.
+     * Filter, which Task to fetch.
      */
-    where: TasksWhereUniqueInput
+    where: TaskWhereUniqueInput
   }
 
   /**
-   * Tasks findFirst
+   * Task findFirst
    */
-  export type TasksFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
+    include?: TaskInclude<ExtArgs> | null
     /**
-     * Filter, which Tasks to fetch.
+     * Filter, which Task to fetch.
      */
-    where?: TasksWhereInput
+    where?: TaskWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Tasks to fetch.
      */
-    orderBy?: TasksOrderByWithRelationInput | TasksOrderByWithRelationInput[]
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Tasks.
      */
-    cursor?: TasksWhereUniqueInput
+    cursor?: TaskWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -9262,41 +9262,41 @@ export namespace Prisma {
      * 
      * Filter by unique combinations of Tasks.
      */
-    distinct?: TasksScalarFieldEnum | TasksScalarFieldEnum[]
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
   }
 
   /**
-   * Tasks findFirstOrThrow
+   * Task findFirstOrThrow
    */
-  export type TasksFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
+    include?: TaskInclude<ExtArgs> | null
     /**
-     * Filter, which Tasks to fetch.
+     * Filter, which Task to fetch.
      */
-    where?: TasksWhereInput
+    where?: TaskWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Tasks to fetch.
      */
-    orderBy?: TasksOrderByWithRelationInput | TasksOrderByWithRelationInput[]
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Tasks.
      */
-    cursor?: TasksWhereUniqueInput
+    cursor?: TaskWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -9314,41 +9314,41 @@ export namespace Prisma {
      * 
      * Filter by unique combinations of Tasks.
      */
-    distinct?: TasksScalarFieldEnum | TasksScalarFieldEnum[]
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
   }
 
   /**
-   * Tasks findMany
+   * Task findMany
    */
-  export type TasksFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
+    include?: TaskInclude<ExtArgs> | null
     /**
      * Filter, which Tasks to fetch.
      */
-    where?: TasksWhereInput
+    where?: TaskWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Tasks to fetch.
      */
-    orderBy?: TasksOrderByWithRelationInput | TasksOrderByWithRelationInput[]
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing Tasks.
      */
-    cursor?: TasksWhereUniqueInput
+    cursor?: TaskWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -9361,103 +9361,103 @@ export namespace Prisma {
      * Skip the first `n` Tasks.
      */
     skip?: number
-    distinct?: TasksScalarFieldEnum | TasksScalarFieldEnum[]
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
   }
 
   /**
-   * Tasks create
+   * Task create
    */
-  export type TasksCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
+    include?: TaskInclude<ExtArgs> | null
     /**
-     * The data needed to create a Tasks.
+     * The data needed to create a Task.
      */
-    data: XOR<TasksCreateInput, TasksUncheckedCreateInput>
+    data: XOR<TaskCreateInput, TaskUncheckedCreateInput>
   }
 
   /**
-   * Tasks createMany
+   * Task createMany
    */
-  export type TasksCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many Tasks.
      */
-    data: TasksCreateManyInput | TasksCreateManyInput[]
+    data: TaskCreateManyInput | TaskCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Tasks createManyAndReturn
+   * Task createManyAndReturn
    */
-  export type TasksCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelectCreateManyAndReturn<ExtArgs> | null
+    select?: TaskSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * The data used to create many Tasks.
      */
-    data: TasksCreateManyInput | TasksCreateManyInput[]
+    data: TaskCreateManyInput | TaskCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: TaskIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Tasks update
+   * Task update
    */
-  export type TasksUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
+    include?: TaskInclude<ExtArgs> | null
     /**
-     * The data needed to update a Tasks.
+     * The data needed to update a Task.
      */
-    data: XOR<TasksUpdateInput, TasksUncheckedUpdateInput>
+    data: XOR<TaskUpdateInput, TaskUncheckedUpdateInput>
     /**
-     * Choose, which Tasks to update.
+     * Choose, which Task to update.
      */
-    where: TasksWhereUniqueInput
+    where: TaskWhereUniqueInput
   }
 
   /**
-   * Tasks updateMany
+   * Task updateMany
    */
-  export type TasksUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to update Tasks.
      */
-    data: XOR<TasksUpdateManyMutationInput, TasksUncheckedUpdateManyInput>
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyInput>
     /**
      * Filter which Tasks to update
      */
-    where?: TasksWhereInput
+    where?: TaskWhereInput
     /**
      * Limit how many Tasks to update.
      */
@@ -9465,25 +9465,25 @@ export namespace Prisma {
   }
 
   /**
-   * Tasks updateManyAndReturn
+   * Task updateManyAndReturn
    */
-  export type TasksUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: TaskSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * The data used to update Tasks.
      */
-    data: XOR<TasksUpdateManyMutationInput, TasksUncheckedUpdateManyInput>
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyInput>
     /**
      * Filter which Tasks to update
      */
-    where?: TasksWhereInput
+    where?: TaskWhereInput
     /**
      * Limit how many Tasks to update.
      */
@@ -9491,69 +9491,69 @@ export namespace Prisma {
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: TaskIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Tasks upsert
+   * Task upsert
    */
-  export type TasksUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
+    include?: TaskInclude<ExtArgs> | null
     /**
-     * The filter to search for the Tasks to update in case it exists.
+     * The filter to search for the Task to update in case it exists.
      */
-    where: TasksWhereUniqueInput
+    where: TaskWhereUniqueInput
     /**
-     * In case the Tasks found by the `where` argument doesn't exist, create a new Tasks with this data.
+     * In case the Task found by the `where` argument doesn't exist, create a new Task with this data.
      */
-    create: XOR<TasksCreateInput, TasksUncheckedCreateInput>
+    create: XOR<TaskCreateInput, TaskUncheckedCreateInput>
     /**
-     * In case the Tasks was found with the provided `where` argument, update it with this data.
+     * In case the Task was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<TasksUpdateInput, TasksUncheckedUpdateInput>
+    update: XOR<TaskUpdateInput, TaskUncheckedUpdateInput>
   }
 
   /**
-   * Tasks delete
+   * Task delete
    */
-  export type TasksDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
+    include?: TaskInclude<ExtArgs> | null
     /**
-     * Filter which Tasks to delete.
+     * Filter which Task to delete.
      */
-    where: TasksWhereUniqueInput
+    where: TaskWhereUniqueInput
   }
 
   /**
-   * Tasks deleteMany
+   * Task deleteMany
    */
-  export type TasksDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which Tasks to delete
      */
-    where?: TasksWhereInput
+    where?: TaskWhereInput
     /**
      * Limit how many Tasks to delete.
      */
@@ -9561,52 +9561,52 @@ export namespace Prisma {
   }
 
   /**
-   * Tasks.parentTask
+   * Task.parentTask
    */
-  export type Tasks$parentTaskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Task$parentTaskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
-    where?: TasksWhereInput
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
   }
 
   /**
-   * Tasks.subtasks
+   * Task.subtasks
    */
-  export type Tasks$subtasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Task$subtasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
-    where?: TasksWhereInput
-    orderBy?: TasksOrderByWithRelationInput | TasksOrderByWithRelationInput[]
-    cursor?: TasksWhereUniqueInput
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: TasksScalarFieldEnum | TasksScalarFieldEnum[]
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
   }
 
   /**
-   * Tasks.tags
+   * Task.tags
    */
-  export type Tasks$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Task$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Tag
      */
@@ -9628,9 +9628,9 @@ export namespace Prisma {
   }
 
   /**
-   * Tasks.taskVersions
+   * Task.taskVersions
    */
-  export type Tasks$taskVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Task$taskVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the TaskVersion
      */
@@ -9652,33 +9652,33 @@ export namespace Prisma {
   }
 
   /**
-   * Tasks.attachments
+   * Task.attachments
    */
-  export type Tasks$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Task$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
-    where?: AttachmentsWhereInput
-    orderBy?: AttachmentsOrderByWithRelationInput | AttachmentsOrderByWithRelationInput[]
-    cursor?: AttachmentsWhereUniqueInput
+    include?: AttachmentInclude<ExtArgs> | null
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    cursor?: AttachmentWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: AttachmentsScalarFieldEnum | AttachmentsScalarFieldEnum[]
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
   }
 
   /**
-   * Tasks.activityLog
+   * Task.activityLog
    */
-  export type Tasks$activityLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Task$activityLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ActivityLog
      */
@@ -9700,9 +9700,9 @@ export namespace Prisma {
   }
 
   /**
-   * Tasks.comment
+   * Task.comment
    */
-  export type Tasks$commentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Task$commentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Comment
      */
@@ -9724,21 +9724,21 @@ export namespace Prisma {
   }
 
   /**
-   * Tasks without action
+   * Task without action
    */
-  export type TasksDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
+    include?: TaskInclude<ExtArgs> | null
   }
 
 
@@ -9964,7 +9964,7 @@ export namespace Prisma {
   export type $TagPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Tag"
     objects: {
-      tasks: Prisma.$TasksPayload<ExtArgs>[]
+      tasks: Prisma.$TaskPayload<ExtArgs>[]
       workspace: Prisma.$WorkspacePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -10368,7 +10368,7 @@ export namespace Prisma {
    */
   export interface Prisma__TagClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    tasks<T extends Tag$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Tag$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tasks<T extends Tag$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Tag$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     workspace<T extends WorkspaceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkspaceDefaultArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -10805,23 +10805,23 @@ export namespace Prisma {
    */
   export type Tag$tasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
-    where?: TasksWhereInput
-    orderBy?: TasksOrderByWithRelationInput | TasksOrderByWithRelationInput[]
-    cursor?: TasksWhereUniqueInput
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: TasksScalarFieldEnum | TasksScalarFieldEnum[]
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
   }
 
   /**
@@ -10844,26 +10844,26 @@ export namespace Prisma {
 
 
   /**
-   * Model Attachments
+   * Model Attachment
    */
 
-  export type AggregateAttachments = {
-    _count: AttachmentsCountAggregateOutputType | null
-    _avg: AttachmentsAvgAggregateOutputType | null
-    _sum: AttachmentsSumAggregateOutputType | null
-    _min: AttachmentsMinAggregateOutputType | null
-    _max: AttachmentsMaxAggregateOutputType | null
+  export type AggregateAttachment = {
+    _count: AttachmentCountAggregateOutputType | null
+    _avg: AttachmentAvgAggregateOutputType | null
+    _sum: AttachmentSumAggregateOutputType | null
+    _min: AttachmentMinAggregateOutputType | null
+    _max: AttachmentMaxAggregateOutputType | null
   }
 
-  export type AttachmentsAvgAggregateOutputType = {
+  export type AttachmentAvgAggregateOutputType = {
     fileSize: number | null
   }
 
-  export type AttachmentsSumAggregateOutputType = {
+  export type AttachmentSumAggregateOutputType = {
     fileSize: number | null
   }
 
-  export type AttachmentsMinAggregateOutputType = {
+  export type AttachmentMinAggregateOutputType = {
     id: string | null
     url: string | null
     filename: string | null
@@ -10876,7 +10876,7 @@ export namespace Prisma {
     createdAt: Date | null
   }
 
-  export type AttachmentsMaxAggregateOutputType = {
+  export type AttachmentMaxAggregateOutputType = {
     id: string | null
     url: string | null
     filename: string | null
@@ -10889,7 +10889,7 @@ export namespace Prisma {
     createdAt: Date | null
   }
 
-  export type AttachmentsCountAggregateOutputType = {
+  export type AttachmentCountAggregateOutputType = {
     id: number
     url: number
     filename: number
@@ -10904,15 +10904,15 @@ export namespace Prisma {
   }
 
 
-  export type AttachmentsAvgAggregateInputType = {
+  export type AttachmentAvgAggregateInputType = {
     fileSize?: true
   }
 
-  export type AttachmentsSumAggregateInputType = {
+  export type AttachmentSumAggregateInputType = {
     fileSize?: true
   }
 
-  export type AttachmentsMinAggregateInputType = {
+  export type AttachmentMinAggregateInputType = {
     id?: true
     url?: true
     filename?: true
@@ -10925,7 +10925,7 @@ export namespace Prisma {
     createdAt?: true
   }
 
-  export type AttachmentsMaxAggregateInputType = {
+  export type AttachmentMaxAggregateInputType = {
     id?: true
     url?: true
     filename?: true
@@ -10938,7 +10938,7 @@ export namespace Prisma {
     createdAt?: true
   }
 
-  export type AttachmentsCountAggregateInputType = {
+  export type AttachmentCountAggregateInputType = {
     id?: true
     url?: true
     filename?: true
@@ -10952,23 +10952,23 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type AttachmentsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Attachments to aggregate.
+     * Filter which Attachment to aggregate.
      */
-    where?: AttachmentsWhereInput
+    where?: AttachmentWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Attachments to fetch.
      */
-    orderBy?: AttachmentsOrderByWithRelationInput | AttachmentsOrderByWithRelationInput[]
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: AttachmentsWhereUniqueInput
+    cursor?: AttachmentWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -10986,59 +10986,59 @@ export namespace Prisma {
      * 
      * Count returned Attachments
     **/
-    _count?: true | AttachmentsCountAggregateInputType
+    _count?: true | AttachmentCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: AttachmentsAvgAggregateInputType
+    _avg?: AttachmentAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: AttachmentsSumAggregateInputType
+    _sum?: AttachmentSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: AttachmentsMinAggregateInputType
+    _min?: AttachmentMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: AttachmentsMaxAggregateInputType
+    _max?: AttachmentMaxAggregateInputType
   }
 
-  export type GetAttachmentsAggregateType<T extends AttachmentsAggregateArgs> = {
-        [P in keyof T & keyof AggregateAttachments]: P extends '_count' | 'count'
+  export type GetAttachmentAggregateType<T extends AttachmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttachment]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateAttachments[P]>
-      : GetScalarType<T[P], AggregateAttachments[P]>
+        : GetScalarType<T[P], AggregateAttachment[P]>
+      : GetScalarType<T[P], AggregateAttachment[P]>
   }
 
 
 
 
-  export type AttachmentsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AttachmentsWhereInput
-    orderBy?: AttachmentsOrderByWithAggregationInput | AttachmentsOrderByWithAggregationInput[]
-    by: AttachmentsScalarFieldEnum[] | AttachmentsScalarFieldEnum
-    having?: AttachmentsScalarWhereWithAggregatesInput
+  export type AttachmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithAggregationInput | AttachmentOrderByWithAggregationInput[]
+    by: AttachmentScalarFieldEnum[] | AttachmentScalarFieldEnum
+    having?: AttachmentScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: AttachmentsCountAggregateInputType | true
-    _avg?: AttachmentsAvgAggregateInputType
-    _sum?: AttachmentsSumAggregateInputType
-    _min?: AttachmentsMinAggregateInputType
-    _max?: AttachmentsMaxAggregateInputType
+    _count?: AttachmentCountAggregateInputType | true
+    _avg?: AttachmentAvgAggregateInputType
+    _sum?: AttachmentSumAggregateInputType
+    _min?: AttachmentMinAggregateInputType
+    _max?: AttachmentMaxAggregateInputType
   }
 
-  export type AttachmentsGroupByOutputType = {
+  export type AttachmentGroupByOutputType = {
     id: string
     url: string
     filename: string
@@ -11049,28 +11049,28 @@ export namespace Prisma {
     userId: string
     taskVersionId: string | null
     createdAt: Date
-    _count: AttachmentsCountAggregateOutputType | null
-    _avg: AttachmentsAvgAggregateOutputType | null
-    _sum: AttachmentsSumAggregateOutputType | null
-    _min: AttachmentsMinAggregateOutputType | null
-    _max: AttachmentsMaxAggregateOutputType | null
+    _count: AttachmentCountAggregateOutputType | null
+    _avg: AttachmentAvgAggregateOutputType | null
+    _sum: AttachmentSumAggregateOutputType | null
+    _min: AttachmentMinAggregateOutputType | null
+    _max: AttachmentMaxAggregateOutputType | null
   }
 
-  type GetAttachmentsGroupByPayload<T extends AttachmentsGroupByArgs> = Prisma.PrismaPromise<
+  type GetAttachmentGroupByPayload<T extends AttachmentGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<AttachmentsGroupByOutputType, T['by']> &
+      PickEnumerable<AttachmentGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof AttachmentsGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof AttachmentGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], AttachmentsGroupByOutputType[P]>
-            : GetScalarType<T[P], AttachmentsGroupByOutputType[P]>
+              : GetScalarType<T[P], AttachmentGroupByOutputType[P]>
+            : GetScalarType<T[P], AttachmentGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type AttachmentsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type AttachmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     url?: boolean
     filename?: boolean
@@ -11081,12 +11081,12 @@ export namespace Prisma {
     userId?: boolean
     taskVersionId?: boolean
     createdAt?: boolean
-    task?: boolean | Attachments$taskArgs<ExtArgs>
+    task?: boolean | Attachment$taskArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    taskVersion?: boolean | Attachments$taskVersionArgs<ExtArgs>
-  }, ExtArgs["result"]["attachments"]>
+    taskVersion?: boolean | Attachment$taskVersionArgs<ExtArgs>
+  }, ExtArgs["result"]["attachment"]>
 
-  export type AttachmentsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type AttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     url?: boolean
     filename?: boolean
@@ -11097,12 +11097,12 @@ export namespace Prisma {
     userId?: boolean
     taskVersionId?: boolean
     createdAt?: boolean
-    task?: boolean | Attachments$taskArgs<ExtArgs>
+    task?: boolean | Attachment$taskArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    taskVersion?: boolean | Attachments$taskVersionArgs<ExtArgs>
-  }, ExtArgs["result"]["attachments"]>
+    taskVersion?: boolean | Attachment$taskVersionArgs<ExtArgs>
+  }, ExtArgs["result"]["attachment"]>
 
-  export type AttachmentsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type AttachmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     url?: boolean
     filename?: boolean
@@ -11113,12 +11113,12 @@ export namespace Prisma {
     userId?: boolean
     taskVersionId?: boolean
     createdAt?: boolean
-    task?: boolean | Attachments$taskArgs<ExtArgs>
+    task?: boolean | Attachment$taskArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    taskVersion?: boolean | Attachments$taskVersionArgs<ExtArgs>
-  }, ExtArgs["result"]["attachments"]>
+    taskVersion?: boolean | Attachment$taskVersionArgs<ExtArgs>
+  }, ExtArgs["result"]["attachment"]>
 
-  export type AttachmentsSelectScalar = {
+  export type AttachmentSelectScalar = {
     id?: boolean
     url?: boolean
     filename?: boolean
@@ -11131,27 +11131,27 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type AttachmentsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "url" | "filename" | "attachmentType" | "mimeType" | "fileSize" | "taskId" | "userId" | "taskVersionId" | "createdAt", ExtArgs["result"]["attachments"]>
-  export type AttachmentsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    task?: boolean | Attachments$taskArgs<ExtArgs>
+  export type AttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "url" | "filename" | "attachmentType" | "mimeType" | "fileSize" | "taskId" | "userId" | "taskVersionId" | "createdAt", ExtArgs["result"]["attachment"]>
+  export type AttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    task?: boolean | Attachment$taskArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    taskVersion?: boolean | Attachments$taskVersionArgs<ExtArgs>
+    taskVersion?: boolean | Attachment$taskVersionArgs<ExtArgs>
   }
-  export type AttachmentsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    task?: boolean | Attachments$taskArgs<ExtArgs>
+  export type AttachmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    task?: boolean | Attachment$taskArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    taskVersion?: boolean | Attachments$taskVersionArgs<ExtArgs>
+    taskVersion?: boolean | Attachment$taskVersionArgs<ExtArgs>
   }
-  export type AttachmentsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    task?: boolean | Attachments$taskArgs<ExtArgs>
+  export type AttachmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    task?: boolean | Attachment$taskArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    taskVersion?: boolean | Attachments$taskVersionArgs<ExtArgs>
+    taskVersion?: boolean | Attachment$taskVersionArgs<ExtArgs>
   }
 
-  export type $AttachmentsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Attachments"
+  export type $AttachmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Attachment"
     objects: {
-      task: Prisma.$TasksPayload<ExtArgs> | null
+      task: Prisma.$TaskPayload<ExtArgs> | null
       user: Prisma.$UserPayload<ExtArgs>
       taskVersion: Prisma.$TaskVersionPayload<ExtArgs> | null
     }
@@ -11166,136 +11166,136 @@ export namespace Prisma {
       userId: string
       taskVersionId: string | null
       createdAt: Date
-    }, ExtArgs["result"]["attachments"]>
+    }, ExtArgs["result"]["attachment"]>
     composites: {}
   }
 
-  type AttachmentsGetPayload<S extends boolean | null | undefined | AttachmentsDefaultArgs> = $Result.GetResult<Prisma.$AttachmentsPayload, S>
+  type AttachmentGetPayload<S extends boolean | null | undefined | AttachmentDefaultArgs> = $Result.GetResult<Prisma.$AttachmentPayload, S>
 
-  type AttachmentsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<AttachmentsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: AttachmentsCountAggregateInputType | true
+  type AttachmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttachmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttachmentCountAggregateInputType | true
     }
 
-  export interface AttachmentsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Attachments'], meta: { name: 'Attachments' } }
+  export interface AttachmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Attachment'], meta: { name: 'Attachment' } }
     /**
-     * Find zero or one Attachments that matches the filter.
-     * @param {AttachmentsFindUniqueArgs} args - Arguments to find a Attachments
+     * Find zero or one Attachment that matches the filter.
+     * @param {AttachmentFindUniqueArgs} args - Arguments to find a Attachment
      * @example
-     * // Get one Attachments
-     * const attachments = await prisma.attachments.findUnique({
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends AttachmentsFindUniqueArgs>(args: SelectSubset<T, AttachmentsFindUniqueArgs<ExtArgs>>): Prisma__AttachmentsClient<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends AttachmentFindUniqueArgs>(args: SelectSubset<T, AttachmentFindUniqueArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Attachments that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Attachment that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {AttachmentsFindUniqueOrThrowArgs} args - Arguments to find a Attachments
+     * @param {AttachmentFindUniqueOrThrowArgs} args - Arguments to find a Attachment
      * @example
-     * // Get one Attachments
-     * const attachments = await prisma.attachments.findUniqueOrThrow({
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends AttachmentsFindUniqueOrThrowArgs>(args: SelectSubset<T, AttachmentsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttachmentsClient<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends AttachmentFindUniqueOrThrowArgs>(args: SelectSubset<T, AttachmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Attachments that matches the filter.
+     * Find the first Attachment that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AttachmentsFindFirstArgs} args - Arguments to find a Attachments
+     * @param {AttachmentFindFirstArgs} args - Arguments to find a Attachment
      * @example
-     * // Get one Attachments
-     * const attachments = await prisma.attachments.findFirst({
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends AttachmentsFindFirstArgs>(args?: SelectSubset<T, AttachmentsFindFirstArgs<ExtArgs>>): Prisma__AttachmentsClient<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends AttachmentFindFirstArgs>(args?: SelectSubset<T, AttachmentFindFirstArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Attachments that matches the filter or
+     * Find the first Attachment that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AttachmentsFindFirstOrThrowArgs} args - Arguments to find a Attachments
+     * @param {AttachmentFindFirstOrThrowArgs} args - Arguments to find a Attachment
      * @example
-     * // Get one Attachments
-     * const attachments = await prisma.attachments.findFirstOrThrow({
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends AttachmentsFindFirstOrThrowArgs>(args?: SelectSubset<T, AttachmentsFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttachmentsClient<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends AttachmentFindFirstOrThrowArgs>(args?: SelectSubset<T, AttachmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Attachments that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AttachmentsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {AttachmentFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
      * // Get all Attachments
-     * const attachments = await prisma.attachments.findMany()
+     * const attachments = await prisma.attachment.findMany()
      * 
      * // Get first 10 Attachments
-     * const attachments = await prisma.attachments.findMany({ take: 10 })
+     * const attachments = await prisma.attachment.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const attachmentsWithIdOnly = await prisma.attachments.findMany({ select: { id: true } })
+     * const attachmentWithIdOnly = await prisma.attachment.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends AttachmentsFindManyArgs>(args?: SelectSubset<T, AttachmentsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends AttachmentFindManyArgs>(args?: SelectSubset<T, AttachmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Attachments.
-     * @param {AttachmentsCreateArgs} args - Arguments to create a Attachments.
+     * Create a Attachment.
+     * @param {AttachmentCreateArgs} args - Arguments to create a Attachment.
      * @example
-     * // Create one Attachments
-     * const Attachments = await prisma.attachments.create({
+     * // Create one Attachment
+     * const Attachment = await prisma.attachment.create({
      *   data: {
-     *     // ... data to create a Attachments
+     *     // ... data to create a Attachment
      *   }
      * })
      * 
      */
-    create<T extends AttachmentsCreateArgs>(args: SelectSubset<T, AttachmentsCreateArgs<ExtArgs>>): Prisma__AttachmentsClient<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends AttachmentCreateArgs>(args: SelectSubset<T, AttachmentCreateArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Attachments.
-     * @param {AttachmentsCreateManyArgs} args - Arguments to create many Attachments.
+     * @param {AttachmentCreateManyArgs} args - Arguments to create many Attachments.
      * @example
      * // Create many Attachments
-     * const attachments = await prisma.attachments.createMany({
+     * const attachment = await prisma.attachment.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends AttachmentsCreateManyArgs>(args?: SelectSubset<T, AttachmentsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends AttachmentCreateManyArgs>(args?: SelectSubset<T, AttachmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Create many Attachments and returns the data saved in the database.
-     * @param {AttachmentsCreateManyAndReturnArgs} args - Arguments to create many Attachments.
+     * @param {AttachmentCreateManyAndReturnArgs} args - Arguments to create many Attachments.
      * @example
      * // Create many Attachments
-     * const attachments = await prisma.attachments.createManyAndReturn({
+     * const attachment = await prisma.attachment.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
      * // Create many Attachments and only return the `id`
-     * const attachmentsWithIdOnly = await prisma.attachments.createManyAndReturn({
+     * const attachmentWithIdOnly = await prisma.attachment.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -11305,28 +11305,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends AttachmentsCreateManyAndReturnArgs>(args?: SelectSubset<T, AttachmentsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends AttachmentCreateManyAndReturnArgs>(args?: SelectSubset<T, AttachmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Attachments.
-     * @param {AttachmentsDeleteArgs} args - Arguments to delete one Attachments.
+     * Delete a Attachment.
+     * @param {AttachmentDeleteArgs} args - Arguments to delete one Attachment.
      * @example
-     * // Delete one Attachments
-     * const Attachments = await prisma.attachments.delete({
+     * // Delete one Attachment
+     * const Attachment = await prisma.attachment.delete({
      *   where: {
-     *     // ... filter to delete one Attachments
+     *     // ... filter to delete one Attachment
      *   }
      * })
      * 
      */
-    delete<T extends AttachmentsDeleteArgs>(args: SelectSubset<T, AttachmentsDeleteArgs<ExtArgs>>): Prisma__AttachmentsClient<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends AttachmentDeleteArgs>(args: SelectSubset<T, AttachmentDeleteArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Attachments.
-     * @param {AttachmentsUpdateArgs} args - Arguments to update one Attachments.
+     * Update one Attachment.
+     * @param {AttachmentUpdateArgs} args - Arguments to update one Attachment.
      * @example
-     * // Update one Attachments
-     * const attachments = await prisma.attachments.update({
+     * // Update one Attachment
+     * const attachment = await prisma.attachment.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -11336,30 +11336,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends AttachmentsUpdateArgs>(args: SelectSubset<T, AttachmentsUpdateArgs<ExtArgs>>): Prisma__AttachmentsClient<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends AttachmentUpdateArgs>(args: SelectSubset<T, AttachmentUpdateArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Attachments.
-     * @param {AttachmentsDeleteManyArgs} args - Arguments to filter Attachments to delete.
+     * @param {AttachmentDeleteManyArgs} args - Arguments to filter Attachments to delete.
      * @example
      * // Delete a few Attachments
-     * const { count } = await prisma.attachments.deleteMany({
+     * const { count } = await prisma.attachment.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends AttachmentsDeleteManyArgs>(args?: SelectSubset<T, AttachmentsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends AttachmentDeleteManyArgs>(args?: SelectSubset<T, AttachmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Attachments.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AttachmentsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {AttachmentUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
      * // Update many Attachments
-     * const attachments = await prisma.attachments.updateMany({
+     * const attachment = await prisma.attachment.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -11369,14 +11369,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends AttachmentsUpdateManyArgs>(args: SelectSubset<T, AttachmentsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends AttachmentUpdateManyArgs>(args: SelectSubset<T, AttachmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
      * Update zero or more Attachments and returns the data updated in the database.
-     * @param {AttachmentsUpdateManyAndReturnArgs} args - Arguments to update many Attachments.
+     * @param {AttachmentUpdateManyAndReturnArgs} args - Arguments to update many Attachments.
      * @example
      * // Update many Attachments
-     * const attachments = await prisma.attachments.updateManyAndReturn({
+     * const attachment = await prisma.attachment.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -11386,7 +11386,7 @@ export namespace Prisma {
      * })
      * 
      * // Update zero or more Attachments and only return the `id`
-     * const attachmentsWithIdOnly = await prisma.attachments.updateManyAndReturn({
+     * const attachmentWithIdOnly = await prisma.attachment.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -11399,56 +11399,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends AttachmentsUpdateManyAndReturnArgs>(args: SelectSubset<T, AttachmentsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends AttachmentUpdateManyAndReturnArgs>(args: SelectSubset<T, AttachmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Attachments.
-     * @param {AttachmentsUpsertArgs} args - Arguments to update or create a Attachments.
+     * Create or update one Attachment.
+     * @param {AttachmentUpsertArgs} args - Arguments to update or create a Attachment.
      * @example
-     * // Update or create a Attachments
-     * const attachments = await prisma.attachments.upsert({
+     * // Update or create a Attachment
+     * const attachment = await prisma.attachment.upsert({
      *   create: {
-     *     // ... data to create a Attachments
+     *     // ... data to create a Attachment
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Attachments we want to update
+     *     // ... the filter for the Attachment we want to update
      *   }
      * })
      */
-    upsert<T extends AttachmentsUpsertArgs>(args: SelectSubset<T, AttachmentsUpsertArgs<ExtArgs>>): Prisma__AttachmentsClient<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends AttachmentUpsertArgs>(args: SelectSubset<T, AttachmentUpsertArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
      * Count the number of Attachments.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AttachmentsCountArgs} args - Arguments to filter Attachments to count.
+     * @param {AttachmentCountArgs} args - Arguments to filter Attachments to count.
      * @example
      * // Count the number of Attachments
-     * const count = await prisma.attachments.count({
+     * const count = await prisma.attachment.count({
      *   where: {
      *     // ... the filter for the Attachments we want to count
      *   }
      * })
     **/
-    count<T extends AttachmentsCountArgs>(
-      args?: Subset<T, AttachmentsCountArgs>,
+    count<T extends AttachmentCountArgs>(
+      args?: Subset<T, AttachmentCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], AttachmentsCountAggregateOutputType>
+          : GetScalarType<T['select'], AttachmentCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Attachments.
+     * Allows you to perform aggregations operations on a Attachment.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AttachmentsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {AttachmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -11468,13 +11468,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends AttachmentsAggregateArgs>(args: Subset<T, AttachmentsAggregateArgs>): Prisma.PrismaPromise<GetAttachmentsAggregateType<T>>
+    aggregate<T extends AttachmentAggregateArgs>(args: Subset<T, AttachmentAggregateArgs>): Prisma.PrismaPromise<GetAttachmentAggregateType<T>>
 
     /**
-     * Group by Attachments.
+     * Group by Attachment.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AttachmentsGroupByArgs} args - Group by arguments.
+     * @param {AttachmentGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -11489,14 +11489,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends AttachmentsGroupByArgs,
+      T extends AttachmentGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AttachmentsGroupByArgs['orderBy'] }
-        : { orderBy?: AttachmentsGroupByArgs['orderBy'] },
+        ? { orderBy: AttachmentGroupByArgs['orderBy'] }
+        : { orderBy?: AttachmentGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -11545,24 +11545,24 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, AttachmentsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttachmentsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, AttachmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttachmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Attachments model
+   * Fields of the Attachment model
    */
-  readonly fields: AttachmentsFieldRefs;
+  readonly fields: AttachmentFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Attachments.
+   * The delegate class that acts as a "Promise-like" for Attachment.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__AttachmentsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__AttachmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    task<T extends Attachments$taskArgs<ExtArgs> = {}>(args?: Subset<T, Attachments$taskArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    task<T extends Attachment$taskArgs<ExtArgs> = {}>(args?: Subset<T, Attachment$taskArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    taskVersion<T extends Attachments$taskVersionArgs<ExtArgs> = {}>(args?: Subset<T, Attachments$taskVersionArgs<ExtArgs>>): Prisma__TaskVersionClient<$Result.GetResult<Prisma.$TaskVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    taskVersion<T extends Attachment$taskVersionArgs<ExtArgs> = {}>(args?: Subset<T, Attachment$taskVersionArgs<ExtArgs>>): Prisma__TaskVersionClient<$Result.GetResult<Prisma.$TaskVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11589,99 +11589,99 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Attachments model
+   * Fields of the Attachment model
    */
-  interface AttachmentsFieldRefs {
-    readonly id: FieldRef<"Attachments", 'String'>
-    readonly url: FieldRef<"Attachments", 'String'>
-    readonly filename: FieldRef<"Attachments", 'String'>
-    readonly attachmentType: FieldRef<"Attachments", 'AttachmentTypeEnum'>
-    readonly mimeType: FieldRef<"Attachments", 'String'>
-    readonly fileSize: FieldRef<"Attachments", 'Int'>
-    readonly taskId: FieldRef<"Attachments", 'String'>
-    readonly userId: FieldRef<"Attachments", 'String'>
-    readonly taskVersionId: FieldRef<"Attachments", 'String'>
-    readonly createdAt: FieldRef<"Attachments", 'DateTime'>
+  interface AttachmentFieldRefs {
+    readonly id: FieldRef<"Attachment", 'String'>
+    readonly url: FieldRef<"Attachment", 'String'>
+    readonly filename: FieldRef<"Attachment", 'String'>
+    readonly attachmentType: FieldRef<"Attachment", 'AttachmentTypeEnum'>
+    readonly mimeType: FieldRef<"Attachment", 'String'>
+    readonly fileSize: FieldRef<"Attachment", 'Int'>
+    readonly taskId: FieldRef<"Attachment", 'String'>
+    readonly userId: FieldRef<"Attachment", 'String'>
+    readonly taskVersionId: FieldRef<"Attachment", 'String'>
+    readonly createdAt: FieldRef<"Attachment", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * Attachments findUnique
+   * Attachment findUnique
    */
-  export type AttachmentsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
+    include?: AttachmentInclude<ExtArgs> | null
     /**
-     * Filter, which Attachments to fetch.
+     * Filter, which Attachment to fetch.
      */
-    where: AttachmentsWhereUniqueInput
+    where: AttachmentWhereUniqueInput
   }
 
   /**
-   * Attachments findUniqueOrThrow
+   * Attachment findUniqueOrThrow
    */
-  export type AttachmentsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
+    include?: AttachmentInclude<ExtArgs> | null
     /**
-     * Filter, which Attachments to fetch.
+     * Filter, which Attachment to fetch.
      */
-    where: AttachmentsWhereUniqueInput
+    where: AttachmentWhereUniqueInput
   }
 
   /**
-   * Attachments findFirst
+   * Attachment findFirst
    */
-  export type AttachmentsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
+    include?: AttachmentInclude<ExtArgs> | null
     /**
-     * Filter, which Attachments to fetch.
+     * Filter, which Attachment to fetch.
      */
-    where?: AttachmentsWhereInput
+    where?: AttachmentWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Attachments to fetch.
      */
-    orderBy?: AttachmentsOrderByWithRelationInput | AttachmentsOrderByWithRelationInput[]
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Attachments.
      */
-    cursor?: AttachmentsWhereUniqueInput
+    cursor?: AttachmentWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -11699,41 +11699,41 @@ export namespace Prisma {
      * 
      * Filter by unique combinations of Attachments.
      */
-    distinct?: AttachmentsScalarFieldEnum | AttachmentsScalarFieldEnum[]
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
   }
 
   /**
-   * Attachments findFirstOrThrow
+   * Attachment findFirstOrThrow
    */
-  export type AttachmentsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
+    include?: AttachmentInclude<ExtArgs> | null
     /**
-     * Filter, which Attachments to fetch.
+     * Filter, which Attachment to fetch.
      */
-    where?: AttachmentsWhereInput
+    where?: AttachmentWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Attachments to fetch.
      */
-    orderBy?: AttachmentsOrderByWithRelationInput | AttachmentsOrderByWithRelationInput[]
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for searching for Attachments.
      */
-    cursor?: AttachmentsWhereUniqueInput
+    cursor?: AttachmentWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -11751,41 +11751,41 @@ export namespace Prisma {
      * 
      * Filter by unique combinations of Attachments.
      */
-    distinct?: AttachmentsScalarFieldEnum | AttachmentsScalarFieldEnum[]
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
   }
 
   /**
-   * Attachments findMany
+   * Attachment findMany
    */
-  export type AttachmentsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
+    include?: AttachmentInclude<ExtArgs> | null
     /**
      * Filter, which Attachments to fetch.
      */
-    where?: AttachmentsWhereInput
+    where?: AttachmentWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
      * Determine the order of Attachments to fetch.
      */
-    orderBy?: AttachmentsOrderByWithRelationInput | AttachmentsOrderByWithRelationInput[]
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the position for listing Attachments.
      */
-    cursor?: AttachmentsWhereUniqueInput
+    cursor?: AttachmentWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
@@ -11798,103 +11798,103 @@ export namespace Prisma {
      * Skip the first `n` Attachments.
      */
     skip?: number
-    distinct?: AttachmentsScalarFieldEnum | AttachmentsScalarFieldEnum[]
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
   }
 
   /**
-   * Attachments create
+   * Attachment create
    */
-  export type AttachmentsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
+    include?: AttachmentInclude<ExtArgs> | null
     /**
-     * The data needed to create a Attachments.
+     * The data needed to create a Attachment.
      */
-    data: XOR<AttachmentsCreateInput, AttachmentsUncheckedCreateInput>
+    data: XOR<AttachmentCreateInput, AttachmentUncheckedCreateInput>
   }
 
   /**
-   * Attachments createMany
+   * Attachment createMany
    */
-  export type AttachmentsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to create many Attachments.
      */
-    data: AttachmentsCreateManyInput | AttachmentsCreateManyInput[]
+    data: AttachmentCreateManyInput | AttachmentCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Attachments createManyAndReturn
+   * Attachment createManyAndReturn
    */
-  export type AttachmentsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelectCreateManyAndReturn<ExtArgs> | null
+    select?: AttachmentSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * The data used to create many Attachments.
      */
-    data: AttachmentsCreateManyInput | AttachmentsCreateManyInput[]
+    data: AttachmentCreateManyInput | AttachmentCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: AttachmentIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Attachments update
+   * Attachment update
    */
-  export type AttachmentsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
+    include?: AttachmentInclude<ExtArgs> | null
     /**
-     * The data needed to update a Attachments.
+     * The data needed to update a Attachment.
      */
-    data: XOR<AttachmentsUpdateInput, AttachmentsUncheckedUpdateInput>
+    data: XOR<AttachmentUpdateInput, AttachmentUncheckedUpdateInput>
     /**
-     * Choose, which Attachments to update.
+     * Choose, which Attachment to update.
      */
-    where: AttachmentsWhereUniqueInput
+    where: AttachmentWhereUniqueInput
   }
 
   /**
-   * Attachments updateMany
+   * Attachment updateMany
    */
-  export type AttachmentsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * The data used to update Attachments.
      */
-    data: XOR<AttachmentsUpdateManyMutationInput, AttachmentsUncheckedUpdateManyInput>
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyInput>
     /**
      * Filter which Attachments to update
      */
-    where?: AttachmentsWhereInput
+    where?: AttachmentWhereInput
     /**
      * Limit how many Attachments to update.
      */
@@ -11902,25 +11902,25 @@ export namespace Prisma {
   }
 
   /**
-   * Attachments updateManyAndReturn
+   * Attachment updateManyAndReturn
    */
-  export type AttachmentsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: AttachmentSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * The data used to update Attachments.
      */
-    data: XOR<AttachmentsUpdateManyMutationInput, AttachmentsUncheckedUpdateManyInput>
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyInput>
     /**
      * Filter which Attachments to update
      */
-    where?: AttachmentsWhereInput
+    where?: AttachmentWhereInput
     /**
      * Limit how many Attachments to update.
      */
@@ -11928,69 +11928,69 @@ export namespace Prisma {
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: AttachmentIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Attachments upsert
+   * Attachment upsert
    */
-  export type AttachmentsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
+    include?: AttachmentInclude<ExtArgs> | null
     /**
-     * The filter to search for the Attachments to update in case it exists.
+     * The filter to search for the Attachment to update in case it exists.
      */
-    where: AttachmentsWhereUniqueInput
+    where: AttachmentWhereUniqueInput
     /**
-     * In case the Attachments found by the `where` argument doesn't exist, create a new Attachments with this data.
+     * In case the Attachment found by the `where` argument doesn't exist, create a new Attachment with this data.
      */
-    create: XOR<AttachmentsCreateInput, AttachmentsUncheckedCreateInput>
+    create: XOR<AttachmentCreateInput, AttachmentUncheckedCreateInput>
     /**
-     * In case the Attachments was found with the provided `where` argument, update it with this data.
+     * In case the Attachment was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<AttachmentsUpdateInput, AttachmentsUncheckedUpdateInput>
+    update: XOR<AttachmentUpdateInput, AttachmentUncheckedUpdateInput>
   }
 
   /**
-   * Attachments delete
+   * Attachment delete
    */
-  export type AttachmentsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
+    include?: AttachmentInclude<ExtArgs> | null
     /**
-     * Filter which Attachments to delete.
+     * Filter which Attachment to delete.
      */
-    where: AttachmentsWhereUniqueInput
+    where: AttachmentWhereUniqueInput
   }
 
   /**
-   * Attachments deleteMany
+   * Attachment deleteMany
    */
-  export type AttachmentsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which Attachments to delete
      */
-    where?: AttachmentsWhereInput
+    where?: AttachmentWhereInput
     /**
      * Limit how many Attachments to delete.
      */
@@ -11998,28 +11998,28 @@ export namespace Prisma {
   }
 
   /**
-   * Attachments.task
+   * Attachment.task
    */
-  export type Attachments$taskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Attachment$taskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
-    where?: TasksWhereInput
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
   }
 
   /**
-   * Attachments.taskVersion
+   * Attachment.taskVersion
    */
-  export type Attachments$taskVersionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Attachment$taskVersionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the TaskVersion
      */
@@ -12036,21 +12036,21 @@ export namespace Prisma {
   }
 
   /**
-   * Attachments without action
+   * Attachment without action
    */
-  export type AttachmentsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AttachmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
+    include?: AttachmentInclude<ExtArgs> | null
   }
 
 
@@ -12252,7 +12252,7 @@ export namespace Prisma {
     version?: boolean
     description?: boolean
     createdAt?: boolean
-    task?: boolean | TasksDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
     attachments?: boolean | TaskVersion$attachmentsArgs<ExtArgs>
     _count?: boolean | TaskVersionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["taskVersion"]>
@@ -12263,7 +12263,7 @@ export namespace Prisma {
     version?: boolean
     description?: boolean
     createdAt?: boolean
-    task?: boolean | TasksDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["taskVersion"]>
 
   export type TaskVersionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12272,7 +12272,7 @@ export namespace Prisma {
     version?: boolean
     description?: boolean
     createdAt?: boolean
-    task?: boolean | TasksDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["taskVersion"]>
 
   export type TaskVersionSelectScalar = {
@@ -12285,22 +12285,22 @@ export namespace Prisma {
 
   export type TaskVersionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "taskId" | "version" | "description" | "createdAt", ExtArgs["result"]["taskVersion"]>
   export type TaskVersionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    task?: boolean | TasksDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
     attachments?: boolean | TaskVersion$attachmentsArgs<ExtArgs>
     _count?: boolean | TaskVersionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TaskVersionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    task?: boolean | TasksDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
   }
   export type TaskVersionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    task?: boolean | TasksDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
   }
 
   export type $TaskVersionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "TaskVersion"
     objects: {
-      task: Prisma.$TasksPayload<ExtArgs>
-      attachments: Prisma.$AttachmentsPayload<ExtArgs>[]
+      task: Prisma.$TaskPayload<ExtArgs>
+      attachments: Prisma.$AttachmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12702,8 +12702,8 @@ export namespace Prisma {
    */
   export interface Prisma__TaskVersionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    task<T extends TasksDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TasksDefaultArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    attachments<T extends TaskVersion$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, TaskVersion$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    task<T extends TaskDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TaskDefaultArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    attachments<T extends TaskVersion$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, TaskVersion$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13138,23 +13138,23 @@ export namespace Prisma {
    */
   export type TaskVersion$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Attachments
+     * Select specific fields to fetch from the Attachment
      */
-    select?: AttachmentsSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Attachments
+     * Omit specific fields from the Attachment
      */
-    omit?: AttachmentsOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: AttachmentsInclude<ExtArgs> | null
-    where?: AttachmentsWhereInput
-    orderBy?: AttachmentsOrderByWithRelationInput | AttachmentsOrderByWithRelationInput[]
-    cursor?: AttachmentsWhereUniqueInput
+    include?: AttachmentInclude<ExtArgs> | null
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    cursor?: AttachmentWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: AttachmentsScalarFieldEnum | AttachmentsScalarFieldEnum[]
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
   }
 
   /**
@@ -16650,7 +16650,7 @@ export namespace Prisma {
     name: "ActivityLog"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      tasks: Prisma.$TasksPayload<ExtArgs> | null
+      tasks: Prisma.$TaskPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17053,7 +17053,7 @@ export namespace Prisma {
   export interface Prisma__ActivityLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    tasks<T extends ActivityLog$tasksArgs<ExtArgs> = {}>(args?: Subset<T, ActivityLog$tasksArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tasks<T extends ActivityLog$tasksArgs<ExtArgs> = {}>(args?: Subset<T, ActivityLog$tasksArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17488,18 +17488,18 @@ export namespace Prisma {
    */
   export type ActivityLog$tasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Tasks
+     * Select specific fields to fetch from the Task
      */
-    select?: TasksSelect<ExtArgs> | null
+    select?: TaskSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Tasks
+     * Omit specific fields from the Task
      */
-    omit?: TasksOmit<ExtArgs> | null
+    omit?: TaskOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: TasksInclude<ExtArgs> | null
-    where?: TasksWhereInput
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
   }
 
   /**
@@ -17686,7 +17686,7 @@ export namespace Prisma {
     taskId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    task?: boolean | TasksDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
 
   export type CommentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -17696,7 +17696,7 @@ export namespace Prisma {
     taskId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    task?: boolean | TasksDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
 
   export type CommentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -17706,7 +17706,7 @@ export namespace Prisma {
     taskId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    task?: boolean | TasksDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
 
   export type CommentSelectScalar = {
@@ -17720,22 +17720,22 @@ export namespace Prisma {
   export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "userId" | "taskId" | "createdAt", ExtArgs["result"]["comment"]>
   export type CommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    task?: boolean | TasksDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
   }
   export type CommentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    task?: boolean | TasksDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
   }
   export type CommentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    task?: boolean | TasksDefaultArgs<ExtArgs>
+    task?: boolean | TaskDefaultArgs<ExtArgs>
   }
 
   export type $CommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Comment"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      task: Prisma.$TasksPayload<ExtArgs>
+      task: Prisma.$TaskPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -18138,7 +18138,7 @@ export namespace Prisma {
   export interface Prisma__CommentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    task<T extends TasksDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TasksDefaultArgs<ExtArgs>>): Prisma__TasksClient<$Result.GetResult<Prisma.$TasksPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    task<T extends TaskDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TaskDefaultArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18676,7 +18676,7 @@ export namespace Prisma {
   export type WorkspaceScalarFieldEnum = (typeof WorkspaceScalarFieldEnum)[keyof typeof WorkspaceScalarFieldEnum]
 
 
-  export const TasksScalarFieldEnum: {
+  export const TaskScalarFieldEnum: {
     id: 'id',
     title: 'title',
     completed: 'completed',
@@ -18689,7 +18689,7 @@ export namespace Prisma {
     updatedAt: 'updatedAt'
   };
 
-  export type TasksScalarFieldEnum = (typeof TasksScalarFieldEnum)[keyof typeof TasksScalarFieldEnum]
+  export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
 
 
   export const TagScalarFieldEnum: {
@@ -18704,7 +18704,7 @@ export namespace Prisma {
   export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
 
 
-  export const AttachmentsScalarFieldEnum: {
+  export const AttachmentScalarFieldEnum: {
     id: 'id',
     url: 'url',
     filename: 'filename',
@@ -18717,7 +18717,7 @@ export namespace Prisma {
     createdAt: 'createdAt'
   };
 
-  export type AttachmentsScalarFieldEnum = (typeof AttachmentsScalarFieldEnum)[keyof typeof AttachmentsScalarFieldEnum]
+  export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum]
 
 
   export const TaskVersionScalarFieldEnum: {
@@ -18988,17 +18988,17 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     bio?: StringNullableFilter<"User"> | string | null
     isPro?: BoolFilter<"User"> | boolean
-    tasks?: TasksListRelationFilter
-    attachments?: AttachmentsListRelationFilter
+    tasks?: TaskListRelationFilter
+    attachments?: AttachmentListRelationFilter
     workspaces?: WorkspaceListRelationFilter
     ownedWorkspaces?: WorkspaceListRelationFilter
     workspaceMemberships?: WorkspaceMemberListRelationFilter
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
-    userPreference?: UserPreferenceListRelationFilter
-    notification?: NotificationListRelationFilter
-    activityLog?: ActivityLogListRelationFilter
-    comment?: CommentListRelationFilter
+    userPreferences?: UserPreferenceListRelationFilter
+    notifications?: NotificationListRelationFilter
+    activityLogs?: ActivityLogListRelationFilter
+    comments?: CommentListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -19015,17 +19015,17 @@ export namespace Prisma {
     updatedAt?: SortOrder
     bio?: SortOrderInput | SortOrder
     isPro?: SortOrder
-    tasks?: TasksOrderByRelationAggregateInput
-    attachments?: AttachmentsOrderByRelationAggregateInput
+    tasks?: TaskOrderByRelationAggregateInput
+    attachments?: AttachmentOrderByRelationAggregateInput
     workspaces?: WorkspaceOrderByRelationAggregateInput
     ownedWorkspaces?: WorkspaceOrderByRelationAggregateInput
     workspaceMemberships?: WorkspaceMemberOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
-    userPreference?: UserPreferenceOrderByRelationAggregateInput
-    notification?: NotificationOrderByRelationAggregateInput
-    activityLog?: ActivityLogOrderByRelationAggregateInput
-    comment?: CommentOrderByRelationAggregateInput
+    userPreferences?: UserPreferenceOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
+    activityLogs?: ActivityLogOrderByRelationAggregateInput
+    comments?: CommentOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -19045,17 +19045,17 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     bio?: StringNullableFilter<"User"> | string | null
     isPro?: BoolFilter<"User"> | boolean
-    tasks?: TasksListRelationFilter
-    attachments?: AttachmentsListRelationFilter
+    tasks?: TaskListRelationFilter
+    attachments?: AttachmentListRelationFilter
     workspaces?: WorkspaceListRelationFilter
     ownedWorkspaces?: WorkspaceListRelationFilter
     workspaceMemberships?: WorkspaceMemberListRelationFilter
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
-    userPreference?: UserPreferenceListRelationFilter
-    notification?: NotificationListRelationFilter
-    activityLog?: ActivityLogListRelationFilter
-    comment?: CommentListRelationFilter
+    userPreferences?: UserPreferenceListRelationFilter
+    notifications?: NotificationListRelationFilter
+    activityLogs?: ActivityLogListRelationFilter
+    comments?: CommentListRelationFilter
   }, "id" | "email" | "username">
 
   export type UserOrderByWithAggregationInput = {
@@ -19300,7 +19300,7 @@ export namespace Prisma {
     subscriptionEndsAt?: DateTimeNullableFilter<"Workspace"> | Date | string | null
     ownerId?: StringFilter<"Workspace"> | string
     users?: UserListRelationFilter
-    tasks?: TasksListRelationFilter
+    tasks?: TaskListRelationFilter
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     members?: WorkspaceMemberListRelationFilter
     tags?: TagListRelationFilter
@@ -19321,7 +19321,7 @@ export namespace Prisma {
     subscriptionEndsAt?: SortOrderInput | SortOrder
     ownerId?: SortOrder
     users?: UserOrderByRelationAggregateInput
-    tasks?: TasksOrderByRelationAggregateInput
+    tasks?: TaskOrderByRelationAggregateInput
     owner?: UserOrderByWithRelationInput
     members?: WorkspaceMemberOrderByRelationAggregateInput
     tags?: TagOrderByRelationAggregateInput
@@ -19345,7 +19345,7 @@ export namespace Prisma {
     subscriptionEndsAt?: DateTimeNullableFilter<"Workspace"> | Date | string | null
     ownerId?: StringFilter<"Workspace"> | string
     users?: UserListRelationFilter
-    tasks?: TasksListRelationFilter
+    tasks?: TaskListRelationFilter
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     members?: WorkspaceMemberListRelationFilter
     tags?: TagListRelationFilter
@@ -19391,32 +19391,32 @@ export namespace Prisma {
     ownerId?: StringWithAggregatesFilter<"Workspace"> | string
   }
 
-  export type TasksWhereInput = {
-    AND?: TasksWhereInput | TasksWhereInput[]
-    OR?: TasksWhereInput[]
-    NOT?: TasksWhereInput | TasksWhereInput[]
-    id?: StringFilter<"Tasks"> | string
-    title?: StringFilter<"Tasks"> | string
-    completed?: BoolFilter<"Tasks"> | boolean
-    priority?: EnumpriorityEnumFilter<"Tasks"> | $Enums.priorityEnum
-    dueDate?: DateTimeNullableFilter<"Tasks"> | Date | string | null
-    userId?: StringFilter<"Tasks"> | string
-    workspaceId?: StringFilter<"Tasks"> | string
-    parentTaskId?: StringNullableFilter<"Tasks"> | string | null
-    createdAt?: DateTimeFilter<"Tasks"> | Date | string
-    updatedAt?: DateTimeFilter<"Tasks"> | Date | string
+  export type TaskWhereInput = {
+    AND?: TaskWhereInput | TaskWhereInput[]
+    OR?: TaskWhereInput[]
+    NOT?: TaskWhereInput | TaskWhereInput[]
+    id?: StringFilter<"Task"> | string
+    title?: StringFilter<"Task"> | string
+    completed?: BoolFilter<"Task"> | boolean
+    priority?: EnumpriorityEnumFilter<"Task"> | $Enums.priorityEnum
+    dueDate?: DateTimeNullableFilter<"Task"> | Date | string | null
+    userId?: StringFilter<"Task"> | string
+    workspaceId?: StringFilter<"Task"> | string
+    parentTaskId?: StringNullableFilter<"Task"> | string | null
+    createdAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeFilter<"Task"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
-    parentTask?: XOR<TasksNullableScalarRelationFilter, TasksWhereInput> | null
-    subtasks?: TasksListRelationFilter
+    parentTask?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
+    subtasks?: TaskListRelationFilter
     tags?: TagListRelationFilter
     taskVersions?: TaskVersionListRelationFilter
-    attachments?: AttachmentsListRelationFilter
+    attachments?: AttachmentListRelationFilter
     activityLog?: ActivityLogListRelationFilter
     comment?: CommentListRelationFilter
   }
 
-  export type TasksOrderByWithRelationInput = {
+  export type TaskOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
     completed?: SortOrder
@@ -19429,41 +19429,41 @@ export namespace Prisma {
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     workspace?: WorkspaceOrderByWithRelationInput
-    parentTask?: TasksOrderByWithRelationInput
-    subtasks?: TasksOrderByRelationAggregateInput
+    parentTask?: TaskOrderByWithRelationInput
+    subtasks?: TaskOrderByRelationAggregateInput
     tags?: TagOrderByRelationAggregateInput
     taskVersions?: TaskVersionOrderByRelationAggregateInput
-    attachments?: AttachmentsOrderByRelationAggregateInput
+    attachments?: AttachmentOrderByRelationAggregateInput
     activityLog?: ActivityLogOrderByRelationAggregateInput
     comment?: CommentOrderByRelationAggregateInput
   }
 
-  export type TasksWhereUniqueInput = Prisma.AtLeast<{
+  export type TaskWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: TasksWhereInput | TasksWhereInput[]
-    OR?: TasksWhereInput[]
-    NOT?: TasksWhereInput | TasksWhereInput[]
-    title?: StringFilter<"Tasks"> | string
-    completed?: BoolFilter<"Tasks"> | boolean
-    priority?: EnumpriorityEnumFilter<"Tasks"> | $Enums.priorityEnum
-    dueDate?: DateTimeNullableFilter<"Tasks"> | Date | string | null
-    userId?: StringFilter<"Tasks"> | string
-    workspaceId?: StringFilter<"Tasks"> | string
-    parentTaskId?: StringNullableFilter<"Tasks"> | string | null
-    createdAt?: DateTimeFilter<"Tasks"> | Date | string
-    updatedAt?: DateTimeFilter<"Tasks"> | Date | string
+    AND?: TaskWhereInput | TaskWhereInput[]
+    OR?: TaskWhereInput[]
+    NOT?: TaskWhereInput | TaskWhereInput[]
+    title?: StringFilter<"Task"> | string
+    completed?: BoolFilter<"Task"> | boolean
+    priority?: EnumpriorityEnumFilter<"Task"> | $Enums.priorityEnum
+    dueDate?: DateTimeNullableFilter<"Task"> | Date | string | null
+    userId?: StringFilter<"Task"> | string
+    workspaceId?: StringFilter<"Task"> | string
+    parentTaskId?: StringNullableFilter<"Task"> | string | null
+    createdAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeFilter<"Task"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
-    parentTask?: XOR<TasksNullableScalarRelationFilter, TasksWhereInput> | null
-    subtasks?: TasksListRelationFilter
+    parentTask?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
+    subtasks?: TaskListRelationFilter
     tags?: TagListRelationFilter
     taskVersions?: TaskVersionListRelationFilter
-    attachments?: AttachmentsListRelationFilter
+    attachments?: AttachmentListRelationFilter
     activityLog?: ActivityLogListRelationFilter
     comment?: CommentListRelationFilter
   }, "id">
 
-  export type TasksOrderByWithAggregationInput = {
+  export type TaskOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
     completed?: SortOrder
@@ -19474,25 +19474,25 @@ export namespace Prisma {
     parentTaskId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: TasksCountOrderByAggregateInput
-    _max?: TasksMaxOrderByAggregateInput
-    _min?: TasksMinOrderByAggregateInput
+    _count?: TaskCountOrderByAggregateInput
+    _max?: TaskMaxOrderByAggregateInput
+    _min?: TaskMinOrderByAggregateInput
   }
 
-  export type TasksScalarWhereWithAggregatesInput = {
-    AND?: TasksScalarWhereWithAggregatesInput | TasksScalarWhereWithAggregatesInput[]
-    OR?: TasksScalarWhereWithAggregatesInput[]
-    NOT?: TasksScalarWhereWithAggregatesInput | TasksScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Tasks"> | string
-    title?: StringWithAggregatesFilter<"Tasks"> | string
-    completed?: BoolWithAggregatesFilter<"Tasks"> | boolean
-    priority?: EnumpriorityEnumWithAggregatesFilter<"Tasks"> | $Enums.priorityEnum
-    dueDate?: DateTimeNullableWithAggregatesFilter<"Tasks"> | Date | string | null
-    userId?: StringWithAggregatesFilter<"Tasks"> | string
-    workspaceId?: StringWithAggregatesFilter<"Tasks"> | string
-    parentTaskId?: StringNullableWithAggregatesFilter<"Tasks"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"Tasks"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Tasks"> | Date | string
+  export type TaskScalarWhereWithAggregatesInput = {
+    AND?: TaskScalarWhereWithAggregatesInput | TaskScalarWhereWithAggregatesInput[]
+    OR?: TaskScalarWhereWithAggregatesInput[]
+    NOT?: TaskScalarWhereWithAggregatesInput | TaskScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Task"> | string
+    title?: StringWithAggregatesFilter<"Task"> | string
+    completed?: BoolWithAggregatesFilter<"Task"> | boolean
+    priority?: EnumpriorityEnumWithAggregatesFilter<"Task"> | $Enums.priorityEnum
+    dueDate?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
+    userId?: StringWithAggregatesFilter<"Task"> | string
+    workspaceId?: StringWithAggregatesFilter<"Task"> | string
+    parentTaskId?: StringNullableWithAggregatesFilter<"Task"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
   }
 
   export type TagWhereInput = {
@@ -19505,7 +19505,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Tag"> | Date | string
     updatedAt?: DateTimeFilter<"Tag"> | Date | string
     workspaceId?: StringFilter<"Tag"> | string
-    tasks?: TasksListRelationFilter
+    tasks?: TaskListRelationFilter
     workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
   }
 
@@ -19516,7 +19516,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     workspaceId?: SortOrder
-    tasks?: TasksOrderByRelationAggregateInput
+    tasks?: TaskOrderByRelationAggregateInput
     workspace?: WorkspaceOrderByWithRelationInput
   }
 
@@ -19530,7 +19530,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Tag"> | Date | string
     updatedAt?: DateTimeFilter<"Tag"> | Date | string
     workspaceId?: StringFilter<"Tag"> | string
-    tasks?: TasksListRelationFilter
+    tasks?: TaskListRelationFilter
     workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
   }, "id" | "name">
 
@@ -19558,26 +19558,26 @@ export namespace Prisma {
     workspaceId?: StringWithAggregatesFilter<"Tag"> | string
   }
 
-  export type AttachmentsWhereInput = {
-    AND?: AttachmentsWhereInput | AttachmentsWhereInput[]
-    OR?: AttachmentsWhereInput[]
-    NOT?: AttachmentsWhereInput | AttachmentsWhereInput[]
-    id?: StringFilter<"Attachments"> | string
-    url?: StringFilter<"Attachments"> | string
-    filename?: StringFilter<"Attachments"> | string
-    attachmentType?: EnumAttachmentTypeEnumFilter<"Attachments"> | $Enums.AttachmentTypeEnum
-    mimeType?: StringFilter<"Attachments"> | string
-    fileSize?: IntFilter<"Attachments"> | number
-    taskId?: StringNullableFilter<"Attachments"> | string | null
-    userId?: StringFilter<"Attachments"> | string
-    taskVersionId?: StringNullableFilter<"Attachments"> | string | null
-    createdAt?: DateTimeFilter<"Attachments"> | Date | string
-    task?: XOR<TasksNullableScalarRelationFilter, TasksWhereInput> | null
+  export type AttachmentWhereInput = {
+    AND?: AttachmentWhereInput | AttachmentWhereInput[]
+    OR?: AttachmentWhereInput[]
+    NOT?: AttachmentWhereInput | AttachmentWhereInput[]
+    id?: StringFilter<"Attachment"> | string
+    url?: StringFilter<"Attachment"> | string
+    filename?: StringFilter<"Attachment"> | string
+    attachmentType?: EnumAttachmentTypeEnumFilter<"Attachment"> | $Enums.AttachmentTypeEnum
+    mimeType?: StringFilter<"Attachment"> | string
+    fileSize?: IntFilter<"Attachment"> | number
+    taskId?: StringNullableFilter<"Attachment"> | string | null
+    userId?: StringFilter<"Attachment"> | string
+    taskVersionId?: StringNullableFilter<"Attachment"> | string | null
+    createdAt?: DateTimeFilter<"Attachment"> | Date | string
+    task?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     taskVersion?: XOR<TaskVersionNullableScalarRelationFilter, TaskVersionWhereInput> | null
   }
 
-  export type AttachmentsOrderByWithRelationInput = {
+  export type AttachmentOrderByWithRelationInput = {
     id?: SortOrder
     url?: SortOrder
     filename?: SortOrder
@@ -19588,31 +19588,31 @@ export namespace Prisma {
     userId?: SortOrder
     taskVersionId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
-    task?: TasksOrderByWithRelationInput
+    task?: TaskOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
     taskVersion?: TaskVersionOrderByWithRelationInput
   }
 
-  export type AttachmentsWhereUniqueInput = Prisma.AtLeast<{
+  export type AttachmentWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: AttachmentsWhereInput | AttachmentsWhereInput[]
-    OR?: AttachmentsWhereInput[]
-    NOT?: AttachmentsWhereInput | AttachmentsWhereInput[]
-    url?: StringFilter<"Attachments"> | string
-    filename?: StringFilter<"Attachments"> | string
-    attachmentType?: EnumAttachmentTypeEnumFilter<"Attachments"> | $Enums.AttachmentTypeEnum
-    mimeType?: StringFilter<"Attachments"> | string
-    fileSize?: IntFilter<"Attachments"> | number
-    taskId?: StringNullableFilter<"Attachments"> | string | null
-    userId?: StringFilter<"Attachments"> | string
-    taskVersionId?: StringNullableFilter<"Attachments"> | string | null
-    createdAt?: DateTimeFilter<"Attachments"> | Date | string
-    task?: XOR<TasksNullableScalarRelationFilter, TasksWhereInput> | null
+    AND?: AttachmentWhereInput | AttachmentWhereInput[]
+    OR?: AttachmentWhereInput[]
+    NOT?: AttachmentWhereInput | AttachmentWhereInput[]
+    url?: StringFilter<"Attachment"> | string
+    filename?: StringFilter<"Attachment"> | string
+    attachmentType?: EnumAttachmentTypeEnumFilter<"Attachment"> | $Enums.AttachmentTypeEnum
+    mimeType?: StringFilter<"Attachment"> | string
+    fileSize?: IntFilter<"Attachment"> | number
+    taskId?: StringNullableFilter<"Attachment"> | string | null
+    userId?: StringFilter<"Attachment"> | string
+    taskVersionId?: StringNullableFilter<"Attachment"> | string | null
+    createdAt?: DateTimeFilter<"Attachment"> | Date | string
+    task?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     taskVersion?: XOR<TaskVersionNullableScalarRelationFilter, TaskVersionWhereInput> | null
   }, "id">
 
-  export type AttachmentsOrderByWithAggregationInput = {
+  export type AttachmentOrderByWithAggregationInput = {
     id?: SortOrder
     url?: SortOrder
     filename?: SortOrder
@@ -19623,27 +19623,27 @@ export namespace Prisma {
     userId?: SortOrder
     taskVersionId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
-    _count?: AttachmentsCountOrderByAggregateInput
-    _avg?: AttachmentsAvgOrderByAggregateInput
-    _max?: AttachmentsMaxOrderByAggregateInput
-    _min?: AttachmentsMinOrderByAggregateInput
-    _sum?: AttachmentsSumOrderByAggregateInput
+    _count?: AttachmentCountOrderByAggregateInput
+    _avg?: AttachmentAvgOrderByAggregateInput
+    _max?: AttachmentMaxOrderByAggregateInput
+    _min?: AttachmentMinOrderByAggregateInput
+    _sum?: AttachmentSumOrderByAggregateInput
   }
 
-  export type AttachmentsScalarWhereWithAggregatesInput = {
-    AND?: AttachmentsScalarWhereWithAggregatesInput | AttachmentsScalarWhereWithAggregatesInput[]
-    OR?: AttachmentsScalarWhereWithAggregatesInput[]
-    NOT?: AttachmentsScalarWhereWithAggregatesInput | AttachmentsScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Attachments"> | string
-    url?: StringWithAggregatesFilter<"Attachments"> | string
-    filename?: StringWithAggregatesFilter<"Attachments"> | string
-    attachmentType?: EnumAttachmentTypeEnumWithAggregatesFilter<"Attachments"> | $Enums.AttachmentTypeEnum
-    mimeType?: StringWithAggregatesFilter<"Attachments"> | string
-    fileSize?: IntWithAggregatesFilter<"Attachments"> | number
-    taskId?: StringNullableWithAggregatesFilter<"Attachments"> | string | null
-    userId?: StringWithAggregatesFilter<"Attachments"> | string
-    taskVersionId?: StringNullableWithAggregatesFilter<"Attachments"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"Attachments"> | Date | string
+  export type AttachmentScalarWhereWithAggregatesInput = {
+    AND?: AttachmentScalarWhereWithAggregatesInput | AttachmentScalarWhereWithAggregatesInput[]
+    OR?: AttachmentScalarWhereWithAggregatesInput[]
+    NOT?: AttachmentScalarWhereWithAggregatesInput | AttachmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Attachment"> | string
+    url?: StringWithAggregatesFilter<"Attachment"> | string
+    filename?: StringWithAggregatesFilter<"Attachment"> | string
+    attachmentType?: EnumAttachmentTypeEnumWithAggregatesFilter<"Attachment"> | $Enums.AttachmentTypeEnum
+    mimeType?: StringWithAggregatesFilter<"Attachment"> | string
+    fileSize?: IntWithAggregatesFilter<"Attachment"> | number
+    taskId?: StringNullableWithAggregatesFilter<"Attachment"> | string | null
+    userId?: StringWithAggregatesFilter<"Attachment"> | string
+    taskVersionId?: StringNullableWithAggregatesFilter<"Attachment"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Attachment"> | Date | string
   }
 
   export type TaskVersionWhereInput = {
@@ -19655,8 +19655,8 @@ export namespace Prisma {
     version?: IntFilter<"TaskVersion"> | number
     description?: StringFilter<"TaskVersion"> | string
     createdAt?: DateTimeFilter<"TaskVersion"> | Date | string
-    task?: XOR<TasksScalarRelationFilter, TasksWhereInput>
-    attachments?: AttachmentsListRelationFilter
+    task?: XOR<TaskScalarRelationFilter, TaskWhereInput>
+    attachments?: AttachmentListRelationFilter
   }
 
   export type TaskVersionOrderByWithRelationInput = {
@@ -19665,8 +19665,8 @@ export namespace Prisma {
     version?: SortOrder
     description?: SortOrder
     createdAt?: SortOrder
-    task?: TasksOrderByWithRelationInput
-    attachments?: AttachmentsOrderByRelationAggregateInput
+    task?: TaskOrderByWithRelationInput
+    attachments?: AttachmentOrderByRelationAggregateInput
   }
 
   export type TaskVersionWhereUniqueInput = Prisma.AtLeast<{
@@ -19679,8 +19679,8 @@ export namespace Prisma {
     version?: IntFilter<"TaskVersion"> | number
     description?: StringFilter<"TaskVersion"> | string
     createdAt?: DateTimeFilter<"TaskVersion"> | Date | string
-    task?: XOR<TasksScalarRelationFilter, TasksWhereInput>
-    attachments?: AttachmentsListRelationFilter
+    task?: XOR<TaskScalarRelationFilter, TaskWhereInput>
+    attachments?: AttachmentListRelationFilter
   }, "id" | "taskId_version">
 
   export type TaskVersionOrderByWithAggregationInput = {
@@ -19916,7 +19916,7 @@ export namespace Prisma {
     action?: StringFilter<"ActivityLog"> | string
     createdAt?: DateTimeFilter<"ActivityLog"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    tasks?: XOR<TasksNullableScalarRelationFilter, TasksWhereInput> | null
+    tasks?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
   }
 
   export type ActivityLogOrderByWithRelationInput = {
@@ -19926,7 +19926,7 @@ export namespace Prisma {
     action?: SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
-    tasks?: TasksOrderByWithRelationInput
+    tasks?: TaskOrderByWithRelationInput
   }
 
   export type ActivityLogWhereUniqueInput = Prisma.AtLeast<{
@@ -19939,7 +19939,7 @@ export namespace Prisma {
     action?: StringFilter<"ActivityLog"> | string
     createdAt?: DateTimeFilter<"ActivityLog"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    tasks?: XOR<TasksNullableScalarRelationFilter, TasksWhereInput> | null
+    tasks?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
   }, "id">
 
   export type ActivityLogOrderByWithAggregationInput = {
@@ -19974,7 +19974,7 @@ export namespace Prisma {
     taskId?: StringFilter<"Comment"> | string
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    task?: XOR<TasksScalarRelationFilter, TasksWhereInput>
+    task?: XOR<TaskScalarRelationFilter, TaskWhereInput>
   }
 
   export type CommentOrderByWithRelationInput = {
@@ -19984,7 +19984,7 @@ export namespace Prisma {
     taskId?: SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
-    task?: TasksOrderByWithRelationInput
+    task?: TaskOrderByWithRelationInput
   }
 
   export type CommentWhereUniqueInput = Prisma.AtLeast<{
@@ -19997,7 +19997,7 @@ export namespace Prisma {
     taskId?: StringFilter<"Comment"> | string
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    task?: XOR<TasksScalarRelationFilter, TasksWhereInput>
+    task?: XOR<TaskScalarRelationFilter, TaskWhereInput>
   }, "id">
 
   export type CommentOrderByWithAggregationInput = {
@@ -20036,17 +20036,17 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceCreateNestedManyWithoutUserInput
-    notification?: NotificationCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogCreateNestedManyWithoutUserInput
-    comment?: CommentCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -20063,17 +20063,17 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksUncheckedCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
-    notification?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
-    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -20090,17 +20090,17 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUpdateManyWithoutUserNestedInput
-    notification?: NotificationUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUpdateManyWithoutUserNestedInput
-    comment?: CommentUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -20117,17 +20117,17 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUncheckedUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
-    notification?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -20386,7 +20386,7 @@ export namespace Prisma {
     isPro?: boolean
     subscriptionEndsAt?: Date | string | null
     users?: UserCreateNestedManyWithoutWorkspacesInput
-    tasks?: TasksCreateNestedManyWithoutWorkspaceInput
+    tasks?: TaskCreateNestedManyWithoutWorkspaceInput
     owner: UserCreateNestedOneWithoutOwnedWorkspacesInput
     members?: WorkspaceMemberCreateNestedManyWithoutWorkspaceInput
     tags?: TagCreateNestedManyWithoutWorkspaceInput
@@ -20407,7 +20407,7 @@ export namespace Prisma {
     subscriptionEndsAt?: Date | string | null
     ownerId: string
     users?: UserUncheckedCreateNestedManyWithoutWorkspacesInput
-    tasks?: TasksUncheckedCreateNestedManyWithoutWorkspaceInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutWorkspaceInput
     members?: WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput
     tags?: TagUncheckedCreateNestedManyWithoutWorkspaceInput
   }
@@ -20426,7 +20426,7 @@ export namespace Prisma {
     isPro?: BoolFieldUpdateOperationsInput | boolean
     subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     users?: UserUpdateManyWithoutWorkspacesNestedInput
-    tasks?: TasksUpdateManyWithoutWorkspaceNestedInput
+    tasks?: TaskUpdateManyWithoutWorkspaceNestedInput
     owner?: UserUpdateOneRequiredWithoutOwnedWorkspacesNestedInput
     members?: WorkspaceMemberUpdateManyWithoutWorkspaceNestedInput
     tags?: TagUpdateManyWithoutWorkspaceNestedInput
@@ -20447,7 +20447,7 @@ export namespace Prisma {
     subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ownerId?: StringFieldUpdateOperationsInput | string
     users?: UserUncheckedUpdateManyWithoutWorkspacesNestedInput
-    tasks?: TasksUncheckedUpdateManyWithoutWorkspaceNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutWorkspaceNestedInput
     members?: WorkspaceMemberUncheckedUpdateManyWithoutWorkspaceNestedInput
     tags?: TagUncheckedUpdateManyWithoutWorkspaceNestedInput
   }
@@ -20499,7 +20499,7 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type TasksCreateInput = {
+  export type TaskCreateInput = {
     id?: string
     title: string
     completed?: boolean
@@ -20509,16 +20509,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
     workspace: WorkspaceCreateNestedOneWithoutTasksInput
-    parentTask?: TasksCreateNestedOneWithoutSubtasksInput
-    subtasks?: TasksCreateNestedManyWithoutParentTaskInput
+    parentTask?: TaskCreateNestedOneWithoutSubtasksInput
+    subtasks?: TaskCreateNestedManyWithoutParentTaskInput
     tags?: TagCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogCreateNestedManyWithoutTasksInput
     comment?: CommentCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksUncheckedCreateInput = {
+  export type TaskUncheckedCreateInput = {
     id?: string
     title: string
     completed?: boolean
@@ -20529,15 +20529,15 @@ export namespace Prisma {
     parentTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    subtasks?: TasksUncheckedCreateNestedManyWithoutParentTaskInput
+    subtasks?: TaskUncheckedCreateNestedManyWithoutParentTaskInput
     tags?: TagUncheckedCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionUncheckedCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogUncheckedCreateNestedManyWithoutTasksInput
     comment?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksUpdateInput = {
+  export type TaskUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -20547,16 +20547,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
     workspace?: WorkspaceUpdateOneRequiredWithoutTasksNestedInput
-    parentTask?: TasksUpdateOneWithoutSubtasksNestedInput
-    subtasks?: TasksUpdateManyWithoutParentTaskNestedInput
+    parentTask?: TaskUpdateOneWithoutSubtasksNestedInput
+    subtasks?: TaskUpdateManyWithoutParentTaskNestedInput
     tags?: TagUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUpdateManyWithoutTasksNestedInput
     comment?: CommentUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateInput = {
+  export type TaskUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -20567,15 +20567,15 @@ export namespace Prisma {
     parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subtasks?: TasksUncheckedUpdateManyWithoutParentTaskNestedInput
+    subtasks?: TaskUncheckedUpdateManyWithoutParentTaskNestedInput
     tags?: TagUncheckedUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUncheckedUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUncheckedUpdateManyWithoutTasksNestedInput
     comment?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksCreateManyInput = {
+  export type TaskCreateManyInput = {
     id?: string
     title: string
     completed?: boolean
@@ -20588,7 +20588,7 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type TasksUpdateManyMutationInput = {
+  export type TaskUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -20598,7 +20598,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TasksUncheckedUpdateManyInput = {
+  export type TaskUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -20617,7 +20617,7 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    tasks?: TasksCreateNestedManyWithoutTagsInput
+    tasks?: TaskCreateNestedManyWithoutTagsInput
     workspace: WorkspaceCreateNestedOneWithoutTagsInput
   }
 
@@ -20628,7 +20628,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     workspaceId: string
-    tasks?: TasksUncheckedCreateNestedManyWithoutTagsInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTagsInput
   }
 
   export type TagUpdateInput = {
@@ -20637,7 +20637,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tasks?: TasksUpdateManyWithoutTagsNestedInput
+    tasks?: TaskUpdateManyWithoutTagsNestedInput
     workspace?: WorkspaceUpdateOneRequiredWithoutTagsNestedInput
   }
 
@@ -20648,7 +20648,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaceId?: StringFieldUpdateOperationsInput | string
-    tasks?: TasksUncheckedUpdateManyWithoutTagsNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTagsNestedInput
   }
 
   export type TagCreateManyInput = {
@@ -20677,7 +20677,7 @@ export namespace Prisma {
     workspaceId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type AttachmentsCreateInput = {
+  export type AttachmentCreateInput = {
     id?: string
     url: string
     filename: string
@@ -20685,12 +20685,12 @@ export namespace Prisma {
     mimeType: string
     fileSize: number
     createdAt?: Date | string
-    task?: TasksCreateNestedOneWithoutAttachmentsInput
+    task?: TaskCreateNestedOneWithoutAttachmentsInput
     user: UserCreateNestedOneWithoutAttachmentsInput
     taskVersion?: TaskVersionCreateNestedOneWithoutAttachmentsInput
   }
 
-  export type AttachmentsUncheckedCreateInput = {
+  export type AttachmentUncheckedCreateInput = {
     id?: string
     url: string
     filename: string
@@ -20703,7 +20703,7 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type AttachmentsUpdateInput = {
+  export type AttachmentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
@@ -20711,12 +20711,12 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    task?: TasksUpdateOneWithoutAttachmentsNestedInput
+    task?: TaskUpdateOneWithoutAttachmentsNestedInput
     user?: UserUpdateOneRequiredWithoutAttachmentsNestedInput
     taskVersion?: TaskVersionUpdateOneWithoutAttachmentsNestedInput
   }
 
-  export type AttachmentsUncheckedUpdateInput = {
+  export type AttachmentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
@@ -20729,7 +20729,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttachmentsCreateManyInput = {
+  export type AttachmentCreateManyInput = {
     id?: string
     url: string
     filename: string
@@ -20742,7 +20742,7 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type AttachmentsUpdateManyMutationInput = {
+  export type AttachmentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
@@ -20752,7 +20752,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttachmentsUncheckedUpdateManyInput = {
+  export type AttachmentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
@@ -20770,8 +20770,8 @@ export namespace Prisma {
     version?: number
     description: string
     createdAt?: Date | string
-    task: TasksCreateNestedOneWithoutTaskVersionsInput
-    attachments?: AttachmentsCreateNestedManyWithoutTaskVersionInput
+    task: TaskCreateNestedOneWithoutTaskVersionsInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskVersionInput
   }
 
   export type TaskVersionUncheckedCreateInput = {
@@ -20780,7 +20780,7 @@ export namespace Prisma {
     version?: number
     description: string
     createdAt?: Date | string
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutTaskVersionInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskVersionInput
   }
 
   export type TaskVersionUpdateInput = {
@@ -20788,8 +20788,8 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    task?: TasksUpdateOneRequiredWithoutTaskVersionsNestedInput
-    attachments?: AttachmentsUpdateManyWithoutTaskVersionNestedInput
+    task?: TaskUpdateOneRequiredWithoutTaskVersionsNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskVersionNestedInput
   }
 
   export type TaskVersionUncheckedUpdateInput = {
@@ -20798,7 +20798,7 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attachments?: AttachmentsUncheckedUpdateManyWithoutTaskVersionNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskVersionNestedInput
   }
 
   export type TaskVersionCreateManyInput = {
@@ -20894,7 +20894,7 @@ export namespace Prisma {
     language?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutUserPreferenceInput
+    user: UserCreateNestedOneWithoutUserPreferencesInput
   }
 
   export type UserPreferenceUncheckedCreateInput = {
@@ -20918,7 +20918,7 @@ export namespace Prisma {
     language?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutUserPreferenceNestedInput
+    user?: UserUpdateOneRequiredWithoutUserPreferencesNestedInput
   }
 
   export type UserPreferenceUncheckedUpdateInput = {
@@ -20974,7 +20974,7 @@ export namespace Prisma {
     body: string
     read?: boolean
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutNotificationInput
+    user: UserCreateNestedOneWithoutNotificationsInput
   }
 
   export type NotificationUncheckedCreateInput = {
@@ -20992,7 +20992,7 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     read?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutNotificationNestedInput
+    user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
   }
 
   export type NotificationUncheckedUpdateInput = {
@@ -21034,8 +21034,8 @@ export namespace Prisma {
     id?: string
     action: string
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutActivityLogInput
-    tasks?: TasksCreateNestedOneWithoutActivityLogInput
+    user: UserCreateNestedOneWithoutActivityLogsInput
+    tasks?: TaskCreateNestedOneWithoutActivityLogInput
   }
 
   export type ActivityLogUncheckedCreateInput = {
@@ -21050,8 +21050,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutActivityLogNestedInput
-    tasks?: TasksUpdateOneWithoutActivityLogNestedInput
+    user?: UserUpdateOneRequiredWithoutActivityLogsNestedInput
+    tasks?: TaskUpdateOneWithoutActivityLogNestedInput
   }
 
   export type ActivityLogUncheckedUpdateInput = {
@@ -21088,8 +21088,8 @@ export namespace Prisma {
     id?: string
     content: string
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutCommentInput
-    task: TasksCreateNestedOneWithoutCommentInput
+    user: UserCreateNestedOneWithoutCommentsInput
+    task: TaskCreateNestedOneWithoutCommentInput
   }
 
   export type CommentUncheckedCreateInput = {
@@ -21104,8 +21104,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutCommentNestedInput
-    task?: TasksUpdateOneRequiredWithoutCommentNestedInput
+    user?: UserUpdateOneRequiredWithoutCommentsNestedInput
+    task?: TaskUpdateOneRequiredWithoutCommentNestedInput
   }
 
   export type CommentUncheckedUpdateInput = {
@@ -21195,16 +21195,16 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type TasksListRelationFilter = {
-    every?: TasksWhereInput
-    some?: TasksWhereInput
-    none?: TasksWhereInput
+  export type TaskListRelationFilter = {
+    every?: TaskWhereInput
+    some?: TaskWhereInput
+    none?: TaskWhereInput
   }
 
-  export type AttachmentsListRelationFilter = {
-    every?: AttachmentsWhereInput
-    some?: AttachmentsWhereInput
-    none?: AttachmentsWhereInput
+  export type AttachmentListRelationFilter = {
+    every?: AttachmentWhereInput
+    some?: AttachmentWhereInput
+    none?: AttachmentWhereInput
   }
 
   export type WorkspaceListRelationFilter = {
@@ -21260,11 +21260,11 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
-  export type TasksOrderByRelationAggregateInput = {
+  export type TaskOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type AttachmentsOrderByRelationAggregateInput = {
+  export type AttachmentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21686,9 +21686,9 @@ export namespace Prisma {
     isNot?: WorkspaceWhereInput
   }
 
-  export type TasksNullableScalarRelationFilter = {
-    is?: TasksWhereInput | null
-    isNot?: TasksWhereInput | null
+  export type TaskNullableScalarRelationFilter = {
+    is?: TaskWhereInput | null
+    isNot?: TaskWhereInput | null
   }
 
   export type TaskVersionListRelationFilter = {
@@ -21701,7 +21701,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type TasksCountOrderByAggregateInput = {
+  export type TaskCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     completed?: SortOrder
@@ -21714,7 +21714,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type TasksMaxOrderByAggregateInput = {
+  export type TaskMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     completed?: SortOrder
@@ -21727,7 +21727,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type TasksMinOrderByAggregateInput = {
+  export type TaskMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     completed?: SortOrder
@@ -21789,7 +21789,7 @@ export namespace Prisma {
     isNot?: TaskVersionWhereInput | null
   }
 
-  export type AttachmentsCountOrderByAggregateInput = {
+  export type AttachmentCountOrderByAggregateInput = {
     id?: SortOrder
     url?: SortOrder
     filename?: SortOrder
@@ -21802,11 +21802,11 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type AttachmentsAvgOrderByAggregateInput = {
+  export type AttachmentAvgOrderByAggregateInput = {
     fileSize?: SortOrder
   }
 
-  export type AttachmentsMaxOrderByAggregateInput = {
+  export type AttachmentMaxOrderByAggregateInput = {
     id?: SortOrder
     url?: SortOrder
     filename?: SortOrder
@@ -21819,7 +21819,7 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type AttachmentsMinOrderByAggregateInput = {
+  export type AttachmentMinOrderByAggregateInput = {
     id?: SortOrder
     url?: SortOrder
     filename?: SortOrder
@@ -21832,7 +21832,7 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type AttachmentsSumOrderByAggregateInput = {
+  export type AttachmentSumOrderByAggregateInput = {
     fileSize?: SortOrder
   }
 
@@ -21846,9 +21846,9 @@ export namespace Prisma {
     _max?: NestedEnumAttachmentTypeEnumFilter<$PrismaModel>
   }
 
-  export type TasksScalarRelationFilter = {
-    is?: TasksWhereInput
-    isNot?: TasksWhereInput
+  export type TaskScalarRelationFilter = {
+    is?: TaskWhereInput
+    isNot?: TaskWhereInput
   }
 
   export type TaskVersionTaskIdVersionCompoundUniqueInput = {
@@ -22082,18 +22082,18 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type TasksCreateNestedManyWithoutUserInput = {
-    create?: XOR<TasksCreateWithoutUserInput, TasksUncheckedCreateWithoutUserInput> | TasksCreateWithoutUserInput[] | TasksUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutUserInput | TasksCreateOrConnectWithoutUserInput[]
-    createMany?: TasksCreateManyUserInputEnvelope
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
+  export type TaskCreateNestedManyWithoutUserInput = {
+    create?: XOR<TaskCreateWithoutUserInput, TaskUncheckedCreateWithoutUserInput> | TaskCreateWithoutUserInput[] | TaskUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutUserInput | TaskCreateOrConnectWithoutUserInput[]
+    createMany?: TaskCreateManyUserInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
-  export type AttachmentsCreateNestedManyWithoutUserInput = {
-    create?: XOR<AttachmentsCreateWithoutUserInput, AttachmentsUncheckedCreateWithoutUserInput> | AttachmentsCreateWithoutUserInput[] | AttachmentsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AttachmentsCreateOrConnectWithoutUserInput | AttachmentsCreateOrConnectWithoutUserInput[]
-    createMany?: AttachmentsCreateManyUserInputEnvelope
-    connect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
+  export type AttachmentCreateNestedManyWithoutUserInput = {
+    create?: XOR<AttachmentCreateWithoutUserInput, AttachmentUncheckedCreateWithoutUserInput> | AttachmentCreateWithoutUserInput[] | AttachmentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutUserInput | AttachmentCreateOrConnectWithoutUserInput[]
+    createMany?: AttachmentCreateManyUserInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
   export type WorkspaceCreateNestedManyWithoutUsersInput = {
@@ -22158,18 +22158,18 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
-  export type TasksUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<TasksCreateWithoutUserInput, TasksUncheckedCreateWithoutUserInput> | TasksCreateWithoutUserInput[] | TasksUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutUserInput | TasksCreateOrConnectWithoutUserInput[]
-    createMany?: TasksCreateManyUserInputEnvelope
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
+  export type TaskUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TaskCreateWithoutUserInput, TaskUncheckedCreateWithoutUserInput> | TaskCreateWithoutUserInput[] | TaskUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutUserInput | TaskCreateOrConnectWithoutUserInput[]
+    createMany?: TaskCreateManyUserInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
-  export type AttachmentsUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<AttachmentsCreateWithoutUserInput, AttachmentsUncheckedCreateWithoutUserInput> | AttachmentsCreateWithoutUserInput[] | AttachmentsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AttachmentsCreateOrConnectWithoutUserInput | AttachmentsCreateOrConnectWithoutUserInput[]
-    createMany?: AttachmentsCreateManyUserInputEnvelope
-    connect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
+  export type AttachmentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AttachmentCreateWithoutUserInput, AttachmentUncheckedCreateWithoutUserInput> | AttachmentCreateWithoutUserInput[] | AttachmentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutUserInput | AttachmentCreateOrConnectWithoutUserInput[]
+    createMany?: AttachmentCreateManyUserInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
   export type WorkspaceUncheckedCreateNestedManyWithoutUsersInput = {
@@ -22254,32 +22254,32 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type TasksUpdateManyWithoutUserNestedInput = {
-    create?: XOR<TasksCreateWithoutUserInput, TasksUncheckedCreateWithoutUserInput> | TasksCreateWithoutUserInput[] | TasksUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutUserInput | TasksCreateOrConnectWithoutUserInput[]
-    upsert?: TasksUpsertWithWhereUniqueWithoutUserInput | TasksUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: TasksCreateManyUserInputEnvelope
-    set?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    disconnect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    delete?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    update?: TasksUpdateWithWhereUniqueWithoutUserInput | TasksUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: TasksUpdateManyWithWhereWithoutUserInput | TasksUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: TasksScalarWhereInput | TasksScalarWhereInput[]
+  export type TaskUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TaskCreateWithoutUserInput, TaskUncheckedCreateWithoutUserInput> | TaskCreateWithoutUserInput[] | TaskUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutUserInput | TaskCreateOrConnectWithoutUserInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutUserInput | TaskUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TaskCreateManyUserInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutUserInput | TaskUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutUserInput | TaskUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
-  export type AttachmentsUpdateManyWithoutUserNestedInput = {
-    create?: XOR<AttachmentsCreateWithoutUserInput, AttachmentsUncheckedCreateWithoutUserInput> | AttachmentsCreateWithoutUserInput[] | AttachmentsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AttachmentsCreateOrConnectWithoutUserInput | AttachmentsCreateOrConnectWithoutUserInput[]
-    upsert?: AttachmentsUpsertWithWhereUniqueWithoutUserInput | AttachmentsUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: AttachmentsCreateManyUserInputEnvelope
-    set?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    disconnect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    delete?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    connect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    update?: AttachmentsUpdateWithWhereUniqueWithoutUserInput | AttachmentsUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: AttachmentsUpdateManyWithWhereWithoutUserInput | AttachmentsUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: AttachmentsScalarWhereInput | AttachmentsScalarWhereInput[]
+  export type AttachmentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AttachmentCreateWithoutUserInput, AttachmentUncheckedCreateWithoutUserInput> | AttachmentCreateWithoutUserInput[] | AttachmentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutUserInput | AttachmentCreateOrConnectWithoutUserInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutUserInput | AttachmentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AttachmentCreateManyUserInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutUserInput | AttachmentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutUserInput | AttachmentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
   }
 
   export type WorkspaceUpdateManyWithoutUsersNestedInput = {
@@ -22407,32 +22407,32 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
-  export type TasksUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<TasksCreateWithoutUserInput, TasksUncheckedCreateWithoutUserInput> | TasksCreateWithoutUserInput[] | TasksUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutUserInput | TasksCreateOrConnectWithoutUserInput[]
-    upsert?: TasksUpsertWithWhereUniqueWithoutUserInput | TasksUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: TasksCreateManyUserInputEnvelope
-    set?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    disconnect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    delete?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    update?: TasksUpdateWithWhereUniqueWithoutUserInput | TasksUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: TasksUpdateManyWithWhereWithoutUserInput | TasksUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: TasksScalarWhereInput | TasksScalarWhereInput[]
+  export type TaskUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TaskCreateWithoutUserInput, TaskUncheckedCreateWithoutUserInput> | TaskCreateWithoutUserInput[] | TaskUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutUserInput | TaskCreateOrConnectWithoutUserInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutUserInput | TaskUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TaskCreateManyUserInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutUserInput | TaskUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutUserInput | TaskUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
-  export type AttachmentsUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<AttachmentsCreateWithoutUserInput, AttachmentsUncheckedCreateWithoutUserInput> | AttachmentsCreateWithoutUserInput[] | AttachmentsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AttachmentsCreateOrConnectWithoutUserInput | AttachmentsCreateOrConnectWithoutUserInput[]
-    upsert?: AttachmentsUpsertWithWhereUniqueWithoutUserInput | AttachmentsUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: AttachmentsCreateManyUserInputEnvelope
-    set?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    disconnect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    delete?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    connect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    update?: AttachmentsUpdateWithWhereUniqueWithoutUserInput | AttachmentsUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: AttachmentsUpdateManyWithWhereWithoutUserInput | AttachmentsUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: AttachmentsScalarWhereInput | AttachmentsScalarWhereInput[]
+  export type AttachmentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AttachmentCreateWithoutUserInput, AttachmentUncheckedCreateWithoutUserInput> | AttachmentCreateWithoutUserInput[] | AttachmentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutUserInput | AttachmentCreateOrConnectWithoutUserInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutUserInput | AttachmentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AttachmentCreateManyUserInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutUserInput | AttachmentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutUserInput | AttachmentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
   }
 
   export type WorkspaceUncheckedUpdateManyWithoutUsersNestedInput = {
@@ -22602,11 +22602,11 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
-  export type TasksCreateNestedManyWithoutWorkspaceInput = {
-    create?: XOR<TasksCreateWithoutWorkspaceInput, TasksUncheckedCreateWithoutWorkspaceInput> | TasksCreateWithoutWorkspaceInput[] | TasksUncheckedCreateWithoutWorkspaceInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutWorkspaceInput | TasksCreateOrConnectWithoutWorkspaceInput[]
-    createMany?: TasksCreateManyWorkspaceInputEnvelope
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
+  export type TaskCreateNestedManyWithoutWorkspaceInput = {
+    create?: XOR<TaskCreateWithoutWorkspaceInput, TaskUncheckedCreateWithoutWorkspaceInput> | TaskCreateWithoutWorkspaceInput[] | TaskUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutWorkspaceInput | TaskCreateOrConnectWithoutWorkspaceInput[]
+    createMany?: TaskCreateManyWorkspaceInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
   export type UserCreateNestedOneWithoutOwnedWorkspacesInput = {
@@ -22635,11 +22635,11 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
-  export type TasksUncheckedCreateNestedManyWithoutWorkspaceInput = {
-    create?: XOR<TasksCreateWithoutWorkspaceInput, TasksUncheckedCreateWithoutWorkspaceInput> | TasksCreateWithoutWorkspaceInput[] | TasksUncheckedCreateWithoutWorkspaceInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutWorkspaceInput | TasksCreateOrConnectWithoutWorkspaceInput[]
-    createMany?: TasksCreateManyWorkspaceInputEnvelope
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
+  export type TaskUncheckedCreateNestedManyWithoutWorkspaceInput = {
+    create?: XOR<TaskCreateWithoutWorkspaceInput, TaskUncheckedCreateWithoutWorkspaceInput> | TaskCreateWithoutWorkspaceInput[] | TaskUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutWorkspaceInput | TaskCreateOrConnectWithoutWorkspaceInput[]
+    createMany?: TaskCreateManyWorkspaceInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
   export type WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput = {
@@ -22681,18 +22681,18 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
-  export type TasksUpdateManyWithoutWorkspaceNestedInput = {
-    create?: XOR<TasksCreateWithoutWorkspaceInput, TasksUncheckedCreateWithoutWorkspaceInput> | TasksCreateWithoutWorkspaceInput[] | TasksUncheckedCreateWithoutWorkspaceInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutWorkspaceInput | TasksCreateOrConnectWithoutWorkspaceInput[]
-    upsert?: TasksUpsertWithWhereUniqueWithoutWorkspaceInput | TasksUpsertWithWhereUniqueWithoutWorkspaceInput[]
-    createMany?: TasksCreateManyWorkspaceInputEnvelope
-    set?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    disconnect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    delete?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    update?: TasksUpdateWithWhereUniqueWithoutWorkspaceInput | TasksUpdateWithWhereUniqueWithoutWorkspaceInput[]
-    updateMany?: TasksUpdateManyWithWhereWithoutWorkspaceInput | TasksUpdateManyWithWhereWithoutWorkspaceInput[]
-    deleteMany?: TasksScalarWhereInput | TasksScalarWhereInput[]
+  export type TaskUpdateManyWithoutWorkspaceNestedInput = {
+    create?: XOR<TaskCreateWithoutWorkspaceInput, TaskUncheckedCreateWithoutWorkspaceInput> | TaskCreateWithoutWorkspaceInput[] | TaskUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutWorkspaceInput | TaskCreateOrConnectWithoutWorkspaceInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutWorkspaceInput | TaskUpsertWithWhereUniqueWithoutWorkspaceInput[]
+    createMany?: TaskCreateManyWorkspaceInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutWorkspaceInput | TaskUpdateWithWhereUniqueWithoutWorkspaceInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutWorkspaceInput | TaskUpdateManyWithWhereWithoutWorkspaceInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
   export type UserUpdateOneRequiredWithoutOwnedWorkspacesNestedInput = {
@@ -22744,18 +22744,18 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
-  export type TasksUncheckedUpdateManyWithoutWorkspaceNestedInput = {
-    create?: XOR<TasksCreateWithoutWorkspaceInput, TasksUncheckedCreateWithoutWorkspaceInput> | TasksCreateWithoutWorkspaceInput[] | TasksUncheckedCreateWithoutWorkspaceInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutWorkspaceInput | TasksCreateOrConnectWithoutWorkspaceInput[]
-    upsert?: TasksUpsertWithWhereUniqueWithoutWorkspaceInput | TasksUpsertWithWhereUniqueWithoutWorkspaceInput[]
-    createMany?: TasksCreateManyWorkspaceInputEnvelope
-    set?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    disconnect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    delete?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    update?: TasksUpdateWithWhereUniqueWithoutWorkspaceInput | TasksUpdateWithWhereUniqueWithoutWorkspaceInput[]
-    updateMany?: TasksUpdateManyWithWhereWithoutWorkspaceInput | TasksUpdateManyWithWhereWithoutWorkspaceInput[]
-    deleteMany?: TasksScalarWhereInput | TasksScalarWhereInput[]
+  export type TaskUncheckedUpdateManyWithoutWorkspaceNestedInput = {
+    create?: XOR<TaskCreateWithoutWorkspaceInput, TaskUncheckedCreateWithoutWorkspaceInput> | TaskCreateWithoutWorkspaceInput[] | TaskUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutWorkspaceInput | TaskCreateOrConnectWithoutWorkspaceInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutWorkspaceInput | TaskUpsertWithWhereUniqueWithoutWorkspaceInput[]
+    createMany?: TaskCreateManyWorkspaceInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutWorkspaceInput | TaskUpdateWithWhereUniqueWithoutWorkspaceInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutWorkspaceInput | TaskUpdateManyWithWhereWithoutWorkspaceInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
   export type WorkspaceMemberUncheckedUpdateManyWithoutWorkspaceNestedInput = {
@@ -22798,17 +22798,17 @@ export namespace Prisma {
     connect?: WorkspaceWhereUniqueInput
   }
 
-  export type TasksCreateNestedOneWithoutSubtasksInput = {
-    create?: XOR<TasksCreateWithoutSubtasksInput, TasksUncheckedCreateWithoutSubtasksInput>
-    connectOrCreate?: TasksCreateOrConnectWithoutSubtasksInput
-    connect?: TasksWhereUniqueInput
+  export type TaskCreateNestedOneWithoutSubtasksInput = {
+    create?: XOR<TaskCreateWithoutSubtasksInput, TaskUncheckedCreateWithoutSubtasksInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutSubtasksInput
+    connect?: TaskWhereUniqueInput
   }
 
-  export type TasksCreateNestedManyWithoutParentTaskInput = {
-    create?: XOR<TasksCreateWithoutParentTaskInput, TasksUncheckedCreateWithoutParentTaskInput> | TasksCreateWithoutParentTaskInput[] | TasksUncheckedCreateWithoutParentTaskInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutParentTaskInput | TasksCreateOrConnectWithoutParentTaskInput[]
-    createMany?: TasksCreateManyParentTaskInputEnvelope
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
+  export type TaskCreateNestedManyWithoutParentTaskInput = {
+    create?: XOR<TaskCreateWithoutParentTaskInput, TaskUncheckedCreateWithoutParentTaskInput> | TaskCreateWithoutParentTaskInput[] | TaskUncheckedCreateWithoutParentTaskInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutParentTaskInput | TaskCreateOrConnectWithoutParentTaskInput[]
+    createMany?: TaskCreateManyParentTaskInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
   export type TagCreateNestedManyWithoutTasksInput = {
@@ -22824,11 +22824,11 @@ export namespace Prisma {
     connect?: TaskVersionWhereUniqueInput | TaskVersionWhereUniqueInput[]
   }
 
-  export type AttachmentsCreateNestedManyWithoutTaskInput = {
-    create?: XOR<AttachmentsCreateWithoutTaskInput, AttachmentsUncheckedCreateWithoutTaskInput> | AttachmentsCreateWithoutTaskInput[] | AttachmentsUncheckedCreateWithoutTaskInput[]
-    connectOrCreate?: AttachmentsCreateOrConnectWithoutTaskInput | AttachmentsCreateOrConnectWithoutTaskInput[]
-    createMany?: AttachmentsCreateManyTaskInputEnvelope
-    connect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
+  export type AttachmentCreateNestedManyWithoutTaskInput = {
+    create?: XOR<AttachmentCreateWithoutTaskInput, AttachmentUncheckedCreateWithoutTaskInput> | AttachmentCreateWithoutTaskInput[] | AttachmentUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutTaskInput | AttachmentCreateOrConnectWithoutTaskInput[]
+    createMany?: AttachmentCreateManyTaskInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
   export type ActivityLogCreateNestedManyWithoutTasksInput = {
@@ -22845,11 +22845,11 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
-  export type TasksUncheckedCreateNestedManyWithoutParentTaskInput = {
-    create?: XOR<TasksCreateWithoutParentTaskInput, TasksUncheckedCreateWithoutParentTaskInput> | TasksCreateWithoutParentTaskInput[] | TasksUncheckedCreateWithoutParentTaskInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutParentTaskInput | TasksCreateOrConnectWithoutParentTaskInput[]
-    createMany?: TasksCreateManyParentTaskInputEnvelope
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
+  export type TaskUncheckedCreateNestedManyWithoutParentTaskInput = {
+    create?: XOR<TaskCreateWithoutParentTaskInput, TaskUncheckedCreateWithoutParentTaskInput> | TaskCreateWithoutParentTaskInput[] | TaskUncheckedCreateWithoutParentTaskInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutParentTaskInput | TaskCreateOrConnectWithoutParentTaskInput[]
+    createMany?: TaskCreateManyParentTaskInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
   export type TagUncheckedCreateNestedManyWithoutTasksInput = {
@@ -22865,11 +22865,11 @@ export namespace Prisma {
     connect?: TaskVersionWhereUniqueInput | TaskVersionWhereUniqueInput[]
   }
 
-  export type AttachmentsUncheckedCreateNestedManyWithoutTaskInput = {
-    create?: XOR<AttachmentsCreateWithoutTaskInput, AttachmentsUncheckedCreateWithoutTaskInput> | AttachmentsCreateWithoutTaskInput[] | AttachmentsUncheckedCreateWithoutTaskInput[]
-    connectOrCreate?: AttachmentsCreateOrConnectWithoutTaskInput | AttachmentsCreateOrConnectWithoutTaskInput[]
-    createMany?: AttachmentsCreateManyTaskInputEnvelope
-    connect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
+  export type AttachmentUncheckedCreateNestedManyWithoutTaskInput = {
+    create?: XOR<AttachmentCreateWithoutTaskInput, AttachmentUncheckedCreateWithoutTaskInput> | AttachmentCreateWithoutTaskInput[] | AttachmentUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutTaskInput | AttachmentCreateOrConnectWithoutTaskInput[]
+    createMany?: AttachmentCreateManyTaskInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
   export type ActivityLogUncheckedCreateNestedManyWithoutTasksInput = {
@@ -22906,28 +22906,28 @@ export namespace Prisma {
     update?: XOR<XOR<WorkspaceUpdateToOneWithWhereWithoutTasksInput, WorkspaceUpdateWithoutTasksInput>, WorkspaceUncheckedUpdateWithoutTasksInput>
   }
 
-  export type TasksUpdateOneWithoutSubtasksNestedInput = {
-    create?: XOR<TasksCreateWithoutSubtasksInput, TasksUncheckedCreateWithoutSubtasksInput>
-    connectOrCreate?: TasksCreateOrConnectWithoutSubtasksInput
-    upsert?: TasksUpsertWithoutSubtasksInput
-    disconnect?: TasksWhereInput | boolean
-    delete?: TasksWhereInput | boolean
-    connect?: TasksWhereUniqueInput
-    update?: XOR<XOR<TasksUpdateToOneWithWhereWithoutSubtasksInput, TasksUpdateWithoutSubtasksInput>, TasksUncheckedUpdateWithoutSubtasksInput>
+  export type TaskUpdateOneWithoutSubtasksNestedInput = {
+    create?: XOR<TaskCreateWithoutSubtasksInput, TaskUncheckedCreateWithoutSubtasksInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutSubtasksInput
+    upsert?: TaskUpsertWithoutSubtasksInput
+    disconnect?: TaskWhereInput | boolean
+    delete?: TaskWhereInput | boolean
+    connect?: TaskWhereUniqueInput
+    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutSubtasksInput, TaskUpdateWithoutSubtasksInput>, TaskUncheckedUpdateWithoutSubtasksInput>
   }
 
-  export type TasksUpdateManyWithoutParentTaskNestedInput = {
-    create?: XOR<TasksCreateWithoutParentTaskInput, TasksUncheckedCreateWithoutParentTaskInput> | TasksCreateWithoutParentTaskInput[] | TasksUncheckedCreateWithoutParentTaskInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutParentTaskInput | TasksCreateOrConnectWithoutParentTaskInput[]
-    upsert?: TasksUpsertWithWhereUniqueWithoutParentTaskInput | TasksUpsertWithWhereUniqueWithoutParentTaskInput[]
-    createMany?: TasksCreateManyParentTaskInputEnvelope
-    set?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    disconnect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    delete?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    update?: TasksUpdateWithWhereUniqueWithoutParentTaskInput | TasksUpdateWithWhereUniqueWithoutParentTaskInput[]
-    updateMany?: TasksUpdateManyWithWhereWithoutParentTaskInput | TasksUpdateManyWithWhereWithoutParentTaskInput[]
-    deleteMany?: TasksScalarWhereInput | TasksScalarWhereInput[]
+  export type TaskUpdateManyWithoutParentTaskNestedInput = {
+    create?: XOR<TaskCreateWithoutParentTaskInput, TaskUncheckedCreateWithoutParentTaskInput> | TaskCreateWithoutParentTaskInput[] | TaskUncheckedCreateWithoutParentTaskInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutParentTaskInput | TaskCreateOrConnectWithoutParentTaskInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutParentTaskInput | TaskUpsertWithWhereUniqueWithoutParentTaskInput[]
+    createMany?: TaskCreateManyParentTaskInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutParentTaskInput | TaskUpdateWithWhereUniqueWithoutParentTaskInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutParentTaskInput | TaskUpdateManyWithWhereWithoutParentTaskInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
   export type TagUpdateManyWithoutTasksNestedInput = {
@@ -22957,18 +22957,18 @@ export namespace Prisma {
     deleteMany?: TaskVersionScalarWhereInput | TaskVersionScalarWhereInput[]
   }
 
-  export type AttachmentsUpdateManyWithoutTaskNestedInput = {
-    create?: XOR<AttachmentsCreateWithoutTaskInput, AttachmentsUncheckedCreateWithoutTaskInput> | AttachmentsCreateWithoutTaskInput[] | AttachmentsUncheckedCreateWithoutTaskInput[]
-    connectOrCreate?: AttachmentsCreateOrConnectWithoutTaskInput | AttachmentsCreateOrConnectWithoutTaskInput[]
-    upsert?: AttachmentsUpsertWithWhereUniqueWithoutTaskInput | AttachmentsUpsertWithWhereUniqueWithoutTaskInput[]
-    createMany?: AttachmentsCreateManyTaskInputEnvelope
-    set?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    disconnect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    delete?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    connect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    update?: AttachmentsUpdateWithWhereUniqueWithoutTaskInput | AttachmentsUpdateWithWhereUniqueWithoutTaskInput[]
-    updateMany?: AttachmentsUpdateManyWithWhereWithoutTaskInput | AttachmentsUpdateManyWithWhereWithoutTaskInput[]
-    deleteMany?: AttachmentsScalarWhereInput | AttachmentsScalarWhereInput[]
+  export type AttachmentUpdateManyWithoutTaskNestedInput = {
+    create?: XOR<AttachmentCreateWithoutTaskInput, AttachmentUncheckedCreateWithoutTaskInput> | AttachmentCreateWithoutTaskInput[] | AttachmentUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutTaskInput | AttachmentCreateOrConnectWithoutTaskInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutTaskInput | AttachmentUpsertWithWhereUniqueWithoutTaskInput[]
+    createMany?: AttachmentCreateManyTaskInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutTaskInput | AttachmentUpdateWithWhereUniqueWithoutTaskInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutTaskInput | AttachmentUpdateManyWithWhereWithoutTaskInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
   }
 
   export type ActivityLogUpdateManyWithoutTasksNestedInput = {
@@ -22999,18 +22999,18 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
-  export type TasksUncheckedUpdateManyWithoutParentTaskNestedInput = {
-    create?: XOR<TasksCreateWithoutParentTaskInput, TasksUncheckedCreateWithoutParentTaskInput> | TasksCreateWithoutParentTaskInput[] | TasksUncheckedCreateWithoutParentTaskInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutParentTaskInput | TasksCreateOrConnectWithoutParentTaskInput[]
-    upsert?: TasksUpsertWithWhereUniqueWithoutParentTaskInput | TasksUpsertWithWhereUniqueWithoutParentTaskInput[]
-    createMany?: TasksCreateManyParentTaskInputEnvelope
-    set?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    disconnect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    delete?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    update?: TasksUpdateWithWhereUniqueWithoutParentTaskInput | TasksUpdateWithWhereUniqueWithoutParentTaskInput[]
-    updateMany?: TasksUpdateManyWithWhereWithoutParentTaskInput | TasksUpdateManyWithWhereWithoutParentTaskInput[]
-    deleteMany?: TasksScalarWhereInput | TasksScalarWhereInput[]
+  export type TaskUncheckedUpdateManyWithoutParentTaskNestedInput = {
+    create?: XOR<TaskCreateWithoutParentTaskInput, TaskUncheckedCreateWithoutParentTaskInput> | TaskCreateWithoutParentTaskInput[] | TaskUncheckedCreateWithoutParentTaskInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutParentTaskInput | TaskCreateOrConnectWithoutParentTaskInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutParentTaskInput | TaskUpsertWithWhereUniqueWithoutParentTaskInput[]
+    createMany?: TaskCreateManyParentTaskInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutParentTaskInput | TaskUpdateWithWhereUniqueWithoutParentTaskInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutParentTaskInput | TaskUpdateManyWithWhereWithoutParentTaskInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
   export type TagUncheckedUpdateManyWithoutTasksNestedInput = {
@@ -23040,18 +23040,18 @@ export namespace Prisma {
     deleteMany?: TaskVersionScalarWhereInput | TaskVersionScalarWhereInput[]
   }
 
-  export type AttachmentsUncheckedUpdateManyWithoutTaskNestedInput = {
-    create?: XOR<AttachmentsCreateWithoutTaskInput, AttachmentsUncheckedCreateWithoutTaskInput> | AttachmentsCreateWithoutTaskInput[] | AttachmentsUncheckedCreateWithoutTaskInput[]
-    connectOrCreate?: AttachmentsCreateOrConnectWithoutTaskInput | AttachmentsCreateOrConnectWithoutTaskInput[]
-    upsert?: AttachmentsUpsertWithWhereUniqueWithoutTaskInput | AttachmentsUpsertWithWhereUniqueWithoutTaskInput[]
-    createMany?: AttachmentsCreateManyTaskInputEnvelope
-    set?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    disconnect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    delete?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    connect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    update?: AttachmentsUpdateWithWhereUniqueWithoutTaskInput | AttachmentsUpdateWithWhereUniqueWithoutTaskInput[]
-    updateMany?: AttachmentsUpdateManyWithWhereWithoutTaskInput | AttachmentsUpdateManyWithWhereWithoutTaskInput[]
-    deleteMany?: AttachmentsScalarWhereInput | AttachmentsScalarWhereInput[]
+  export type AttachmentUncheckedUpdateManyWithoutTaskNestedInput = {
+    create?: XOR<AttachmentCreateWithoutTaskInput, AttachmentUncheckedCreateWithoutTaskInput> | AttachmentCreateWithoutTaskInput[] | AttachmentUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutTaskInput | AttachmentCreateOrConnectWithoutTaskInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutTaskInput | AttachmentUpsertWithWhereUniqueWithoutTaskInput[]
+    createMany?: AttachmentCreateManyTaskInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutTaskInput | AttachmentUpdateWithWhereUniqueWithoutTaskInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutTaskInput | AttachmentUpdateManyWithWhereWithoutTaskInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
   }
 
   export type ActivityLogUncheckedUpdateManyWithoutTasksNestedInput = {
@@ -23082,10 +23082,10 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
-  export type TasksCreateNestedManyWithoutTagsInput = {
-    create?: XOR<TasksCreateWithoutTagsInput, TasksUncheckedCreateWithoutTagsInput> | TasksCreateWithoutTagsInput[] | TasksUncheckedCreateWithoutTagsInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutTagsInput | TasksCreateOrConnectWithoutTagsInput[]
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
+  export type TaskCreateNestedManyWithoutTagsInput = {
+    create?: XOR<TaskCreateWithoutTagsInput, TaskUncheckedCreateWithoutTagsInput> | TaskCreateWithoutTagsInput[] | TaskUncheckedCreateWithoutTagsInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutTagsInput | TaskCreateOrConnectWithoutTagsInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
   export type WorkspaceCreateNestedOneWithoutTagsInput = {
@@ -23094,23 +23094,23 @@ export namespace Prisma {
     connect?: WorkspaceWhereUniqueInput
   }
 
-  export type TasksUncheckedCreateNestedManyWithoutTagsInput = {
-    create?: XOR<TasksCreateWithoutTagsInput, TasksUncheckedCreateWithoutTagsInput> | TasksCreateWithoutTagsInput[] | TasksUncheckedCreateWithoutTagsInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutTagsInput | TasksCreateOrConnectWithoutTagsInput[]
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
+  export type TaskUncheckedCreateNestedManyWithoutTagsInput = {
+    create?: XOR<TaskCreateWithoutTagsInput, TaskUncheckedCreateWithoutTagsInput> | TaskCreateWithoutTagsInput[] | TaskUncheckedCreateWithoutTagsInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutTagsInput | TaskCreateOrConnectWithoutTagsInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
-  export type TasksUpdateManyWithoutTagsNestedInput = {
-    create?: XOR<TasksCreateWithoutTagsInput, TasksUncheckedCreateWithoutTagsInput> | TasksCreateWithoutTagsInput[] | TasksUncheckedCreateWithoutTagsInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutTagsInput | TasksCreateOrConnectWithoutTagsInput[]
-    upsert?: TasksUpsertWithWhereUniqueWithoutTagsInput | TasksUpsertWithWhereUniqueWithoutTagsInput[]
-    set?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    disconnect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    delete?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    update?: TasksUpdateWithWhereUniqueWithoutTagsInput | TasksUpdateWithWhereUniqueWithoutTagsInput[]
-    updateMany?: TasksUpdateManyWithWhereWithoutTagsInput | TasksUpdateManyWithWhereWithoutTagsInput[]
-    deleteMany?: TasksScalarWhereInput | TasksScalarWhereInput[]
+  export type TaskUpdateManyWithoutTagsNestedInput = {
+    create?: XOR<TaskCreateWithoutTagsInput, TaskUncheckedCreateWithoutTagsInput> | TaskCreateWithoutTagsInput[] | TaskUncheckedCreateWithoutTagsInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutTagsInput | TaskCreateOrConnectWithoutTagsInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutTagsInput | TaskUpsertWithWhereUniqueWithoutTagsInput[]
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutTagsInput | TaskUpdateWithWhereUniqueWithoutTagsInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutTagsInput | TaskUpdateManyWithWhereWithoutTagsInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
   export type WorkspaceUpdateOneRequiredWithoutTagsNestedInput = {
@@ -23121,23 +23121,23 @@ export namespace Prisma {
     update?: XOR<XOR<WorkspaceUpdateToOneWithWhereWithoutTagsInput, WorkspaceUpdateWithoutTagsInput>, WorkspaceUncheckedUpdateWithoutTagsInput>
   }
 
-  export type TasksUncheckedUpdateManyWithoutTagsNestedInput = {
-    create?: XOR<TasksCreateWithoutTagsInput, TasksUncheckedCreateWithoutTagsInput> | TasksCreateWithoutTagsInput[] | TasksUncheckedCreateWithoutTagsInput[]
-    connectOrCreate?: TasksCreateOrConnectWithoutTagsInput | TasksCreateOrConnectWithoutTagsInput[]
-    upsert?: TasksUpsertWithWhereUniqueWithoutTagsInput | TasksUpsertWithWhereUniqueWithoutTagsInput[]
-    set?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    disconnect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    delete?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    connect?: TasksWhereUniqueInput | TasksWhereUniqueInput[]
-    update?: TasksUpdateWithWhereUniqueWithoutTagsInput | TasksUpdateWithWhereUniqueWithoutTagsInput[]
-    updateMany?: TasksUpdateManyWithWhereWithoutTagsInput | TasksUpdateManyWithWhereWithoutTagsInput[]
-    deleteMany?: TasksScalarWhereInput | TasksScalarWhereInput[]
+  export type TaskUncheckedUpdateManyWithoutTagsNestedInput = {
+    create?: XOR<TaskCreateWithoutTagsInput, TaskUncheckedCreateWithoutTagsInput> | TaskCreateWithoutTagsInput[] | TaskUncheckedCreateWithoutTagsInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutTagsInput | TaskCreateOrConnectWithoutTagsInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutTagsInput | TaskUpsertWithWhereUniqueWithoutTagsInput[]
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutTagsInput | TaskUpdateWithWhereUniqueWithoutTagsInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutTagsInput | TaskUpdateManyWithWhereWithoutTagsInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
-  export type TasksCreateNestedOneWithoutAttachmentsInput = {
-    create?: XOR<TasksCreateWithoutAttachmentsInput, TasksUncheckedCreateWithoutAttachmentsInput>
-    connectOrCreate?: TasksCreateOrConnectWithoutAttachmentsInput
-    connect?: TasksWhereUniqueInput
+  export type TaskCreateNestedOneWithoutAttachmentsInput = {
+    create?: XOR<TaskCreateWithoutAttachmentsInput, TaskUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutAttachmentsInput
+    connect?: TaskWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutAttachmentsInput = {
@@ -23156,14 +23156,14 @@ export namespace Prisma {
     set?: $Enums.AttachmentTypeEnum
   }
 
-  export type TasksUpdateOneWithoutAttachmentsNestedInput = {
-    create?: XOR<TasksCreateWithoutAttachmentsInput, TasksUncheckedCreateWithoutAttachmentsInput>
-    connectOrCreate?: TasksCreateOrConnectWithoutAttachmentsInput
-    upsert?: TasksUpsertWithoutAttachmentsInput
-    disconnect?: TasksWhereInput | boolean
-    delete?: TasksWhereInput | boolean
-    connect?: TasksWhereUniqueInput
-    update?: XOR<XOR<TasksUpdateToOneWithWhereWithoutAttachmentsInput, TasksUpdateWithoutAttachmentsInput>, TasksUncheckedUpdateWithoutAttachmentsInput>
+  export type TaskUpdateOneWithoutAttachmentsNestedInput = {
+    create?: XOR<TaskCreateWithoutAttachmentsInput, TaskUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutAttachmentsInput
+    upsert?: TaskUpsertWithoutAttachmentsInput
+    disconnect?: TaskWhereInput | boolean
+    delete?: TaskWhereInput | boolean
+    connect?: TaskWhereUniqueInput
+    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutAttachmentsInput, TaskUpdateWithoutAttachmentsInput>, TaskUncheckedUpdateWithoutAttachmentsInput>
   }
 
   export type UserUpdateOneRequiredWithoutAttachmentsNestedInput = {
@@ -23184,60 +23184,60 @@ export namespace Prisma {
     update?: XOR<XOR<TaskVersionUpdateToOneWithWhereWithoutAttachmentsInput, TaskVersionUpdateWithoutAttachmentsInput>, TaskVersionUncheckedUpdateWithoutAttachmentsInput>
   }
 
-  export type TasksCreateNestedOneWithoutTaskVersionsInput = {
-    create?: XOR<TasksCreateWithoutTaskVersionsInput, TasksUncheckedCreateWithoutTaskVersionsInput>
-    connectOrCreate?: TasksCreateOrConnectWithoutTaskVersionsInput
-    connect?: TasksWhereUniqueInput
+  export type TaskCreateNestedOneWithoutTaskVersionsInput = {
+    create?: XOR<TaskCreateWithoutTaskVersionsInput, TaskUncheckedCreateWithoutTaskVersionsInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutTaskVersionsInput
+    connect?: TaskWhereUniqueInput
   }
 
-  export type AttachmentsCreateNestedManyWithoutTaskVersionInput = {
-    create?: XOR<AttachmentsCreateWithoutTaskVersionInput, AttachmentsUncheckedCreateWithoutTaskVersionInput> | AttachmentsCreateWithoutTaskVersionInput[] | AttachmentsUncheckedCreateWithoutTaskVersionInput[]
-    connectOrCreate?: AttachmentsCreateOrConnectWithoutTaskVersionInput | AttachmentsCreateOrConnectWithoutTaskVersionInput[]
-    createMany?: AttachmentsCreateManyTaskVersionInputEnvelope
-    connect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
+  export type AttachmentCreateNestedManyWithoutTaskVersionInput = {
+    create?: XOR<AttachmentCreateWithoutTaskVersionInput, AttachmentUncheckedCreateWithoutTaskVersionInput> | AttachmentCreateWithoutTaskVersionInput[] | AttachmentUncheckedCreateWithoutTaskVersionInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutTaskVersionInput | AttachmentCreateOrConnectWithoutTaskVersionInput[]
+    createMany?: AttachmentCreateManyTaskVersionInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
-  export type AttachmentsUncheckedCreateNestedManyWithoutTaskVersionInput = {
-    create?: XOR<AttachmentsCreateWithoutTaskVersionInput, AttachmentsUncheckedCreateWithoutTaskVersionInput> | AttachmentsCreateWithoutTaskVersionInput[] | AttachmentsUncheckedCreateWithoutTaskVersionInput[]
-    connectOrCreate?: AttachmentsCreateOrConnectWithoutTaskVersionInput | AttachmentsCreateOrConnectWithoutTaskVersionInput[]
-    createMany?: AttachmentsCreateManyTaskVersionInputEnvelope
-    connect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
+  export type AttachmentUncheckedCreateNestedManyWithoutTaskVersionInput = {
+    create?: XOR<AttachmentCreateWithoutTaskVersionInput, AttachmentUncheckedCreateWithoutTaskVersionInput> | AttachmentCreateWithoutTaskVersionInput[] | AttachmentUncheckedCreateWithoutTaskVersionInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutTaskVersionInput | AttachmentCreateOrConnectWithoutTaskVersionInput[]
+    createMany?: AttachmentCreateManyTaskVersionInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
-  export type TasksUpdateOneRequiredWithoutTaskVersionsNestedInput = {
-    create?: XOR<TasksCreateWithoutTaskVersionsInput, TasksUncheckedCreateWithoutTaskVersionsInput>
-    connectOrCreate?: TasksCreateOrConnectWithoutTaskVersionsInput
-    upsert?: TasksUpsertWithoutTaskVersionsInput
-    connect?: TasksWhereUniqueInput
-    update?: XOR<XOR<TasksUpdateToOneWithWhereWithoutTaskVersionsInput, TasksUpdateWithoutTaskVersionsInput>, TasksUncheckedUpdateWithoutTaskVersionsInput>
+  export type TaskUpdateOneRequiredWithoutTaskVersionsNestedInput = {
+    create?: XOR<TaskCreateWithoutTaskVersionsInput, TaskUncheckedCreateWithoutTaskVersionsInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutTaskVersionsInput
+    upsert?: TaskUpsertWithoutTaskVersionsInput
+    connect?: TaskWhereUniqueInput
+    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutTaskVersionsInput, TaskUpdateWithoutTaskVersionsInput>, TaskUncheckedUpdateWithoutTaskVersionsInput>
   }
 
-  export type AttachmentsUpdateManyWithoutTaskVersionNestedInput = {
-    create?: XOR<AttachmentsCreateWithoutTaskVersionInput, AttachmentsUncheckedCreateWithoutTaskVersionInput> | AttachmentsCreateWithoutTaskVersionInput[] | AttachmentsUncheckedCreateWithoutTaskVersionInput[]
-    connectOrCreate?: AttachmentsCreateOrConnectWithoutTaskVersionInput | AttachmentsCreateOrConnectWithoutTaskVersionInput[]
-    upsert?: AttachmentsUpsertWithWhereUniqueWithoutTaskVersionInput | AttachmentsUpsertWithWhereUniqueWithoutTaskVersionInput[]
-    createMany?: AttachmentsCreateManyTaskVersionInputEnvelope
-    set?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    disconnect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    delete?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    connect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    update?: AttachmentsUpdateWithWhereUniqueWithoutTaskVersionInput | AttachmentsUpdateWithWhereUniqueWithoutTaskVersionInput[]
-    updateMany?: AttachmentsUpdateManyWithWhereWithoutTaskVersionInput | AttachmentsUpdateManyWithWhereWithoutTaskVersionInput[]
-    deleteMany?: AttachmentsScalarWhereInput | AttachmentsScalarWhereInput[]
+  export type AttachmentUpdateManyWithoutTaskVersionNestedInput = {
+    create?: XOR<AttachmentCreateWithoutTaskVersionInput, AttachmentUncheckedCreateWithoutTaskVersionInput> | AttachmentCreateWithoutTaskVersionInput[] | AttachmentUncheckedCreateWithoutTaskVersionInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutTaskVersionInput | AttachmentCreateOrConnectWithoutTaskVersionInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutTaskVersionInput | AttachmentUpsertWithWhereUniqueWithoutTaskVersionInput[]
+    createMany?: AttachmentCreateManyTaskVersionInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutTaskVersionInput | AttachmentUpdateWithWhereUniqueWithoutTaskVersionInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutTaskVersionInput | AttachmentUpdateManyWithWhereWithoutTaskVersionInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
   }
 
-  export type AttachmentsUncheckedUpdateManyWithoutTaskVersionNestedInput = {
-    create?: XOR<AttachmentsCreateWithoutTaskVersionInput, AttachmentsUncheckedCreateWithoutTaskVersionInput> | AttachmentsCreateWithoutTaskVersionInput[] | AttachmentsUncheckedCreateWithoutTaskVersionInput[]
-    connectOrCreate?: AttachmentsCreateOrConnectWithoutTaskVersionInput | AttachmentsCreateOrConnectWithoutTaskVersionInput[]
-    upsert?: AttachmentsUpsertWithWhereUniqueWithoutTaskVersionInput | AttachmentsUpsertWithWhereUniqueWithoutTaskVersionInput[]
-    createMany?: AttachmentsCreateManyTaskVersionInputEnvelope
-    set?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    disconnect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    delete?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    connect?: AttachmentsWhereUniqueInput | AttachmentsWhereUniqueInput[]
-    update?: AttachmentsUpdateWithWhereUniqueWithoutTaskVersionInput | AttachmentsUpdateWithWhereUniqueWithoutTaskVersionInput[]
-    updateMany?: AttachmentsUpdateManyWithWhereWithoutTaskVersionInput | AttachmentsUpdateManyWithWhereWithoutTaskVersionInput[]
-    deleteMany?: AttachmentsScalarWhereInput | AttachmentsScalarWhereInput[]
+  export type AttachmentUncheckedUpdateManyWithoutTaskVersionNestedInput = {
+    create?: XOR<AttachmentCreateWithoutTaskVersionInput, AttachmentUncheckedCreateWithoutTaskVersionInput> | AttachmentCreateWithoutTaskVersionInput[] | AttachmentUncheckedCreateWithoutTaskVersionInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutTaskVersionInput | AttachmentCreateOrConnectWithoutTaskVersionInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutTaskVersionInput | AttachmentUpsertWithWhereUniqueWithoutTaskVersionInput[]
+    createMany?: AttachmentCreateManyTaskVersionInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutTaskVersionInput | AttachmentUpdateWithWhereUniqueWithoutTaskVersionInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutTaskVersionInput | AttachmentUpdateManyWithWhereWithoutTaskVersionInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutWorkspaceMembershipsInput = {
@@ -23272,9 +23272,9 @@ export namespace Prisma {
     update?: XOR<XOR<WorkspaceUpdateToOneWithWhereWithoutMembersInput, WorkspaceUpdateWithoutMembersInput>, WorkspaceUncheckedUpdateWithoutMembersInput>
   }
 
-  export type UserCreateNestedOneWithoutUserPreferenceInput = {
-    create?: XOR<UserCreateWithoutUserPreferenceInput, UserUncheckedCreateWithoutUserPreferenceInput>
-    connectOrCreate?: UserCreateOrConnectWithoutUserPreferenceInput
+  export type UserCreateNestedOneWithoutUserPreferencesInput = {
+    create?: XOR<UserCreateWithoutUserPreferencesInput, UserUncheckedCreateWithoutUserPreferencesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserPreferencesInput
     connect?: UserWhereUniqueInput
   }
 
@@ -23286,84 +23286,84 @@ export namespace Prisma {
     set?: $Enums.ViewType
   }
 
-  export type UserUpdateOneRequiredWithoutUserPreferenceNestedInput = {
-    create?: XOR<UserCreateWithoutUserPreferenceInput, UserUncheckedCreateWithoutUserPreferenceInput>
-    connectOrCreate?: UserCreateOrConnectWithoutUserPreferenceInput
-    upsert?: UserUpsertWithoutUserPreferenceInput
+  export type UserUpdateOneRequiredWithoutUserPreferencesNestedInput = {
+    create?: XOR<UserCreateWithoutUserPreferencesInput, UserUncheckedCreateWithoutUserPreferencesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserPreferencesInput
+    upsert?: UserUpsertWithoutUserPreferencesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserPreferenceInput, UserUpdateWithoutUserPreferenceInput>, UserUncheckedUpdateWithoutUserPreferenceInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserPreferencesInput, UserUpdateWithoutUserPreferencesInput>, UserUncheckedUpdateWithoutUserPreferencesInput>
   }
 
-  export type UserCreateNestedOneWithoutNotificationInput = {
-    create?: XOR<UserCreateWithoutNotificationInput, UserUncheckedCreateWithoutNotificationInput>
-    connectOrCreate?: UserCreateOrConnectWithoutNotificationInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type UserUpdateOneRequiredWithoutNotificationNestedInput = {
-    create?: XOR<UserCreateWithoutNotificationInput, UserUncheckedCreateWithoutNotificationInput>
-    connectOrCreate?: UserCreateOrConnectWithoutNotificationInput
-    upsert?: UserUpsertWithoutNotificationInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationInput, UserUpdateWithoutNotificationInput>, UserUncheckedUpdateWithoutNotificationInput>
-  }
-
-  export type UserCreateNestedOneWithoutActivityLogInput = {
-    create?: XOR<UserCreateWithoutActivityLogInput, UserUncheckedCreateWithoutActivityLogInput>
-    connectOrCreate?: UserCreateOrConnectWithoutActivityLogInput
+  export type UserCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type TasksCreateNestedOneWithoutActivityLogInput = {
-    create?: XOR<TasksCreateWithoutActivityLogInput, TasksUncheckedCreateWithoutActivityLogInput>
-    connectOrCreate?: TasksCreateOrConnectWithoutActivityLogInput
-    connect?: TasksWhereUniqueInput
-  }
-
-  export type UserUpdateOneRequiredWithoutActivityLogNestedInput = {
-    create?: XOR<UserCreateWithoutActivityLogInput, UserUncheckedCreateWithoutActivityLogInput>
-    connectOrCreate?: UserCreateOrConnectWithoutActivityLogInput
-    upsert?: UserUpsertWithoutActivityLogInput
+  export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
+    upsert?: UserUpsertWithoutNotificationsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutActivityLogInput, UserUpdateWithoutActivityLogInput>, UserUncheckedUpdateWithoutActivityLogInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
   }
 
-  export type TasksUpdateOneWithoutActivityLogNestedInput = {
-    create?: XOR<TasksCreateWithoutActivityLogInput, TasksUncheckedCreateWithoutActivityLogInput>
-    connectOrCreate?: TasksCreateOrConnectWithoutActivityLogInput
-    upsert?: TasksUpsertWithoutActivityLogInput
-    disconnect?: TasksWhereInput | boolean
-    delete?: TasksWhereInput | boolean
-    connect?: TasksWhereUniqueInput
-    update?: XOR<XOR<TasksUpdateToOneWithWhereWithoutActivityLogInput, TasksUpdateWithoutActivityLogInput>, TasksUncheckedUpdateWithoutActivityLogInput>
-  }
-
-  export type UserCreateNestedOneWithoutCommentInput = {
-    create?: XOR<UserCreateWithoutCommentInput, UserUncheckedCreateWithoutCommentInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCommentInput
+  export type UserCreateNestedOneWithoutActivityLogsInput = {
+    create?: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivityLogsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type TasksCreateNestedOneWithoutCommentInput = {
-    create?: XOR<TasksCreateWithoutCommentInput, TasksUncheckedCreateWithoutCommentInput>
-    connectOrCreate?: TasksCreateOrConnectWithoutCommentInput
-    connect?: TasksWhereUniqueInput
+  export type TaskCreateNestedOneWithoutActivityLogInput = {
+    create?: XOR<TaskCreateWithoutActivityLogInput, TaskUncheckedCreateWithoutActivityLogInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutActivityLogInput
+    connect?: TaskWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutCommentNestedInput = {
-    create?: XOR<UserCreateWithoutCommentInput, UserUncheckedCreateWithoutCommentInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCommentInput
-    upsert?: UserUpsertWithoutCommentInput
+  export type UserUpdateOneRequiredWithoutActivityLogsNestedInput = {
+    create?: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivityLogsInput
+    upsert?: UserUpsertWithoutActivityLogsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommentInput, UserUpdateWithoutCommentInput>, UserUncheckedUpdateWithoutCommentInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutActivityLogsInput, UserUpdateWithoutActivityLogsInput>, UserUncheckedUpdateWithoutActivityLogsInput>
   }
 
-  export type TasksUpdateOneRequiredWithoutCommentNestedInput = {
-    create?: XOR<TasksCreateWithoutCommentInput, TasksUncheckedCreateWithoutCommentInput>
-    connectOrCreate?: TasksCreateOrConnectWithoutCommentInput
-    upsert?: TasksUpsertWithoutCommentInput
-    connect?: TasksWhereUniqueInput
-    update?: XOR<XOR<TasksUpdateToOneWithWhereWithoutCommentInput, TasksUpdateWithoutCommentInput>, TasksUncheckedUpdateWithoutCommentInput>
+  export type TaskUpdateOneWithoutActivityLogNestedInput = {
+    create?: XOR<TaskCreateWithoutActivityLogInput, TaskUncheckedCreateWithoutActivityLogInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutActivityLogInput
+    upsert?: TaskUpsertWithoutActivityLogInput
+    disconnect?: TaskWhereInput | boolean
+    delete?: TaskWhereInput | boolean
+    connect?: TaskWhereUniqueInput
+    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutActivityLogInput, TaskUpdateWithoutActivityLogInput>, TaskUncheckedUpdateWithoutActivityLogInput>
+  }
+
+  export type UserCreateNestedOneWithoutCommentsInput = {
+    create?: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TaskCreateNestedOneWithoutCommentInput = {
+    create?: XOR<TaskCreateWithoutCommentInput, TaskUncheckedCreateWithoutCommentInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutCommentInput
+    connect?: TaskWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
+    create?: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommentsInput
+    upsert?: UserUpsertWithoutCommentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommentsInput, UserUpdateWithoutCommentsInput>, UserUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type TaskUpdateOneRequiredWithoutCommentNestedInput = {
+    create?: XOR<TaskCreateWithoutCommentInput, TaskUncheckedCreateWithoutCommentInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutCommentInput
+    upsert?: TaskUpsertWithoutCommentInput
+    connect?: TaskWhereUniqueInput
+    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutCommentInput, TaskUpdateWithoutCommentInput>, TaskUncheckedUpdateWithoutCommentInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -23669,7 +23669,7 @@ export namespace Prisma {
     _max?: NestedEnumViewTypeFilter<$PrismaModel>
   }
 
-  export type TasksCreateWithoutUserInput = {
+  export type TaskCreateWithoutUserInput = {
     id?: string
     title: string
     completed?: boolean
@@ -23678,16 +23678,16 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     workspace: WorkspaceCreateNestedOneWithoutTasksInput
-    parentTask?: TasksCreateNestedOneWithoutSubtasksInput
-    subtasks?: TasksCreateNestedManyWithoutParentTaskInput
+    parentTask?: TaskCreateNestedOneWithoutSubtasksInput
+    subtasks?: TaskCreateNestedManyWithoutParentTaskInput
     tags?: TagCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogCreateNestedManyWithoutTasksInput
     comment?: CommentCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksUncheckedCreateWithoutUserInput = {
+  export type TaskUncheckedCreateWithoutUserInput = {
     id?: string
     title: string
     completed?: boolean
@@ -23697,25 +23697,25 @@ export namespace Prisma {
     parentTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    subtasks?: TasksUncheckedCreateNestedManyWithoutParentTaskInput
+    subtasks?: TaskUncheckedCreateNestedManyWithoutParentTaskInput
     tags?: TagUncheckedCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionUncheckedCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogUncheckedCreateNestedManyWithoutTasksInput
     comment?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksCreateOrConnectWithoutUserInput = {
-    where: TasksWhereUniqueInput
-    create: XOR<TasksCreateWithoutUserInput, TasksUncheckedCreateWithoutUserInput>
+  export type TaskCreateOrConnectWithoutUserInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutUserInput, TaskUncheckedCreateWithoutUserInput>
   }
 
-  export type TasksCreateManyUserInputEnvelope = {
-    data: TasksCreateManyUserInput | TasksCreateManyUserInput[]
+  export type TaskCreateManyUserInputEnvelope = {
+    data: TaskCreateManyUserInput | TaskCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
-  export type AttachmentsCreateWithoutUserInput = {
+  export type AttachmentCreateWithoutUserInput = {
     id?: string
     url: string
     filename: string
@@ -23723,11 +23723,11 @@ export namespace Prisma {
     mimeType: string
     fileSize: number
     createdAt?: Date | string
-    task?: TasksCreateNestedOneWithoutAttachmentsInput
+    task?: TaskCreateNestedOneWithoutAttachmentsInput
     taskVersion?: TaskVersionCreateNestedOneWithoutAttachmentsInput
   }
 
-  export type AttachmentsUncheckedCreateWithoutUserInput = {
+  export type AttachmentUncheckedCreateWithoutUserInput = {
     id?: string
     url: string
     filename: string
@@ -23739,13 +23739,13 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type AttachmentsCreateOrConnectWithoutUserInput = {
-    where: AttachmentsWhereUniqueInput
-    create: XOR<AttachmentsCreateWithoutUserInput, AttachmentsUncheckedCreateWithoutUserInput>
+  export type AttachmentCreateOrConnectWithoutUserInput = {
+    where: AttachmentWhereUniqueInput
+    create: XOR<AttachmentCreateWithoutUserInput, AttachmentUncheckedCreateWithoutUserInput>
   }
 
-  export type AttachmentsCreateManyUserInputEnvelope = {
-    data: AttachmentsCreateManyUserInput | AttachmentsCreateManyUserInput[]
+  export type AttachmentCreateManyUserInputEnvelope = {
+    data: AttachmentCreateManyUserInput | AttachmentCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -23762,7 +23762,7 @@ export namespace Prisma {
     organizationDomain?: string | null
     isPro?: boolean
     subscriptionEndsAt?: Date | string | null
-    tasks?: TasksCreateNestedManyWithoutWorkspaceInput
+    tasks?: TaskCreateNestedManyWithoutWorkspaceInput
     owner: UserCreateNestedOneWithoutOwnedWorkspacesInput
     members?: WorkspaceMemberCreateNestedManyWithoutWorkspaceInput
     tags?: TagCreateNestedManyWithoutWorkspaceInput
@@ -23782,7 +23782,7 @@ export namespace Prisma {
     isPro?: boolean
     subscriptionEndsAt?: Date | string | null
     ownerId: string
-    tasks?: TasksUncheckedCreateNestedManyWithoutWorkspaceInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutWorkspaceInput
     members?: WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput
     tags?: TagUncheckedCreateNestedManyWithoutWorkspaceInput
   }
@@ -23806,7 +23806,7 @@ export namespace Prisma {
     isPro?: boolean
     subscriptionEndsAt?: Date | string | null
     users?: UserCreateNestedManyWithoutWorkspacesInput
-    tasks?: TasksCreateNestedManyWithoutWorkspaceInput
+    tasks?: TaskCreateNestedManyWithoutWorkspaceInput
     members?: WorkspaceMemberCreateNestedManyWithoutWorkspaceInput
     tags?: TagCreateNestedManyWithoutWorkspaceInput
   }
@@ -23825,7 +23825,7 @@ export namespace Prisma {
     isPro?: boolean
     subscriptionEndsAt?: Date | string | null
     users?: UserUncheckedCreateNestedManyWithoutWorkspacesInput
-    tasks?: TasksUncheckedCreateNestedManyWithoutWorkspaceInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutWorkspaceInput
     members?: WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput
     tags?: TagUncheckedCreateNestedManyWithoutWorkspaceInput
   }
@@ -23988,7 +23988,7 @@ export namespace Prisma {
     id?: string
     action: string
     createdAt?: Date | string
-    tasks?: TasksCreateNestedOneWithoutActivityLogInput
+    tasks?: TaskCreateNestedOneWithoutActivityLogInput
   }
 
   export type ActivityLogUncheckedCreateWithoutUserInput = {
@@ -24012,7 +24012,7 @@ export namespace Prisma {
     id?: string
     content: string
     createdAt?: Date | string
-    task: TasksCreateNestedOneWithoutCommentInput
+    task: TaskCreateNestedOneWithoutCommentInput
   }
 
   export type CommentUncheckedCreateWithoutUserInput = {
@@ -24032,68 +24032,68 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type TasksUpsertWithWhereUniqueWithoutUserInput = {
-    where: TasksWhereUniqueInput
-    update: XOR<TasksUpdateWithoutUserInput, TasksUncheckedUpdateWithoutUserInput>
-    create: XOR<TasksCreateWithoutUserInput, TasksUncheckedCreateWithoutUserInput>
+  export type TaskUpsertWithWhereUniqueWithoutUserInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutUserInput, TaskUncheckedUpdateWithoutUserInput>
+    create: XOR<TaskCreateWithoutUserInput, TaskUncheckedCreateWithoutUserInput>
   }
 
-  export type TasksUpdateWithWhereUniqueWithoutUserInput = {
-    where: TasksWhereUniqueInput
-    data: XOR<TasksUpdateWithoutUserInput, TasksUncheckedUpdateWithoutUserInput>
+  export type TaskUpdateWithWhereUniqueWithoutUserInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutUserInput, TaskUncheckedUpdateWithoutUserInput>
   }
 
-  export type TasksUpdateManyWithWhereWithoutUserInput = {
-    where: TasksScalarWhereInput
-    data: XOR<TasksUpdateManyMutationInput, TasksUncheckedUpdateManyWithoutUserInput>
+  export type TaskUpdateManyWithWhereWithoutUserInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type TasksScalarWhereInput = {
-    AND?: TasksScalarWhereInput | TasksScalarWhereInput[]
-    OR?: TasksScalarWhereInput[]
-    NOT?: TasksScalarWhereInput | TasksScalarWhereInput[]
-    id?: StringFilter<"Tasks"> | string
-    title?: StringFilter<"Tasks"> | string
-    completed?: BoolFilter<"Tasks"> | boolean
-    priority?: EnumpriorityEnumFilter<"Tasks"> | $Enums.priorityEnum
-    dueDate?: DateTimeNullableFilter<"Tasks"> | Date | string | null
-    userId?: StringFilter<"Tasks"> | string
-    workspaceId?: StringFilter<"Tasks"> | string
-    parentTaskId?: StringNullableFilter<"Tasks"> | string | null
-    createdAt?: DateTimeFilter<"Tasks"> | Date | string
-    updatedAt?: DateTimeFilter<"Tasks"> | Date | string
+  export type TaskScalarWhereInput = {
+    AND?: TaskScalarWhereInput | TaskScalarWhereInput[]
+    OR?: TaskScalarWhereInput[]
+    NOT?: TaskScalarWhereInput | TaskScalarWhereInput[]
+    id?: StringFilter<"Task"> | string
+    title?: StringFilter<"Task"> | string
+    completed?: BoolFilter<"Task"> | boolean
+    priority?: EnumpriorityEnumFilter<"Task"> | $Enums.priorityEnum
+    dueDate?: DateTimeNullableFilter<"Task"> | Date | string | null
+    userId?: StringFilter<"Task"> | string
+    workspaceId?: StringFilter<"Task"> | string
+    parentTaskId?: StringNullableFilter<"Task"> | string | null
+    createdAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeFilter<"Task"> | Date | string
   }
 
-  export type AttachmentsUpsertWithWhereUniqueWithoutUserInput = {
-    where: AttachmentsWhereUniqueInput
-    update: XOR<AttachmentsUpdateWithoutUserInput, AttachmentsUncheckedUpdateWithoutUserInput>
-    create: XOR<AttachmentsCreateWithoutUserInput, AttachmentsUncheckedCreateWithoutUserInput>
+  export type AttachmentUpsertWithWhereUniqueWithoutUserInput = {
+    where: AttachmentWhereUniqueInput
+    update: XOR<AttachmentUpdateWithoutUserInput, AttachmentUncheckedUpdateWithoutUserInput>
+    create: XOR<AttachmentCreateWithoutUserInput, AttachmentUncheckedCreateWithoutUserInput>
   }
 
-  export type AttachmentsUpdateWithWhereUniqueWithoutUserInput = {
-    where: AttachmentsWhereUniqueInput
-    data: XOR<AttachmentsUpdateWithoutUserInput, AttachmentsUncheckedUpdateWithoutUserInput>
+  export type AttachmentUpdateWithWhereUniqueWithoutUserInput = {
+    where: AttachmentWhereUniqueInput
+    data: XOR<AttachmentUpdateWithoutUserInput, AttachmentUncheckedUpdateWithoutUserInput>
   }
 
-  export type AttachmentsUpdateManyWithWhereWithoutUserInput = {
-    where: AttachmentsScalarWhereInput
-    data: XOR<AttachmentsUpdateManyMutationInput, AttachmentsUncheckedUpdateManyWithoutUserInput>
+  export type AttachmentUpdateManyWithWhereWithoutUserInput = {
+    where: AttachmentScalarWhereInput
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type AttachmentsScalarWhereInput = {
-    AND?: AttachmentsScalarWhereInput | AttachmentsScalarWhereInput[]
-    OR?: AttachmentsScalarWhereInput[]
-    NOT?: AttachmentsScalarWhereInput | AttachmentsScalarWhereInput[]
-    id?: StringFilter<"Attachments"> | string
-    url?: StringFilter<"Attachments"> | string
-    filename?: StringFilter<"Attachments"> | string
-    attachmentType?: EnumAttachmentTypeEnumFilter<"Attachments"> | $Enums.AttachmentTypeEnum
-    mimeType?: StringFilter<"Attachments"> | string
-    fileSize?: IntFilter<"Attachments"> | number
-    taskId?: StringNullableFilter<"Attachments"> | string | null
-    userId?: StringFilter<"Attachments"> | string
-    taskVersionId?: StringNullableFilter<"Attachments"> | string | null
-    createdAt?: DateTimeFilter<"Attachments"> | Date | string
+  export type AttachmentScalarWhereInput = {
+    AND?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+    OR?: AttachmentScalarWhereInput[]
+    NOT?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+    id?: StringFilter<"Attachment"> | string
+    url?: StringFilter<"Attachment"> | string
+    filename?: StringFilter<"Attachment"> | string
+    attachmentType?: EnumAttachmentTypeEnumFilter<"Attachment"> | $Enums.AttachmentTypeEnum
+    mimeType?: StringFilter<"Attachment"> | string
+    fileSize?: IntFilter<"Attachment"> | number
+    taskId?: StringNullableFilter<"Attachment"> | string | null
+    userId?: StringFilter<"Attachment"> | string
+    taskVersionId?: StringNullableFilter<"Attachment"> | string | null
+    createdAt?: DateTimeFilter<"Attachment"> | Date | string
   }
 
   export type WorkspaceUpsertWithWhereUniqueWithoutUsersInput = {
@@ -24362,16 +24362,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceCreateNestedManyWithoutUserInput
-    notification?: NotificationCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogCreateNestedManyWithoutUserInput
-    comment?: CommentCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -24388,16 +24388,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksUncheckedCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
-    notification?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
-    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -24430,16 +24430,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUpdateManyWithoutUserNestedInput
-    notification?: NotificationUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUpdateManyWithoutUserNestedInput
-    comment?: CommentUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -24456,16 +24456,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUncheckedUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
-    notification?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -24482,16 +24482,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceCreateNestedManyWithoutUserInput
-    notification?: NotificationCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogCreateNestedManyWithoutUserInput
-    comment?: CommentCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -24508,16 +24508,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksUncheckedCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
-    notification?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
-    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -24550,16 +24550,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUpdateManyWithoutUserNestedInput
-    notification?: NotificationUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUpdateManyWithoutUserNestedInput
-    comment?: CommentUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -24576,16 +24576,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUncheckedUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
-    notification?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutWorkspacesInput = {
@@ -24602,16 +24602,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUserInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceCreateNestedManyWithoutUserInput
-    notification?: NotificationCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogCreateNestedManyWithoutUserInput
-    comment?: CommentCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutWorkspacesInput = {
@@ -24628,16 +24628,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksUncheckedCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
-    notification?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
-    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutWorkspacesInput = {
@@ -24645,7 +24645,7 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutWorkspacesInput, UserUncheckedCreateWithoutWorkspacesInput>
   }
 
-  export type TasksCreateWithoutWorkspaceInput = {
+  export type TaskCreateWithoutWorkspaceInput = {
     id?: string
     title: string
     completed?: boolean
@@ -24654,16 +24654,16 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
-    parentTask?: TasksCreateNestedOneWithoutSubtasksInput
-    subtasks?: TasksCreateNestedManyWithoutParentTaskInput
+    parentTask?: TaskCreateNestedOneWithoutSubtasksInput
+    subtasks?: TaskCreateNestedManyWithoutParentTaskInput
     tags?: TagCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogCreateNestedManyWithoutTasksInput
     comment?: CommentCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksUncheckedCreateWithoutWorkspaceInput = {
+  export type TaskUncheckedCreateWithoutWorkspaceInput = {
     id?: string
     title: string
     completed?: boolean
@@ -24673,21 +24673,21 @@ export namespace Prisma {
     parentTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    subtasks?: TasksUncheckedCreateNestedManyWithoutParentTaskInput
+    subtasks?: TaskUncheckedCreateNestedManyWithoutParentTaskInput
     tags?: TagUncheckedCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionUncheckedCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogUncheckedCreateNestedManyWithoutTasksInput
     comment?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksCreateOrConnectWithoutWorkspaceInput = {
-    where: TasksWhereUniqueInput
-    create: XOR<TasksCreateWithoutWorkspaceInput, TasksUncheckedCreateWithoutWorkspaceInput>
+  export type TaskCreateOrConnectWithoutWorkspaceInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutWorkspaceInput, TaskUncheckedCreateWithoutWorkspaceInput>
   }
 
-  export type TasksCreateManyWorkspaceInputEnvelope = {
-    data: TasksCreateManyWorkspaceInput | TasksCreateManyWorkspaceInput[]
+  export type TaskCreateManyWorkspaceInputEnvelope = {
+    data: TaskCreateManyWorkspaceInput | TaskCreateManyWorkspaceInput[]
     skipDuplicates?: boolean
   }
 
@@ -24705,16 +24705,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     workspaceMemberships?: WorkspaceMemberCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceCreateNestedManyWithoutUserInput
-    notification?: NotificationCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogCreateNestedManyWithoutUserInput
-    comment?: CommentCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOwnedWorkspacesInput = {
@@ -24731,16 +24731,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksUncheckedCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     workspaceMemberships?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
-    notification?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
-    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOwnedWorkspacesInput = {
@@ -24780,7 +24780,7 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    tasks?: TasksCreateNestedManyWithoutTagsInput
+    tasks?: TaskCreateNestedManyWithoutTagsInput
   }
 
   export type TagUncheckedCreateWithoutWorkspaceInput = {
@@ -24789,7 +24789,7 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    tasks?: TasksUncheckedCreateNestedManyWithoutTagsInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutTagsInput
   }
 
   export type TagCreateOrConnectWithoutWorkspaceInput = {
@@ -24837,20 +24837,20 @@ export namespace Prisma {
     isPro?: BoolFilter<"User"> | boolean
   }
 
-  export type TasksUpsertWithWhereUniqueWithoutWorkspaceInput = {
-    where: TasksWhereUniqueInput
-    update: XOR<TasksUpdateWithoutWorkspaceInput, TasksUncheckedUpdateWithoutWorkspaceInput>
-    create: XOR<TasksCreateWithoutWorkspaceInput, TasksUncheckedCreateWithoutWorkspaceInput>
+  export type TaskUpsertWithWhereUniqueWithoutWorkspaceInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutWorkspaceInput, TaskUncheckedUpdateWithoutWorkspaceInput>
+    create: XOR<TaskCreateWithoutWorkspaceInput, TaskUncheckedCreateWithoutWorkspaceInput>
   }
 
-  export type TasksUpdateWithWhereUniqueWithoutWorkspaceInput = {
-    where: TasksWhereUniqueInput
-    data: XOR<TasksUpdateWithoutWorkspaceInput, TasksUncheckedUpdateWithoutWorkspaceInput>
+  export type TaskUpdateWithWhereUniqueWithoutWorkspaceInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutWorkspaceInput, TaskUncheckedUpdateWithoutWorkspaceInput>
   }
 
-  export type TasksUpdateManyWithWhereWithoutWorkspaceInput = {
-    where: TasksScalarWhereInput
-    data: XOR<TasksUpdateManyMutationInput, TasksUncheckedUpdateManyWithoutWorkspaceInput>
+  export type TaskUpdateManyWithWhereWithoutWorkspaceInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutWorkspaceInput>
   }
 
   export type UserUpsertWithoutOwnedWorkspacesInput = {
@@ -24878,16 +24878,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     workspaceMemberships?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUpdateManyWithoutUserNestedInput
-    notification?: NotificationUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUpdateManyWithoutUserNestedInput
-    comment?: CommentUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnedWorkspacesInput = {
@@ -24904,16 +24904,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUncheckedUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     workspaceMemberships?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
-    notification?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WorkspaceMemberUpsertWithWhereUniqueWithoutWorkspaceInput = {
@@ -24974,16 +24974,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    attachments?: AttachmentsCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceCreateNestedManyWithoutUserInput
-    notification?: NotificationCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogCreateNestedManyWithoutUserInput
-    comment?: CommentCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksInput = {
@@ -25000,16 +25000,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
-    notification?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
-    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksInput = {
@@ -25060,7 +25060,7 @@ export namespace Prisma {
     create: XOR<WorkspaceCreateWithoutTasksInput, WorkspaceUncheckedCreateWithoutTasksInput>
   }
 
-  export type TasksCreateWithoutSubtasksInput = {
+  export type TaskCreateWithoutSubtasksInput = {
     id?: string
     title: string
     completed?: boolean
@@ -25070,15 +25070,15 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
     workspace: WorkspaceCreateNestedOneWithoutTasksInput
-    parentTask?: TasksCreateNestedOneWithoutSubtasksInput
+    parentTask?: TaskCreateNestedOneWithoutSubtasksInput
     tags?: TagCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogCreateNestedManyWithoutTasksInput
     comment?: CommentCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksUncheckedCreateWithoutSubtasksInput = {
+  export type TaskUncheckedCreateWithoutSubtasksInput = {
     id?: string
     title: string
     completed?: boolean
@@ -25091,17 +25091,17 @@ export namespace Prisma {
     updatedAt?: Date | string
     tags?: TagUncheckedCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionUncheckedCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogUncheckedCreateNestedManyWithoutTasksInput
     comment?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksCreateOrConnectWithoutSubtasksInput = {
-    where: TasksWhereUniqueInput
-    create: XOR<TasksCreateWithoutSubtasksInput, TasksUncheckedCreateWithoutSubtasksInput>
+  export type TaskCreateOrConnectWithoutSubtasksInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutSubtasksInput, TaskUncheckedCreateWithoutSubtasksInput>
   }
 
-  export type TasksCreateWithoutParentTaskInput = {
+  export type TaskCreateWithoutParentTaskInput = {
     id?: string
     title: string
     completed?: boolean
@@ -25111,15 +25111,15 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
     workspace: WorkspaceCreateNestedOneWithoutTasksInput
-    subtasks?: TasksCreateNestedManyWithoutParentTaskInput
+    subtasks?: TaskCreateNestedManyWithoutParentTaskInput
     tags?: TagCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogCreateNestedManyWithoutTasksInput
     comment?: CommentCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksUncheckedCreateWithoutParentTaskInput = {
+  export type TaskUncheckedCreateWithoutParentTaskInput = {
     id?: string
     title: string
     completed?: boolean
@@ -25129,21 +25129,21 @@ export namespace Prisma {
     workspaceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    subtasks?: TasksUncheckedCreateNestedManyWithoutParentTaskInput
+    subtasks?: TaskUncheckedCreateNestedManyWithoutParentTaskInput
     tags?: TagUncheckedCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionUncheckedCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogUncheckedCreateNestedManyWithoutTasksInput
     comment?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksCreateOrConnectWithoutParentTaskInput = {
-    where: TasksWhereUniqueInput
-    create: XOR<TasksCreateWithoutParentTaskInput, TasksUncheckedCreateWithoutParentTaskInput>
+  export type TaskCreateOrConnectWithoutParentTaskInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutParentTaskInput, TaskUncheckedCreateWithoutParentTaskInput>
   }
 
-  export type TasksCreateManyParentTaskInputEnvelope = {
-    data: TasksCreateManyParentTaskInput | TasksCreateManyParentTaskInput[]
+  export type TaskCreateManyParentTaskInputEnvelope = {
+    data: TaskCreateManyParentTaskInput | TaskCreateManyParentTaskInput[]
     skipDuplicates?: boolean
   }
 
@@ -25175,7 +25175,7 @@ export namespace Prisma {
     version?: number
     description: string
     createdAt?: Date | string
-    attachments?: AttachmentsCreateNestedManyWithoutTaskVersionInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskVersionInput
   }
 
   export type TaskVersionUncheckedCreateWithoutTaskInput = {
@@ -25183,7 +25183,7 @@ export namespace Prisma {
     version?: number
     description: string
     createdAt?: Date | string
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutTaskVersionInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskVersionInput
   }
 
   export type TaskVersionCreateOrConnectWithoutTaskInput = {
@@ -25196,7 +25196,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type AttachmentsCreateWithoutTaskInput = {
+  export type AttachmentCreateWithoutTaskInput = {
     id?: string
     url: string
     filename: string
@@ -25208,7 +25208,7 @@ export namespace Prisma {
     taskVersion?: TaskVersionCreateNestedOneWithoutAttachmentsInput
   }
 
-  export type AttachmentsUncheckedCreateWithoutTaskInput = {
+  export type AttachmentUncheckedCreateWithoutTaskInput = {
     id?: string
     url: string
     filename: string
@@ -25220,13 +25220,13 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type AttachmentsCreateOrConnectWithoutTaskInput = {
-    where: AttachmentsWhereUniqueInput
-    create: XOR<AttachmentsCreateWithoutTaskInput, AttachmentsUncheckedCreateWithoutTaskInput>
+  export type AttachmentCreateOrConnectWithoutTaskInput = {
+    where: AttachmentWhereUniqueInput
+    create: XOR<AttachmentCreateWithoutTaskInput, AttachmentUncheckedCreateWithoutTaskInput>
   }
 
-  export type AttachmentsCreateManyTaskInputEnvelope = {
-    data: AttachmentsCreateManyTaskInput | AttachmentsCreateManyTaskInput[]
+  export type AttachmentCreateManyTaskInputEnvelope = {
+    data: AttachmentCreateManyTaskInput | AttachmentCreateManyTaskInput[]
     skipDuplicates?: boolean
   }
 
@@ -25234,7 +25234,7 @@ export namespace Prisma {
     id?: string
     action: string
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutActivityLogInput
+    user: UserCreateNestedOneWithoutActivityLogsInput
   }
 
   export type ActivityLogUncheckedCreateWithoutTasksInput = {
@@ -25258,7 +25258,7 @@ export namespace Prisma {
     id?: string
     content: string
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutCommentInput
+    user: UserCreateNestedOneWithoutCommentsInput
   }
 
   export type CommentUncheckedCreateWithoutTaskInput = {
@@ -25303,16 +25303,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    attachments?: AttachmentsUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUpdateManyWithoutUserNestedInput
-    notification?: NotificationUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUpdateManyWithoutUserNestedInput
-    comment?: CommentUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksInput = {
@@ -25329,16 +25329,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    attachments?: AttachmentsUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
-    notification?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WorkspaceUpsertWithoutTasksInput = {
@@ -25390,18 +25390,18 @@ export namespace Prisma {
     tags?: TagUncheckedUpdateManyWithoutWorkspaceNestedInput
   }
 
-  export type TasksUpsertWithoutSubtasksInput = {
-    update: XOR<TasksUpdateWithoutSubtasksInput, TasksUncheckedUpdateWithoutSubtasksInput>
-    create: XOR<TasksCreateWithoutSubtasksInput, TasksUncheckedCreateWithoutSubtasksInput>
-    where?: TasksWhereInput
+  export type TaskUpsertWithoutSubtasksInput = {
+    update: XOR<TaskUpdateWithoutSubtasksInput, TaskUncheckedUpdateWithoutSubtasksInput>
+    create: XOR<TaskCreateWithoutSubtasksInput, TaskUncheckedCreateWithoutSubtasksInput>
+    where?: TaskWhereInput
   }
 
-  export type TasksUpdateToOneWithWhereWithoutSubtasksInput = {
-    where?: TasksWhereInput
-    data: XOR<TasksUpdateWithoutSubtasksInput, TasksUncheckedUpdateWithoutSubtasksInput>
+  export type TaskUpdateToOneWithWhereWithoutSubtasksInput = {
+    where?: TaskWhereInput
+    data: XOR<TaskUpdateWithoutSubtasksInput, TaskUncheckedUpdateWithoutSubtasksInput>
   }
 
-  export type TasksUpdateWithoutSubtasksInput = {
+  export type TaskUpdateWithoutSubtasksInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -25411,15 +25411,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
     workspace?: WorkspaceUpdateOneRequiredWithoutTasksNestedInput
-    parentTask?: TasksUpdateOneWithoutSubtasksNestedInput
+    parentTask?: TaskUpdateOneWithoutSubtasksNestedInput
     tags?: TagUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUpdateManyWithoutTasksNestedInput
     comment?: CommentUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateWithoutSubtasksInput = {
+  export type TaskUncheckedUpdateWithoutSubtasksInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -25432,25 +25432,25 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: TagUncheckedUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUncheckedUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUncheckedUpdateManyWithoutTasksNestedInput
     comment?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUpsertWithWhereUniqueWithoutParentTaskInput = {
-    where: TasksWhereUniqueInput
-    update: XOR<TasksUpdateWithoutParentTaskInput, TasksUncheckedUpdateWithoutParentTaskInput>
-    create: XOR<TasksCreateWithoutParentTaskInput, TasksUncheckedCreateWithoutParentTaskInput>
+  export type TaskUpsertWithWhereUniqueWithoutParentTaskInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutParentTaskInput, TaskUncheckedUpdateWithoutParentTaskInput>
+    create: XOR<TaskCreateWithoutParentTaskInput, TaskUncheckedCreateWithoutParentTaskInput>
   }
 
-  export type TasksUpdateWithWhereUniqueWithoutParentTaskInput = {
-    where: TasksWhereUniqueInput
-    data: XOR<TasksUpdateWithoutParentTaskInput, TasksUncheckedUpdateWithoutParentTaskInput>
+  export type TaskUpdateWithWhereUniqueWithoutParentTaskInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutParentTaskInput, TaskUncheckedUpdateWithoutParentTaskInput>
   }
 
-  export type TasksUpdateManyWithWhereWithoutParentTaskInput = {
-    where: TasksScalarWhereInput
-    data: XOR<TasksUpdateManyMutationInput, TasksUncheckedUpdateManyWithoutParentTaskInput>
+  export type TaskUpdateManyWithWhereWithoutParentTaskInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutParentTaskInput>
   }
 
   export type TagUpsertWithWhereUniqueWithoutTasksInput = {
@@ -25496,20 +25496,20 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"TaskVersion"> | Date | string
   }
 
-  export type AttachmentsUpsertWithWhereUniqueWithoutTaskInput = {
-    where: AttachmentsWhereUniqueInput
-    update: XOR<AttachmentsUpdateWithoutTaskInput, AttachmentsUncheckedUpdateWithoutTaskInput>
-    create: XOR<AttachmentsCreateWithoutTaskInput, AttachmentsUncheckedCreateWithoutTaskInput>
+  export type AttachmentUpsertWithWhereUniqueWithoutTaskInput = {
+    where: AttachmentWhereUniqueInput
+    update: XOR<AttachmentUpdateWithoutTaskInput, AttachmentUncheckedUpdateWithoutTaskInput>
+    create: XOR<AttachmentCreateWithoutTaskInput, AttachmentUncheckedCreateWithoutTaskInput>
   }
 
-  export type AttachmentsUpdateWithWhereUniqueWithoutTaskInput = {
-    where: AttachmentsWhereUniqueInput
-    data: XOR<AttachmentsUpdateWithoutTaskInput, AttachmentsUncheckedUpdateWithoutTaskInput>
+  export type AttachmentUpdateWithWhereUniqueWithoutTaskInput = {
+    where: AttachmentWhereUniqueInput
+    data: XOR<AttachmentUpdateWithoutTaskInput, AttachmentUncheckedUpdateWithoutTaskInput>
   }
 
-  export type AttachmentsUpdateManyWithWhereWithoutTaskInput = {
-    where: AttachmentsScalarWhereInput
-    data: XOR<AttachmentsUpdateManyMutationInput, AttachmentsUncheckedUpdateManyWithoutTaskInput>
+  export type AttachmentUpdateManyWithWhereWithoutTaskInput = {
+    where: AttachmentScalarWhereInput
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyWithoutTaskInput>
   }
 
   export type ActivityLogUpsertWithWhereUniqueWithoutTasksInput = {
@@ -25544,7 +25544,7 @@ export namespace Prisma {
     data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutTaskInput>
   }
 
-  export type TasksCreateWithoutTagsInput = {
+  export type TaskCreateWithoutTagsInput = {
     id?: string
     title: string
     completed?: boolean
@@ -25554,15 +25554,15 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
     workspace: WorkspaceCreateNestedOneWithoutTasksInput
-    parentTask?: TasksCreateNestedOneWithoutSubtasksInput
-    subtasks?: TasksCreateNestedManyWithoutParentTaskInput
+    parentTask?: TaskCreateNestedOneWithoutSubtasksInput
+    subtasks?: TaskCreateNestedManyWithoutParentTaskInput
     taskVersions?: TaskVersionCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogCreateNestedManyWithoutTasksInput
     comment?: CommentCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksUncheckedCreateWithoutTagsInput = {
+  export type TaskUncheckedCreateWithoutTagsInput = {
     id?: string
     title: string
     completed?: boolean
@@ -25573,16 +25573,16 @@ export namespace Prisma {
     parentTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    subtasks?: TasksUncheckedCreateNestedManyWithoutParentTaskInput
+    subtasks?: TaskUncheckedCreateNestedManyWithoutParentTaskInput
     taskVersions?: TaskVersionUncheckedCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogUncheckedCreateNestedManyWithoutTasksInput
     comment?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksCreateOrConnectWithoutTagsInput = {
-    where: TasksWhereUniqueInput
-    create: XOR<TasksCreateWithoutTagsInput, TasksUncheckedCreateWithoutTagsInput>
+  export type TaskCreateOrConnectWithoutTagsInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutTagsInput, TaskUncheckedCreateWithoutTagsInput>
   }
 
   export type WorkspaceCreateWithoutTagsInput = {
@@ -25599,7 +25599,7 @@ export namespace Prisma {
     isPro?: boolean
     subscriptionEndsAt?: Date | string | null
     users?: UserCreateNestedManyWithoutWorkspacesInput
-    tasks?: TasksCreateNestedManyWithoutWorkspaceInput
+    tasks?: TaskCreateNestedManyWithoutWorkspaceInput
     owner: UserCreateNestedOneWithoutOwnedWorkspacesInput
     members?: WorkspaceMemberCreateNestedManyWithoutWorkspaceInput
   }
@@ -25619,7 +25619,7 @@ export namespace Prisma {
     subscriptionEndsAt?: Date | string | null
     ownerId: string
     users?: UserUncheckedCreateNestedManyWithoutWorkspacesInput
-    tasks?: TasksUncheckedCreateNestedManyWithoutWorkspaceInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutWorkspaceInput
     members?: WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput
   }
 
@@ -25628,20 +25628,20 @@ export namespace Prisma {
     create: XOR<WorkspaceCreateWithoutTagsInput, WorkspaceUncheckedCreateWithoutTagsInput>
   }
 
-  export type TasksUpsertWithWhereUniqueWithoutTagsInput = {
-    where: TasksWhereUniqueInput
-    update: XOR<TasksUpdateWithoutTagsInput, TasksUncheckedUpdateWithoutTagsInput>
-    create: XOR<TasksCreateWithoutTagsInput, TasksUncheckedCreateWithoutTagsInput>
+  export type TaskUpsertWithWhereUniqueWithoutTagsInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutTagsInput, TaskUncheckedUpdateWithoutTagsInput>
+    create: XOR<TaskCreateWithoutTagsInput, TaskUncheckedCreateWithoutTagsInput>
   }
 
-  export type TasksUpdateWithWhereUniqueWithoutTagsInput = {
-    where: TasksWhereUniqueInput
-    data: XOR<TasksUpdateWithoutTagsInput, TasksUncheckedUpdateWithoutTagsInput>
+  export type TaskUpdateWithWhereUniqueWithoutTagsInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutTagsInput, TaskUncheckedUpdateWithoutTagsInput>
   }
 
-  export type TasksUpdateManyWithWhereWithoutTagsInput = {
-    where: TasksScalarWhereInput
-    data: XOR<TasksUpdateManyMutationInput, TasksUncheckedUpdateManyWithoutTagsInput>
+  export type TaskUpdateManyWithWhereWithoutTagsInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutTagsInput>
   }
 
   export type WorkspaceUpsertWithoutTagsInput = {
@@ -25669,7 +25669,7 @@ export namespace Prisma {
     isPro?: BoolFieldUpdateOperationsInput | boolean
     subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     users?: UserUpdateManyWithoutWorkspacesNestedInput
-    tasks?: TasksUpdateManyWithoutWorkspaceNestedInput
+    tasks?: TaskUpdateManyWithoutWorkspaceNestedInput
     owner?: UserUpdateOneRequiredWithoutOwnedWorkspacesNestedInput
     members?: WorkspaceMemberUpdateManyWithoutWorkspaceNestedInput
   }
@@ -25689,11 +25689,11 @@ export namespace Prisma {
     subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ownerId?: StringFieldUpdateOperationsInput | string
     users?: UserUncheckedUpdateManyWithoutWorkspacesNestedInput
-    tasks?: TasksUncheckedUpdateManyWithoutWorkspaceNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutWorkspaceNestedInput
     members?: WorkspaceMemberUncheckedUpdateManyWithoutWorkspaceNestedInput
   }
 
-  export type TasksCreateWithoutAttachmentsInput = {
+  export type TaskCreateWithoutAttachmentsInput = {
     id?: string
     title: string
     completed?: boolean
@@ -25703,15 +25703,15 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
     workspace: WorkspaceCreateNestedOneWithoutTasksInput
-    parentTask?: TasksCreateNestedOneWithoutSubtasksInput
-    subtasks?: TasksCreateNestedManyWithoutParentTaskInput
+    parentTask?: TaskCreateNestedOneWithoutSubtasksInput
+    subtasks?: TaskCreateNestedManyWithoutParentTaskInput
     tags?: TagCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogCreateNestedManyWithoutTasksInput
     comment?: CommentCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksUncheckedCreateWithoutAttachmentsInput = {
+  export type TaskUncheckedCreateWithoutAttachmentsInput = {
     id?: string
     title: string
     completed?: boolean
@@ -25722,16 +25722,16 @@ export namespace Prisma {
     parentTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    subtasks?: TasksUncheckedCreateNestedManyWithoutParentTaskInput
+    subtasks?: TaskUncheckedCreateNestedManyWithoutParentTaskInput
     tags?: TagUncheckedCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionUncheckedCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogUncheckedCreateNestedManyWithoutTasksInput
     comment?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksCreateOrConnectWithoutAttachmentsInput = {
-    where: TasksWhereUniqueInput
-    create: XOR<TasksCreateWithoutAttachmentsInput, TasksUncheckedCreateWithoutAttachmentsInput>
+  export type TaskCreateOrConnectWithoutAttachmentsInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutAttachmentsInput, TaskUncheckedCreateWithoutAttachmentsInput>
   }
 
   export type UserCreateWithoutAttachmentsInput = {
@@ -25748,16 +25748,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceCreateNestedManyWithoutUserInput
-    notification?: NotificationCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogCreateNestedManyWithoutUserInput
-    comment?: CommentCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAttachmentsInput = {
@@ -25774,16 +25774,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
-    notification?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
-    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAttachmentsInput = {
@@ -25796,7 +25796,7 @@ export namespace Prisma {
     version?: number
     description: string
     createdAt?: Date | string
-    task: TasksCreateNestedOneWithoutTaskVersionsInput
+    task: TaskCreateNestedOneWithoutTaskVersionsInput
   }
 
   export type TaskVersionUncheckedCreateWithoutAttachmentsInput = {
@@ -25812,18 +25812,18 @@ export namespace Prisma {
     create: XOR<TaskVersionCreateWithoutAttachmentsInput, TaskVersionUncheckedCreateWithoutAttachmentsInput>
   }
 
-  export type TasksUpsertWithoutAttachmentsInput = {
-    update: XOR<TasksUpdateWithoutAttachmentsInput, TasksUncheckedUpdateWithoutAttachmentsInput>
-    create: XOR<TasksCreateWithoutAttachmentsInput, TasksUncheckedCreateWithoutAttachmentsInput>
-    where?: TasksWhereInput
+  export type TaskUpsertWithoutAttachmentsInput = {
+    update: XOR<TaskUpdateWithoutAttachmentsInput, TaskUncheckedUpdateWithoutAttachmentsInput>
+    create: XOR<TaskCreateWithoutAttachmentsInput, TaskUncheckedCreateWithoutAttachmentsInput>
+    where?: TaskWhereInput
   }
 
-  export type TasksUpdateToOneWithWhereWithoutAttachmentsInput = {
-    where?: TasksWhereInput
-    data: XOR<TasksUpdateWithoutAttachmentsInput, TasksUncheckedUpdateWithoutAttachmentsInput>
+  export type TaskUpdateToOneWithWhereWithoutAttachmentsInput = {
+    where?: TaskWhereInput
+    data: XOR<TaskUpdateWithoutAttachmentsInput, TaskUncheckedUpdateWithoutAttachmentsInput>
   }
 
-  export type TasksUpdateWithoutAttachmentsInput = {
+  export type TaskUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -25833,15 +25833,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
     workspace?: WorkspaceUpdateOneRequiredWithoutTasksNestedInput
-    parentTask?: TasksUpdateOneWithoutSubtasksNestedInput
-    subtasks?: TasksUpdateManyWithoutParentTaskNestedInput
+    parentTask?: TaskUpdateOneWithoutSubtasksNestedInput
+    subtasks?: TaskUpdateManyWithoutParentTaskNestedInput
     tags?: TagUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUpdateManyWithoutTasksNestedInput
     comment?: CommentUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateWithoutAttachmentsInput = {
+  export type TaskUncheckedUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -25852,7 +25852,7 @@ export namespace Prisma {
     parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subtasks?: TasksUncheckedUpdateManyWithoutParentTaskNestedInput
+    subtasks?: TaskUncheckedUpdateManyWithoutParentTaskNestedInput
     tags?: TagUncheckedUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUncheckedUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUncheckedUpdateManyWithoutTasksNestedInput
@@ -25884,16 +25884,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUpdateManyWithoutUserNestedInput
-    notification?: NotificationUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUpdateManyWithoutUserNestedInput
-    comment?: CommentUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAttachmentsInput = {
@@ -25910,16 +25910,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
-    notification?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskVersionUpsertWithoutAttachmentsInput = {
@@ -25938,7 +25938,7 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    task?: TasksUpdateOneRequiredWithoutTaskVersionsNestedInput
+    task?: TaskUpdateOneRequiredWithoutTaskVersionsNestedInput
   }
 
   export type TaskVersionUncheckedUpdateWithoutAttachmentsInput = {
@@ -25949,7 +25949,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TasksCreateWithoutTaskVersionsInput = {
+  export type TaskCreateWithoutTaskVersionsInput = {
     id?: string
     title: string
     completed?: boolean
@@ -25959,15 +25959,15 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
     workspace: WorkspaceCreateNestedOneWithoutTasksInput
-    parentTask?: TasksCreateNestedOneWithoutSubtasksInput
-    subtasks?: TasksCreateNestedManyWithoutParentTaskInput
+    parentTask?: TaskCreateNestedOneWithoutSubtasksInput
+    subtasks?: TaskCreateNestedManyWithoutParentTaskInput
     tags?: TagCreateNestedManyWithoutTasksInput
-    attachments?: AttachmentsCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogCreateNestedManyWithoutTasksInput
     comment?: CommentCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksUncheckedCreateWithoutTaskVersionsInput = {
+  export type TaskUncheckedCreateWithoutTaskVersionsInput = {
     id?: string
     title: string
     completed?: boolean
@@ -25978,19 +25978,19 @@ export namespace Prisma {
     parentTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    subtasks?: TasksUncheckedCreateNestedManyWithoutParentTaskInput
+    subtasks?: TaskUncheckedCreateNestedManyWithoutParentTaskInput
     tags?: TagUncheckedCreateNestedManyWithoutTasksInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogUncheckedCreateNestedManyWithoutTasksInput
     comment?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksCreateOrConnectWithoutTaskVersionsInput = {
-    where: TasksWhereUniqueInput
-    create: XOR<TasksCreateWithoutTaskVersionsInput, TasksUncheckedCreateWithoutTaskVersionsInput>
+  export type TaskCreateOrConnectWithoutTaskVersionsInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutTaskVersionsInput, TaskUncheckedCreateWithoutTaskVersionsInput>
   }
 
-  export type AttachmentsCreateWithoutTaskVersionInput = {
+  export type AttachmentCreateWithoutTaskVersionInput = {
     id?: string
     url: string
     filename: string
@@ -25998,11 +25998,11 @@ export namespace Prisma {
     mimeType: string
     fileSize: number
     createdAt?: Date | string
-    task?: TasksCreateNestedOneWithoutAttachmentsInput
+    task?: TaskCreateNestedOneWithoutAttachmentsInput
     user: UserCreateNestedOneWithoutAttachmentsInput
   }
 
-  export type AttachmentsUncheckedCreateWithoutTaskVersionInput = {
+  export type AttachmentUncheckedCreateWithoutTaskVersionInput = {
     id?: string
     url: string
     filename: string
@@ -26014,28 +26014,28 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type AttachmentsCreateOrConnectWithoutTaskVersionInput = {
-    where: AttachmentsWhereUniqueInput
-    create: XOR<AttachmentsCreateWithoutTaskVersionInput, AttachmentsUncheckedCreateWithoutTaskVersionInput>
+  export type AttachmentCreateOrConnectWithoutTaskVersionInput = {
+    where: AttachmentWhereUniqueInput
+    create: XOR<AttachmentCreateWithoutTaskVersionInput, AttachmentUncheckedCreateWithoutTaskVersionInput>
   }
 
-  export type AttachmentsCreateManyTaskVersionInputEnvelope = {
-    data: AttachmentsCreateManyTaskVersionInput | AttachmentsCreateManyTaskVersionInput[]
+  export type AttachmentCreateManyTaskVersionInputEnvelope = {
+    data: AttachmentCreateManyTaskVersionInput | AttachmentCreateManyTaskVersionInput[]
     skipDuplicates?: boolean
   }
 
-  export type TasksUpsertWithoutTaskVersionsInput = {
-    update: XOR<TasksUpdateWithoutTaskVersionsInput, TasksUncheckedUpdateWithoutTaskVersionsInput>
-    create: XOR<TasksCreateWithoutTaskVersionsInput, TasksUncheckedCreateWithoutTaskVersionsInput>
-    where?: TasksWhereInput
+  export type TaskUpsertWithoutTaskVersionsInput = {
+    update: XOR<TaskUpdateWithoutTaskVersionsInput, TaskUncheckedUpdateWithoutTaskVersionsInput>
+    create: XOR<TaskCreateWithoutTaskVersionsInput, TaskUncheckedCreateWithoutTaskVersionsInput>
+    where?: TaskWhereInput
   }
 
-  export type TasksUpdateToOneWithWhereWithoutTaskVersionsInput = {
-    where?: TasksWhereInput
-    data: XOR<TasksUpdateWithoutTaskVersionsInput, TasksUncheckedUpdateWithoutTaskVersionsInput>
+  export type TaskUpdateToOneWithWhereWithoutTaskVersionsInput = {
+    where?: TaskWhereInput
+    data: XOR<TaskUpdateWithoutTaskVersionsInput, TaskUncheckedUpdateWithoutTaskVersionsInput>
   }
 
-  export type TasksUpdateWithoutTaskVersionsInput = {
+  export type TaskUpdateWithoutTaskVersionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -26045,15 +26045,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
     workspace?: WorkspaceUpdateOneRequiredWithoutTasksNestedInput
-    parentTask?: TasksUpdateOneWithoutSubtasksNestedInput
-    subtasks?: TasksUpdateManyWithoutParentTaskNestedInput
+    parentTask?: TaskUpdateOneWithoutSubtasksNestedInput
+    subtasks?: TaskUpdateManyWithoutParentTaskNestedInput
     tags?: TagUpdateManyWithoutTasksNestedInput
-    attachments?: AttachmentsUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUpdateManyWithoutTasksNestedInput
     comment?: CommentUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateWithoutTaskVersionsInput = {
+  export type TaskUncheckedUpdateWithoutTaskVersionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -26064,27 +26064,27 @@ export namespace Prisma {
     parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subtasks?: TasksUncheckedUpdateManyWithoutParentTaskNestedInput
+    subtasks?: TaskUncheckedUpdateManyWithoutParentTaskNestedInput
     tags?: TagUncheckedUpdateManyWithoutTasksNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUncheckedUpdateManyWithoutTasksNestedInput
     comment?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
-  export type AttachmentsUpsertWithWhereUniqueWithoutTaskVersionInput = {
-    where: AttachmentsWhereUniqueInput
-    update: XOR<AttachmentsUpdateWithoutTaskVersionInput, AttachmentsUncheckedUpdateWithoutTaskVersionInput>
-    create: XOR<AttachmentsCreateWithoutTaskVersionInput, AttachmentsUncheckedCreateWithoutTaskVersionInput>
+  export type AttachmentUpsertWithWhereUniqueWithoutTaskVersionInput = {
+    where: AttachmentWhereUniqueInput
+    update: XOR<AttachmentUpdateWithoutTaskVersionInput, AttachmentUncheckedUpdateWithoutTaskVersionInput>
+    create: XOR<AttachmentCreateWithoutTaskVersionInput, AttachmentUncheckedCreateWithoutTaskVersionInput>
   }
 
-  export type AttachmentsUpdateWithWhereUniqueWithoutTaskVersionInput = {
-    where: AttachmentsWhereUniqueInput
-    data: XOR<AttachmentsUpdateWithoutTaskVersionInput, AttachmentsUncheckedUpdateWithoutTaskVersionInput>
+  export type AttachmentUpdateWithWhereUniqueWithoutTaskVersionInput = {
+    where: AttachmentWhereUniqueInput
+    data: XOR<AttachmentUpdateWithoutTaskVersionInput, AttachmentUncheckedUpdateWithoutTaskVersionInput>
   }
 
-  export type AttachmentsUpdateManyWithWhereWithoutTaskVersionInput = {
-    where: AttachmentsScalarWhereInput
-    data: XOR<AttachmentsUpdateManyMutationInput, AttachmentsUncheckedUpdateManyWithoutTaskVersionInput>
+  export type AttachmentUpdateManyWithWhereWithoutTaskVersionInput = {
+    where: AttachmentScalarWhereInput
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyWithoutTaskVersionInput>
   }
 
   export type UserCreateWithoutWorkspaceMembershipsInput = {
@@ -26101,16 +26101,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceCreateNestedManyWithoutUserInput
-    notification?: NotificationCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogCreateNestedManyWithoutUserInput
-    comment?: CommentCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutWorkspaceMembershipsInput = {
@@ -26127,16 +26127,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksUncheckedCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
-    notification?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
-    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutWorkspaceMembershipsInput = {
@@ -26158,7 +26158,7 @@ export namespace Prisma {
     isPro?: boolean
     subscriptionEndsAt?: Date | string | null
     users?: UserCreateNestedManyWithoutWorkspacesInput
-    tasks?: TasksCreateNestedManyWithoutWorkspaceInput
+    tasks?: TaskCreateNestedManyWithoutWorkspaceInput
     owner: UserCreateNestedOneWithoutOwnedWorkspacesInput
     tags?: TagCreateNestedManyWithoutWorkspaceInput
   }
@@ -26178,7 +26178,7 @@ export namespace Prisma {
     subscriptionEndsAt?: Date | string | null
     ownerId: string
     users?: UserUncheckedCreateNestedManyWithoutWorkspacesInput
-    tasks?: TasksUncheckedCreateNestedManyWithoutWorkspaceInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutWorkspaceInput
     tags?: TagUncheckedCreateNestedManyWithoutWorkspaceInput
   }
 
@@ -26212,16 +26212,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUpdateManyWithoutUserNestedInput
-    notification?: NotificationUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUpdateManyWithoutUserNestedInput
-    comment?: CommentUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkspaceMembershipsInput = {
@@ -26238,16 +26238,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUncheckedUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
-    notification?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WorkspaceUpsertWithoutMembersInput = {
@@ -26275,7 +26275,7 @@ export namespace Prisma {
     isPro?: BoolFieldUpdateOperationsInput | boolean
     subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     users?: UserUpdateManyWithoutWorkspacesNestedInput
-    tasks?: TasksUpdateManyWithoutWorkspaceNestedInput
+    tasks?: TaskUpdateManyWithoutWorkspaceNestedInput
     owner?: UserUpdateOneRequiredWithoutOwnedWorkspacesNestedInput
     tags?: TagUpdateManyWithoutWorkspaceNestedInput
   }
@@ -26295,11 +26295,11 @@ export namespace Prisma {
     subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ownerId?: StringFieldUpdateOperationsInput | string
     users?: UserUncheckedUpdateManyWithoutWorkspacesNestedInput
-    tasks?: TasksUncheckedUpdateManyWithoutWorkspaceNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutWorkspaceNestedInput
     tags?: TagUncheckedUpdateManyWithoutWorkspaceNestedInput
   }
 
-  export type UserCreateWithoutUserPreferenceInput = {
+  export type UserCreateWithoutUserPreferencesInput = {
     id?: string
     name?: string | null
     email: string
@@ -26313,19 +26313,19 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    notification?: NotificationCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogCreateNestedManyWithoutUserInput
-    comment?: CommentCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutUserPreferenceInput = {
+  export type UserUncheckedCreateWithoutUserPreferencesInput = {
     id?: string
     name?: string | null
     email: string
@@ -26339,35 +26339,35 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksUncheckedCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    notification?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
-    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutUserPreferenceInput = {
+  export type UserCreateOrConnectWithoutUserPreferencesInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutUserPreferenceInput, UserUncheckedCreateWithoutUserPreferenceInput>
+    create: XOR<UserCreateWithoutUserPreferencesInput, UserUncheckedCreateWithoutUserPreferencesInput>
   }
 
-  export type UserUpsertWithoutUserPreferenceInput = {
-    update: XOR<UserUpdateWithoutUserPreferenceInput, UserUncheckedUpdateWithoutUserPreferenceInput>
-    create: XOR<UserCreateWithoutUserPreferenceInput, UserUncheckedCreateWithoutUserPreferenceInput>
+  export type UserUpsertWithoutUserPreferencesInput = {
+    update: XOR<UserUpdateWithoutUserPreferencesInput, UserUncheckedUpdateWithoutUserPreferencesInput>
+    create: XOR<UserCreateWithoutUserPreferencesInput, UserUncheckedCreateWithoutUserPreferencesInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutUserPreferenceInput = {
+  export type UserUpdateToOneWithWhereWithoutUserPreferencesInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutUserPreferenceInput, UserUncheckedUpdateWithoutUserPreferenceInput>
+    data: XOR<UserUpdateWithoutUserPreferencesInput, UserUncheckedUpdateWithoutUserPreferencesInput>
   }
 
-  export type UserUpdateWithoutUserPreferenceInput = {
+  export type UserUpdateWithoutUserPreferencesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -26381,19 +26381,19 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    notification?: NotificationUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUpdateManyWithoutUserNestedInput
-    comment?: CommentUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutUserPreferenceInput = {
+  export type UserUncheckedUpdateWithoutUserPreferencesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -26407,19 +26407,19 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUncheckedUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    notification?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type UserCreateWithoutNotificationInput = {
+  export type UserCreateWithoutNotificationsInput = {
     id?: string
     name?: string | null
     email: string
@@ -26433,19 +26433,19 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogCreateNestedManyWithoutUserInput
-    comment?: CommentCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutNotificationInput = {
+  export type UserUncheckedCreateWithoutNotificationsInput = {
     id?: string
     name?: string | null
     email: string
@@ -26459,35 +26459,35 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksUncheckedCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
-    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutNotificationInput = {
+  export type UserCreateOrConnectWithoutNotificationsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutNotificationInput, UserUncheckedCreateWithoutNotificationInput>
+    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
   }
 
-  export type UserUpsertWithoutNotificationInput = {
-    update: XOR<UserUpdateWithoutNotificationInput, UserUncheckedUpdateWithoutNotificationInput>
-    create: XOR<UserCreateWithoutNotificationInput, UserUncheckedCreateWithoutNotificationInput>
+  export type UserUpsertWithoutNotificationsInput = {
+    update: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutNotificationInput = {
+  export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutNotificationInput, UserUncheckedUpdateWithoutNotificationInput>
+    data: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
   }
 
-  export type UserUpdateWithoutNotificationInput = {
+  export type UserUpdateWithoutNotificationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -26501,19 +26501,19 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUpdateManyWithoutUserNestedInput
-    comment?: CommentUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutNotificationInput = {
+  export type UserUncheckedUpdateWithoutNotificationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -26527,19 +26527,19 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUncheckedUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type UserCreateWithoutActivityLogInput = {
+  export type UserCreateWithoutActivityLogsInput = {
     id?: string
     name?: string | null
     email: string
@@ -26553,19 +26553,19 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceCreateNestedManyWithoutUserInput
-    notification?: NotificationCreateNestedManyWithoutUserInput
-    comment?: CommentCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutActivityLogInput = {
+  export type UserUncheckedCreateWithoutActivityLogsInput = {
     id?: string
     name?: string | null
     email: string
@@ -26579,24 +26579,24 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksUncheckedCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
-    notification?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutActivityLogInput = {
+  export type UserCreateOrConnectWithoutActivityLogsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutActivityLogInput, UserUncheckedCreateWithoutActivityLogInput>
+    create: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
   }
 
-  export type TasksCreateWithoutActivityLogInput = {
+  export type TaskCreateWithoutActivityLogInput = {
     id?: string
     title: string
     completed?: boolean
@@ -26606,15 +26606,15 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
     workspace: WorkspaceCreateNestedOneWithoutTasksInput
-    parentTask?: TasksCreateNestedOneWithoutSubtasksInput
-    subtasks?: TasksCreateNestedManyWithoutParentTaskInput
+    parentTask?: TaskCreateNestedOneWithoutSubtasksInput
+    subtasks?: TaskCreateNestedManyWithoutParentTaskInput
     tags?: TagCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
     comment?: CommentCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksUncheckedCreateWithoutActivityLogInput = {
+  export type TaskUncheckedCreateWithoutActivityLogInput = {
     id?: string
     title: string
     completed?: boolean
@@ -26625,30 +26625,30 @@ export namespace Prisma {
     parentTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    subtasks?: TasksUncheckedCreateNestedManyWithoutParentTaskInput
+    subtasks?: TaskUncheckedCreateNestedManyWithoutParentTaskInput
     tags?: TagUncheckedCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionUncheckedCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
     comment?: CommentUncheckedCreateNestedManyWithoutTaskInput
   }
 
-  export type TasksCreateOrConnectWithoutActivityLogInput = {
-    where: TasksWhereUniqueInput
-    create: XOR<TasksCreateWithoutActivityLogInput, TasksUncheckedCreateWithoutActivityLogInput>
+  export type TaskCreateOrConnectWithoutActivityLogInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutActivityLogInput, TaskUncheckedCreateWithoutActivityLogInput>
   }
 
-  export type UserUpsertWithoutActivityLogInput = {
-    update: XOR<UserUpdateWithoutActivityLogInput, UserUncheckedUpdateWithoutActivityLogInput>
-    create: XOR<UserCreateWithoutActivityLogInput, UserUncheckedCreateWithoutActivityLogInput>
+  export type UserUpsertWithoutActivityLogsInput = {
+    update: XOR<UserUpdateWithoutActivityLogsInput, UserUncheckedUpdateWithoutActivityLogsInput>
+    create: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutActivityLogInput = {
+  export type UserUpdateToOneWithWhereWithoutActivityLogsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutActivityLogInput, UserUncheckedUpdateWithoutActivityLogInput>
+    data: XOR<UserUpdateWithoutActivityLogsInput, UserUncheckedUpdateWithoutActivityLogsInput>
   }
 
-  export type UserUpdateWithoutActivityLogInput = {
+  export type UserUpdateWithoutActivityLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -26662,19 +26662,19 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUpdateManyWithoutUserNestedInput
-    notification?: NotificationUpdateManyWithoutUserNestedInput
-    comment?: CommentUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutActivityLogInput = {
+  export type UserUncheckedUpdateWithoutActivityLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -26688,30 +26688,30 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUncheckedUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
-    notification?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type TasksUpsertWithoutActivityLogInput = {
-    update: XOR<TasksUpdateWithoutActivityLogInput, TasksUncheckedUpdateWithoutActivityLogInput>
-    create: XOR<TasksCreateWithoutActivityLogInput, TasksUncheckedCreateWithoutActivityLogInput>
-    where?: TasksWhereInput
+  export type TaskUpsertWithoutActivityLogInput = {
+    update: XOR<TaskUpdateWithoutActivityLogInput, TaskUncheckedUpdateWithoutActivityLogInput>
+    create: XOR<TaskCreateWithoutActivityLogInput, TaskUncheckedCreateWithoutActivityLogInput>
+    where?: TaskWhereInput
   }
 
-  export type TasksUpdateToOneWithWhereWithoutActivityLogInput = {
-    where?: TasksWhereInput
-    data: XOR<TasksUpdateWithoutActivityLogInput, TasksUncheckedUpdateWithoutActivityLogInput>
+  export type TaskUpdateToOneWithWhereWithoutActivityLogInput = {
+    where?: TaskWhereInput
+    data: XOR<TaskUpdateWithoutActivityLogInput, TaskUncheckedUpdateWithoutActivityLogInput>
   }
 
-  export type TasksUpdateWithoutActivityLogInput = {
+  export type TaskUpdateWithoutActivityLogInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -26721,15 +26721,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
     workspace?: WorkspaceUpdateOneRequiredWithoutTasksNestedInput
-    parentTask?: TasksUpdateOneWithoutSubtasksNestedInput
-    subtasks?: TasksUpdateManyWithoutParentTaskNestedInput
+    parentTask?: TaskUpdateOneWithoutSubtasksNestedInput
+    subtasks?: TaskUpdateManyWithoutParentTaskNestedInput
     tags?: TagUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
     comment?: CommentUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateWithoutActivityLogInput = {
+  export type TaskUncheckedUpdateWithoutActivityLogInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -26740,14 +26740,14 @@ export namespace Prisma {
     parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subtasks?: TasksUncheckedUpdateManyWithoutParentTaskNestedInput
+    subtasks?: TaskUncheckedUpdateManyWithoutParentTaskNestedInput
     tags?: TagUncheckedUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUncheckedUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
     comment?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
-  export type UserCreateWithoutCommentInput = {
+  export type UserCreateWithoutCommentsInput = {
     id?: string
     name?: string | null
     email: string
@@ -26761,19 +26761,19 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceCreateNestedManyWithoutUserInput
-    notification?: NotificationCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutCommentInput = {
+  export type UserUncheckedCreateWithoutCommentsInput = {
     id?: string
     name?: string | null
     email: string
@@ -26787,24 +26787,24 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
-    tasks?: TasksUncheckedCreateNestedManyWithoutUserInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
     workspaceMemberships?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    userPreference?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
-    notification?: NotificationUncheckedCreateNestedManyWithoutUserInput
-    activityLog?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    userPreferences?: UserPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutCommentInput = {
+  export type UserCreateOrConnectWithoutCommentsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutCommentInput, UserUncheckedCreateWithoutCommentInput>
+    create: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
   }
 
-  export type TasksCreateWithoutCommentInput = {
+  export type TaskCreateWithoutCommentInput = {
     id?: string
     title: string
     completed?: boolean
@@ -26814,15 +26814,15 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
     workspace: WorkspaceCreateNestedOneWithoutTasksInput
-    parentTask?: TasksCreateNestedOneWithoutSubtasksInput
-    subtasks?: TasksCreateNestedManyWithoutParentTaskInput
+    parentTask?: TaskCreateNestedOneWithoutSubtasksInput
+    subtasks?: TaskCreateNestedManyWithoutParentTaskInput
     tags?: TagCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogCreateNestedManyWithoutTasksInput
   }
 
-  export type TasksUncheckedCreateWithoutCommentInput = {
+  export type TaskUncheckedCreateWithoutCommentInput = {
     id?: string
     title: string
     completed?: boolean
@@ -26833,30 +26833,30 @@ export namespace Prisma {
     parentTaskId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    subtasks?: TasksUncheckedCreateNestedManyWithoutParentTaskInput
+    subtasks?: TaskUncheckedCreateNestedManyWithoutParentTaskInput
     tags?: TagUncheckedCreateNestedManyWithoutTasksInput
     taskVersions?: TaskVersionUncheckedCreateNestedManyWithoutTaskInput
-    attachments?: AttachmentsUncheckedCreateNestedManyWithoutTaskInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutTaskInput
     activityLog?: ActivityLogUncheckedCreateNestedManyWithoutTasksInput
   }
 
-  export type TasksCreateOrConnectWithoutCommentInput = {
-    where: TasksWhereUniqueInput
-    create: XOR<TasksCreateWithoutCommentInput, TasksUncheckedCreateWithoutCommentInput>
+  export type TaskCreateOrConnectWithoutCommentInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutCommentInput, TaskUncheckedCreateWithoutCommentInput>
   }
 
-  export type UserUpsertWithoutCommentInput = {
-    update: XOR<UserUpdateWithoutCommentInput, UserUncheckedUpdateWithoutCommentInput>
-    create: XOR<UserCreateWithoutCommentInput, UserUncheckedCreateWithoutCommentInput>
+  export type UserUpsertWithoutCommentsInput = {
+    update: XOR<UserUpdateWithoutCommentsInput, UserUncheckedUpdateWithoutCommentsInput>
+    create: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutCommentInput = {
+  export type UserUpdateToOneWithWhereWithoutCommentsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutCommentInput, UserUncheckedUpdateWithoutCommentInput>
+    data: XOR<UserUpdateWithoutCommentsInput, UserUncheckedUpdateWithoutCommentsInput>
   }
 
-  export type UserUpdateWithoutCommentInput = {
+  export type UserUpdateWithoutCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -26870,19 +26870,19 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUpdateManyWithoutUserNestedInput
-    notification?: NotificationUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutCommentInput = {
+  export type UserUncheckedUpdateWithoutCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -26896,30 +26896,30 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUncheckedUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
-    notification?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type TasksUpsertWithoutCommentInput = {
-    update: XOR<TasksUpdateWithoutCommentInput, TasksUncheckedUpdateWithoutCommentInput>
-    create: XOR<TasksCreateWithoutCommentInput, TasksUncheckedCreateWithoutCommentInput>
-    where?: TasksWhereInput
+  export type TaskUpsertWithoutCommentInput = {
+    update: XOR<TaskUpdateWithoutCommentInput, TaskUncheckedUpdateWithoutCommentInput>
+    create: XOR<TaskCreateWithoutCommentInput, TaskUncheckedCreateWithoutCommentInput>
+    where?: TaskWhereInput
   }
 
-  export type TasksUpdateToOneWithWhereWithoutCommentInput = {
-    where?: TasksWhereInput
-    data: XOR<TasksUpdateWithoutCommentInput, TasksUncheckedUpdateWithoutCommentInput>
+  export type TaskUpdateToOneWithWhereWithoutCommentInput = {
+    where?: TaskWhereInput
+    data: XOR<TaskUpdateWithoutCommentInput, TaskUncheckedUpdateWithoutCommentInput>
   }
 
-  export type TasksUpdateWithoutCommentInput = {
+  export type TaskUpdateWithoutCommentInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -26929,15 +26929,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
     workspace?: WorkspaceUpdateOneRequiredWithoutTasksNestedInput
-    parentTask?: TasksUpdateOneWithoutSubtasksNestedInput
-    subtasks?: TasksUpdateManyWithoutParentTaskNestedInput
+    parentTask?: TaskUpdateOneWithoutSubtasksNestedInput
+    subtasks?: TaskUpdateManyWithoutParentTaskNestedInput
     tags?: TagUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUpdateManyWithoutTasksNestedInput
   }
 
-  export type TasksUncheckedUpdateWithoutCommentInput = {
+  export type TaskUncheckedUpdateWithoutCommentInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -26948,14 +26948,14 @@ export namespace Prisma {
     parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subtasks?: TasksUncheckedUpdateManyWithoutParentTaskNestedInput
+    subtasks?: TaskUncheckedUpdateManyWithoutParentTaskNestedInput
     tags?: TagUncheckedUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUncheckedUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUncheckedUpdateManyWithoutTasksNestedInput
   }
 
-  export type TasksCreateManyUserInput = {
+  export type TaskCreateManyUserInput = {
     id?: string
     title: string
     completed?: boolean
@@ -26967,7 +26967,7 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type AttachmentsCreateManyUserInput = {
+  export type AttachmentCreateManyUserInput = {
     id?: string
     url: string
     filename: string
@@ -27055,7 +27055,7 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type TasksUpdateWithoutUserInput = {
+  export type TaskUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -27064,16 +27064,16 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspace?: WorkspaceUpdateOneRequiredWithoutTasksNestedInput
-    parentTask?: TasksUpdateOneWithoutSubtasksNestedInput
-    subtasks?: TasksUpdateManyWithoutParentTaskNestedInput
+    parentTask?: TaskUpdateOneWithoutSubtasksNestedInput
+    subtasks?: TaskUpdateManyWithoutParentTaskNestedInput
     tags?: TagUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUpdateManyWithoutTasksNestedInput
     comment?: CommentUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateWithoutUserInput = {
+  export type TaskUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -27083,15 +27083,15 @@ export namespace Prisma {
     parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subtasks?: TasksUncheckedUpdateManyWithoutParentTaskNestedInput
+    subtasks?: TaskUncheckedUpdateManyWithoutParentTaskNestedInput
     tags?: TagUncheckedUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUncheckedUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUncheckedUpdateManyWithoutTasksNestedInput
     comment?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateManyWithoutUserInput = {
+  export type TaskUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -27103,7 +27103,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttachmentsUpdateWithoutUserInput = {
+  export type AttachmentUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
@@ -27111,11 +27111,11 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    task?: TasksUpdateOneWithoutAttachmentsNestedInput
+    task?: TaskUpdateOneWithoutAttachmentsNestedInput
     taskVersion?: TaskVersionUpdateOneWithoutAttachmentsNestedInput
   }
 
-  export type AttachmentsUncheckedUpdateWithoutUserInput = {
+  export type AttachmentUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
@@ -27127,7 +27127,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttachmentsUncheckedUpdateManyWithoutUserInput = {
+  export type AttachmentUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
@@ -27152,7 +27152,7 @@ export namespace Prisma {
     organizationDomain?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
     subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tasks?: TasksUpdateManyWithoutWorkspaceNestedInput
+    tasks?: TaskUpdateManyWithoutWorkspaceNestedInput
     owner?: UserUpdateOneRequiredWithoutOwnedWorkspacesNestedInput
     members?: WorkspaceMemberUpdateManyWithoutWorkspaceNestedInput
     tags?: TagUpdateManyWithoutWorkspaceNestedInput
@@ -27172,7 +27172,7 @@ export namespace Prisma {
     isPro?: BoolFieldUpdateOperationsInput | boolean
     subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ownerId?: StringFieldUpdateOperationsInput | string
-    tasks?: TasksUncheckedUpdateManyWithoutWorkspaceNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutWorkspaceNestedInput
     members?: WorkspaceMemberUncheckedUpdateManyWithoutWorkspaceNestedInput
     tags?: TagUncheckedUpdateManyWithoutWorkspaceNestedInput
   }
@@ -27207,7 +27207,7 @@ export namespace Prisma {
     isPro?: BoolFieldUpdateOperationsInput | boolean
     subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     users?: UserUpdateManyWithoutWorkspacesNestedInput
-    tasks?: TasksUpdateManyWithoutWorkspaceNestedInput
+    tasks?: TaskUpdateManyWithoutWorkspaceNestedInput
     members?: WorkspaceMemberUpdateManyWithoutWorkspaceNestedInput
     tags?: TagUpdateManyWithoutWorkspaceNestedInput
   }
@@ -27226,7 +27226,7 @@ export namespace Prisma {
     isPro?: BoolFieldUpdateOperationsInput | boolean
     subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     users?: UserUncheckedUpdateManyWithoutWorkspacesNestedInput
-    tasks?: TasksUncheckedUpdateManyWithoutWorkspaceNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutWorkspaceNestedInput
     members?: WorkspaceMemberUncheckedUpdateManyWithoutWorkspaceNestedInput
     tags?: TagUncheckedUpdateManyWithoutWorkspaceNestedInput
   }
@@ -27391,7 +27391,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tasks?: TasksUpdateOneWithoutActivityLogNestedInput
+    tasks?: TaskUpdateOneWithoutActivityLogNestedInput
   }
 
   export type ActivityLogUncheckedUpdateWithoutUserInput = {
@@ -27412,7 +27412,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    task?: TasksUpdateOneRequiredWithoutCommentNestedInput
+    task?: TaskUpdateOneRequiredWithoutCommentNestedInput
   }
 
   export type CommentUncheckedUpdateWithoutUserInput = {
@@ -27429,7 +27429,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TasksCreateManyWorkspaceInput = {
+  export type TaskCreateManyWorkspaceInput = {
     id?: string
     title: string
     completed?: boolean
@@ -27471,16 +27471,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUserNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUpdateManyWithoutUserNestedInput
-    notification?: NotificationUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUpdateManyWithoutUserNestedInput
-    comment?: CommentUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkspacesInput = {
@@ -27497,16 +27497,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TasksUncheckedUpdateManyWithoutUserNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
     workspaceMemberships?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    userPreference?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
-    notification?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    activityLog?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    userPreferences?: UserPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    activityLogs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutWorkspacesInput = {
@@ -27525,7 +27525,7 @@ export namespace Prisma {
     isPro?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type TasksUpdateWithoutWorkspaceInput = {
+  export type TaskUpdateWithoutWorkspaceInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -27534,16 +27534,16 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
-    parentTask?: TasksUpdateOneWithoutSubtasksNestedInput
-    subtasks?: TasksUpdateManyWithoutParentTaskNestedInput
+    parentTask?: TaskUpdateOneWithoutSubtasksNestedInput
+    subtasks?: TaskUpdateManyWithoutParentTaskNestedInput
     tags?: TagUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUpdateManyWithoutTasksNestedInput
     comment?: CommentUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateWithoutWorkspaceInput = {
+  export type TaskUncheckedUpdateWithoutWorkspaceInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -27553,15 +27553,15 @@ export namespace Prisma {
     parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subtasks?: TasksUncheckedUpdateManyWithoutParentTaskNestedInput
+    subtasks?: TaskUncheckedUpdateManyWithoutParentTaskNestedInput
     tags?: TagUncheckedUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUncheckedUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUncheckedUpdateManyWithoutTasksNestedInput
     comment?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateManyWithoutWorkspaceInput = {
+  export type TaskUncheckedUpdateManyWithoutWorkspaceInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -27603,7 +27603,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tasks?: TasksUpdateManyWithoutTagsNestedInput
+    tasks?: TaskUpdateManyWithoutTagsNestedInput
   }
 
   export type TagUncheckedUpdateWithoutWorkspaceInput = {
@@ -27612,7 +27612,7 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tasks?: TasksUncheckedUpdateManyWithoutTagsNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutTagsNestedInput
   }
 
   export type TagUncheckedUpdateManyWithoutWorkspaceInput = {
@@ -27623,7 +27623,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TasksCreateManyParentTaskInput = {
+  export type TaskCreateManyParentTaskInput = {
     id?: string
     title: string
     completed?: boolean
@@ -27642,7 +27642,7 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type AttachmentsCreateManyTaskInput = {
+  export type AttachmentCreateManyTaskInput = {
     id?: string
     url: string
     filename: string
@@ -27668,7 +27668,7 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type TasksUpdateWithoutParentTaskInput = {
+  export type TaskUpdateWithoutParentTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -27678,15 +27678,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
     workspace?: WorkspaceUpdateOneRequiredWithoutTasksNestedInput
-    subtasks?: TasksUpdateManyWithoutParentTaskNestedInput
+    subtasks?: TaskUpdateManyWithoutParentTaskNestedInput
     tags?: TagUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUpdateManyWithoutTasksNestedInput
     comment?: CommentUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateWithoutParentTaskInput = {
+  export type TaskUncheckedUpdateWithoutParentTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -27696,15 +27696,15 @@ export namespace Prisma {
     workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subtasks?: TasksUncheckedUpdateManyWithoutParentTaskNestedInput
+    subtasks?: TaskUncheckedUpdateManyWithoutParentTaskNestedInput
     tags?: TagUncheckedUpdateManyWithoutTasksNestedInput
     taskVersions?: TaskVersionUncheckedUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUncheckedUpdateManyWithoutTasksNestedInput
     comment?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateManyWithoutParentTaskInput = {
+  export type TaskUncheckedUpdateManyWithoutParentTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -27748,7 +27748,7 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attachments?: AttachmentsUpdateManyWithoutTaskVersionNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskVersionNestedInput
   }
 
   export type TaskVersionUncheckedUpdateWithoutTaskInput = {
@@ -27756,7 +27756,7 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attachments?: AttachmentsUncheckedUpdateManyWithoutTaskVersionNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskVersionNestedInput
   }
 
   export type TaskVersionUncheckedUpdateManyWithoutTaskInput = {
@@ -27766,7 +27766,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttachmentsUpdateWithoutTaskInput = {
+  export type AttachmentUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
@@ -27778,7 +27778,7 @@ export namespace Prisma {
     taskVersion?: TaskVersionUpdateOneWithoutAttachmentsNestedInput
   }
 
-  export type AttachmentsUncheckedUpdateWithoutTaskInput = {
+  export type AttachmentUncheckedUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
@@ -27790,7 +27790,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttachmentsUncheckedUpdateManyWithoutTaskInput = {
+  export type AttachmentUncheckedUpdateManyWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
@@ -27806,7 +27806,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutActivityLogNestedInput
+    user?: UserUpdateOneRequiredWithoutActivityLogsNestedInput
   }
 
   export type ActivityLogUncheckedUpdateWithoutTasksInput = {
@@ -27827,7 +27827,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutCommentNestedInput
+    user?: UserUpdateOneRequiredWithoutCommentsNestedInput
   }
 
   export type CommentUncheckedUpdateWithoutTaskInput = {
@@ -27844,7 +27844,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TasksUpdateWithoutTagsInput = {
+  export type TaskUpdateWithoutTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -27854,15 +27854,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
     workspace?: WorkspaceUpdateOneRequiredWithoutTasksNestedInput
-    parentTask?: TasksUpdateOneWithoutSubtasksNestedInput
-    subtasks?: TasksUpdateManyWithoutParentTaskNestedInput
+    parentTask?: TaskUpdateOneWithoutSubtasksNestedInput
+    subtasks?: TaskUpdateManyWithoutParentTaskNestedInput
     taskVersions?: TaskVersionUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUpdateManyWithoutTasksNestedInput
     comment?: CommentUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateWithoutTagsInput = {
+  export type TaskUncheckedUpdateWithoutTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -27873,14 +27873,14 @@ export namespace Prisma {
     parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subtasks?: TasksUncheckedUpdateManyWithoutParentTaskNestedInput
+    subtasks?: TaskUncheckedUpdateManyWithoutParentTaskNestedInput
     taskVersions?: TaskVersionUncheckedUpdateManyWithoutTaskNestedInput
-    attachments?: AttachmentsUncheckedUpdateManyWithoutTaskNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutTaskNestedInput
     activityLog?: ActivityLogUncheckedUpdateManyWithoutTasksNestedInput
     comment?: CommentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
-  export type TasksUncheckedUpdateManyWithoutTagsInput = {
+  export type TaskUncheckedUpdateManyWithoutTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -27893,7 +27893,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttachmentsCreateManyTaskVersionInput = {
+  export type AttachmentCreateManyTaskVersionInput = {
     id?: string
     url: string
     filename: string
@@ -27905,7 +27905,7 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type AttachmentsUpdateWithoutTaskVersionInput = {
+  export type AttachmentUpdateWithoutTaskVersionInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
@@ -27913,11 +27913,11 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    task?: TasksUpdateOneWithoutAttachmentsNestedInput
+    task?: TaskUpdateOneWithoutAttachmentsNestedInput
     user?: UserUpdateOneRequiredWithoutAttachmentsNestedInput
   }
 
-  export type AttachmentsUncheckedUpdateWithoutTaskVersionInput = {
+  export type AttachmentUncheckedUpdateWithoutTaskVersionInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string
@@ -27929,7 +27929,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttachmentsUncheckedUpdateManyWithoutTaskVersionInput = {
+  export type AttachmentUncheckedUpdateManyWithoutTaskVersionInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     filename?: StringFieldUpdateOperationsInput | string

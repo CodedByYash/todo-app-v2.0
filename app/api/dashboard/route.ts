@@ -1,5 +1,6 @@
 import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
+import { Prisma } from "@/prisma/generated/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -35,7 +36,7 @@ export async function GET(request: Request) {
     const limit = parseInt(searchParams.get("limit") || "10");
     const skip = (page - 1) * limit;
 
-    const taskWhere: any = {
+    const taskWhere: Prisma.TaskWhereInput = {
       userId: user.id,
     };
 
@@ -62,7 +63,7 @@ export async function GET(request: Request) {
       taskWhere.dueDate = { gt: now };
     }
 
-    const tasks = await prisma.tasks.findMany({
+    const tasks = await prisma.task.findMany({
       where: taskWhere,
       orderBy: { updatedAt: "desc" },
       skip,
@@ -73,11 +74,11 @@ export async function GET(request: Request) {
       },
     });
 
-    const totalTasks = await prisma.tasks.count({ where: taskWhere });
-    const completedTasks = await prisma.tasks.count({
+    const totalTasks = await prisma.task.count({ where: taskWhere });
+    const completedTasks = await prisma.task.count({
       where: { ...taskWhere, completed: true },
     });
-    const pendingtasks = await prisma.tasks.count({
+    const pendingtasks = await prisma.task.count({
       where: { ...taskWhere, completed: true },
     });
 

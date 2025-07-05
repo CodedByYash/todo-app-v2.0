@@ -180,7 +180,7 @@ exports.Prisma.WorkspaceScalarFieldEnum = {
   ownerId: 'ownerId'
 };
 
-exports.Prisma.TasksScalarFieldEnum = {
+exports.Prisma.TaskScalarFieldEnum = {
   id: 'id',
   title: 'title',
   completed: 'completed',
@@ -202,7 +202,7 @@ exports.Prisma.TagScalarFieldEnum = {
   workspaceId: 'workspaceId'
 };
 
-exports.Prisma.AttachmentsScalarFieldEnum = {
+exports.Prisma.AttachmentScalarFieldEnum = {
   id: 'id',
   url: 'url',
   filename: 'filename',
@@ -327,9 +327,9 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   Workspace: 'Workspace',
-  Tasks: 'Tasks',
+  Task: 'Task',
   Tag: 'Tag',
-  Attachments: 'Attachments',
+  Attachment: 'Attachment',
   TaskVersion: 'TaskVersion',
   WorkspaceMember: 'WorkspaceMember',
   UserPreference: 'UserPreference',

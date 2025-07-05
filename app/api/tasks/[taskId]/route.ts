@@ -16,7 +16,7 @@ export async function GET(
 
     const userId = user.id;
 
-    const task = await prisma.tasks.findUnique({
+    const task = await prisma.task.findUnique({
       where: { id: params.taskId, userId },
       include: { tags: true, subtasks: true },
     });
@@ -58,7 +58,7 @@ export async function PUT(
 
     const userId = user.id;
 
-    const existingTask = await prisma.tasks.findUnique({
+    const existingTask = await prisma.task.findUnique({
       where: { id: params.taskId, userId },
     });
 
@@ -66,7 +66,7 @@ export async function PUT(
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
     }
 
-    const response = await prisma.tasks.update({
+    const response = await prisma.task.update({
       where: { id: params.taskId },
       data: parsedData.data,
     });
@@ -92,7 +92,7 @@ export async function DELETE(
       return NextResponse.json({ error: "id is missing" }, { status: 401 });
     }
 
-    const existingTask = await prisma.tasks.findUnique({ where: { id } });
+    const existingTask = await prisma.task.findUnique({ where: { id } });
 
     if (!existingTask) {
       return NextResponse.json({ error: "task is missing" }, { status: 404 });
@@ -100,7 +100,7 @@ export async function DELETE(
 
     const userId = user?.id;
 
-    const response = await prisma.tasks.delete({ where: { id, userId } });
+    const response = await prisma.task.delete({ where: { id, userId } });
 
     if (!response) {
       return NextResponse.json(

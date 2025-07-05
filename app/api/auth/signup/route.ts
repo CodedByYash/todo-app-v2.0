@@ -47,6 +47,7 @@ export async function POST(request: Request) {
       userId: user.id,
     });
   } catch (error) {
+    console.log(error);
     return Response.json({ error: "Internal server error" }, { status: 500 });
   }
 }
