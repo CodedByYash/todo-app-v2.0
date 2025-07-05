@@ -1,0 +1,261 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String            @id @default(uuid())
+  name                 String?
+  email                String            @unique
+  username             String?           @unique
+  password             String?
+  emailVerified        DateTime?
+  firstname            String?
+  lastname             String?
+  profilePicture       String?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  bio                  String?
+  isPro                Boolean           @default(false)
+  tasks                Tasks[]
+  attachments          Attachments[]
+  workspaces           Workspace[]       @relation("WorkspaceUsers")
+  ownedWorkspaces      Workspace[]       @relation("WorkspaceOwner")
+  workspaceMemberships WorkspaceMember[]
+  accounts             Account[]
+  sessions             Session[]
+  userPreference       UserPreference[]
+  notification         Notification[]
+  activityLog          ActivityLog[]
+  comment              Comment[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Workspace {
+  id                 String            @id @default(uuid())
+  workspacename      String
+  description        String?
+  imageUrl           String?
+  type               WorkspaceType     @default(PERSONAL)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  users              User[]            @relation("WorkspaceUsers")
+  tasks              Tasks[]
+  organizationName   String?
+  workspaceSize      Int               @default(1)
+  organizationDomain String?
+  isPro              Boolean           @default(false)
+  subscriptionEndsAt DateTime?
+  ownerId            String
+  owner              User              @relation("WorkspaceOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members            WorkspaceMember[]
+  tags               Tag[]             @relation("TagsOnWorkspace")
+}
+
+model Tasks {
+  id        String       @id @default(uuid())
+  title     String
+  completed Boolean      @default(false)
+  priority  priorityEnum
+  dueDate   DateTime? // Optional; use @db.Date if only date needed
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+
+  parentTaskId String?
+  parentTask   Tasks?  @relation("TaskSubtasks", fields: [parentTaskId], references: [id])
+  subtasks     Tasks[] @relation("TaskSubtasks")
+
+  tags         Tag[]         @relation("TaskTags")
+  taskVersions TaskVersion[]
+  attachments  Attachments[]
+  activityLog  ActivityLog[]
+  comment      Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([title])
+}
+
+model Tag {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  tasks       Tasks[]   @relation("TaskTags")
+  color       String    @default("#3b82f6")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  workspaceId String
+  workspace   Workspace @relation("TagsOnWorkspace", fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model Attachments {
+  id             String             @id @default(uuid())
+  url            String
+  filename       String
+  attachmentType AttachmentTypeEnum
+  mimeType       String
+  fileSize       Int
+
+  taskId String?
+  task   Tasks?  @relation(fields: [taskId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  taskVersionId String?
+  taskVersion   TaskVersion? @relation(fields: [taskVersionId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model TaskVersion {
+  id          String        @id @default(uuid())
+  taskId      String
+  task        Tasks         @relation(fields: [taskId], references: [id])
+  version     Int           @default(1)
+  description String
+  attachments Attachments[]
+  createdAt   DateTime      @default(now())
+
+  @@unique([taskId, version])
+}
+
+model WorkspaceMember {
+  id        String     @id @default(uuid())
+  role      MemberRole @default(MEMBER)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+}
+
+model UserPreference {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  theme                     Theme    @default(SYSTEM)
+  receiveEmailNotifications Boolean  @default(true)
+  defaultWorkspaceView      ViewType @default(KANBAN)
+  enableTaskAutoSave        Boolean  @default(true)
+  language                  String   @default("en")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  title     String
+  body      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  tasks     Tasks?   @relation(fields: [taskId], references: [id])
+  taskId    String?
+  action    String
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  task      Tasks    @relation(fields: [taskId], references: [id])
+  taskId    String
+  createdAt DateTime @default(now())
+}
+
+enum Theme {
+  LIGHT
+  DARK
+  SYSTEM
+}
+
+enum ViewType {
+  KANBAN
+  LIST
+  CALENDAR
+}
+
+enum priorityEnum {
+  low
+  medium
+  high
+  no_priority
+}
+
+enum AttachmentTypeEnum {
+  IMAGE
+  DOCUMENT
+  AUDIO
+  VIDEO
+}
+
+enum WorkspaceType {
+  PERSONAL
+  PROFESSIONAL
+}
+
+enum MemberRole {
+  OWNER
+  ADMIN
+  MEMBER
+  GUEST
+}

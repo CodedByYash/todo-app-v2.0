@@ -5,10 +5,10 @@ import { NextResponse } from "next/server";
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { attachmentId: string } }
+  { params }: { params: Promise<{ attachmentId: string }> }
 ) {
   try {
-    const attachmentId = await params.attachmentId;
+    const { attachmentId } = await params;
     const user = await getUser();
 
     if (!user || !user.id || !attachmentId) {
