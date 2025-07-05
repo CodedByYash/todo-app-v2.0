@@ -2,9 +2,8 @@ import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
 import { workspaceSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
-import { z } from "zod";
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const user = await getUser();
 
@@ -40,6 +39,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(workspaces);
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -125,6 +125,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(workspace);
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

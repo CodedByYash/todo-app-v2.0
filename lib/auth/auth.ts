@@ -1,10 +1,15 @@
-import NextAuth, { getServerSession, NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma/prisma";
 import { compare } from "bcryptjs";
 import { JWT } from "next-auth/jwt";
 import { Session, User } from "next-auth";
+
+// Extend the User type to include username
+interface ExtendedUser extends User {
+  username?: string;
+}
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -46,11 +51,11 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: User }) {
+    async jwt({ token, user }: { token: JWT; user?: ExtendedUser }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
-        token.username = (user as any).username;
+        (token as any).username = user.username;
       }
       return token;
     },

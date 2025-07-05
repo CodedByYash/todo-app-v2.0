@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma/prisma";
 import getUser from "@/lib/getUser";
 import { tasksSchema } from "@/lib/schema/schema";
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const user = await getUser();
 

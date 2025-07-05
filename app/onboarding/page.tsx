@@ -21,8 +21,8 @@ const OnboardingPage = () => {
       <div className="container max-w-3xl mx-auto py-10">
         <h1 className="text-3xl font bold mb-6">Welcome to Todoer</h1>
         <p className="text-lg mb-8">
-          Let's set up your account, {session?.user?.username || ""}. we'll need
-          a few details to get you started
+          Let&apos;s set up your account, {session?.user?.username || ""}.
+          we&apos;ll need a few details to get you started
         </p>
         <OnboardingForm
           userId={session?.user?.id}

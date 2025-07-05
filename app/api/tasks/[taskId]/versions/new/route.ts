@@ -14,8 +14,6 @@ export async function POST(
     if (!user || !user.id || taskId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
-    const userId = user?.id;
     const body = await request.json();
     const parsed = RequestBodySchema.safeParse(body);
 

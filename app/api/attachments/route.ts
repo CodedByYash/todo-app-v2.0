@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   try {
     const user = await getUser();
 
-    if (user?.email) {
+    if (user?.email || !user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
       where: { email: user?.email },
     });
 
-    if (!user) {
+    if (!existingUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 

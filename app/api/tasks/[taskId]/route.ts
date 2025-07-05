@@ -1,6 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma/prisma";
-import { z } from "zod";
 import getUser from "@/lib/getUser";
 import { tasksSchema } from "@/lib/schema/schema";
 
@@ -28,6 +27,7 @@ export async function GET(
 
     return NextResponse.json(task);
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -72,6 +72,7 @@ export async function PUT(
     });
     return NextResponse.json(response);
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -110,6 +111,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

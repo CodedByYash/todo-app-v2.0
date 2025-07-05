@@ -129,6 +129,7 @@ const SignUpPage: React.FC = () => {
         alert(data.error || "Something went wrong");
       }
     } catch (error) {
+      console.log(error);
       alert("Network error");
     }
     setIsLoading(false);
@@ -247,8 +248,8 @@ const SignUpPage: React.FC = () => {
                 className="text-xl text-gray-300 max-w-lg mx-auto lg:mx-0"
               >
                 Transform your productivity with our AI-powered task management
-                platform. Join thousands of users who've revolutionized their
-                workflow.
+                platform. Join thousands of users who&apos;ve revolutionized
+                their workflow.
               </motion.p>
 
               {/* Animated features */}

@@ -1,4 +1,3 @@
-import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
 import { ActivityLogSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
