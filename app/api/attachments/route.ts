@@ -7,12 +7,12 @@ export async function POST(req: Request) {
   try {
     const user = await getUser();
 
-    if (!user?.email || !user) {
+    if (!user || !user.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const existingUser = await prisma.user.findUnique({
-      where: { email: user?.email! },
+      where: { email: user.email },
     });
 
     if (!existingUser) {

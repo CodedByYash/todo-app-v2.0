@@ -43,12 +43,12 @@ export async function POST(request: Request) {
     const parsedData = createUserSchema.safeParse(data);
     const user = await getUser();
 
-    if (!parsedData.success) {
+    if (!parsedData.success || !user || !user.email) {
       return NextResponse.json({ error: "invalid data" }, { status: 401 });
     }
 
     const existingUser = await prisma.user.findFirst({
-      where: { email: user?.email! },
+      where: { email: user?.email },
     });
 
     if (!existingUser) {

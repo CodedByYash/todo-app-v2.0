@@ -30,7 +30,7 @@ export async function GET(request: Request) {
             ],
           },
           {
-            email: { not: user?.email! },
+            email: { not: user.email },
           },
         ],
       },
@@ -64,7 +64,7 @@ export async function GET(request: Request) {
             ],
           },
           {
-            email: { not: user?.email! },
+            email: { not: user.email },
           },
         ],
       },
