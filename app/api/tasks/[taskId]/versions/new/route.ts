@@ -5,13 +5,13 @@ import { NextResponse } from "next/server";
 
 export async function POST(
   request: Request,
-  { params }: { params: { taskId: string } }
+  { params }: { params: Promise<{ taskId: string }> }
 ) {
   try {
     const user = await getUser();
-    const taskId = await params.taskId;
+    const { taskId } = await params;
 
-    if (!user || !user.id || taskId) {
+    if (!user || !user.id || !taskId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const body = await request.json();
