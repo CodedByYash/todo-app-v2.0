@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma/prisma";
 import { compare } from "bcryptjs";
-import { AuthOptions, User } from "next-auth";
+import { User } from "next-auth";
 
 // Extend the user type internally
 interface CustomUser extends User {
