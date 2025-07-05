@@ -65,7 +65,7 @@ export async function POST(request: Request) {
     });
 
     if (!workspace) {
-      return null;
+      return NextResponse.json({ error: "Invalid User" }, { status: 403 });
     }
 
     const workspaceId = workspace.id;
