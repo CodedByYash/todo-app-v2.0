@@ -1,17 +1,17 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma/prisma";
 import { compare } from "bcryptjs";
-import { JWT } from "next-auth/jwt";
-import { Session, User } from "next-auth";
+import { AuthOptions, User } from "next-auth";
 
-// Extend the User type to include username
-interface ExtendedUser extends User {
+// Extend the user type internally
+interface CustomUser extends User {
+  id: string;
   username?: string;
 }
 
-export const authOptions: NextAuthOptions = {
+const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
@@ -23,47 +23,43 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials): Promise<CustomUser | null> {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Missing email or password");
+          return null;
         }
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
-        if (!user || !user.password) {
-          throw new Error("No user found or password not set");
-        }
+        if (!user || !user.password) return null;
 
         const isValid = await compare(credentials.password, user.password);
-
-        if (!isValid) {
-          throw new Error("Invalid password");
-        }
+        if (!isValid) return null;
 
         return {
           id: user.id,
           email: user.email,
-          username: user.username || undefined,
-        } as User;
+          username: user.username ?? undefined,
+        };
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: ExtendedUser }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.email = user.email!;
-        token.username = user.username;
+        token.email = user.email;
+        // Cast safely to CustomUser
+        token.username = (user as CustomUser).username;
       }
       return token;
     },
-    async session({ session, token }: { session: Session; token: JWT }) {
-      if (token && session.user) {
+    async session({ session, token }) {
+      if (session.user) {
         session.user.id = token.id as string;
         session.user.email = token.email!;
-        session.user.username = token.username as string;
+        (session.user as CustomUser).username = token.username as string;
       }
       return session;
     },
@@ -73,7 +69,6 @@ export const authOptions: NextAuthOptions = {
     error: "/auth/error",
   },
   secret: process.env.NEXTAUTH_SECRET,
-};
+});
 
-const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
