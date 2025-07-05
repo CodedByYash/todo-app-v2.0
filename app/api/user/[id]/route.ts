@@ -56,23 +56,23 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
-    const id = params.userId;
+    const { userId } = await params;
     const user = await getUser();
 
-    if (!id || !user || !user.email) {
+    if (!userId || !user || !user.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const existingUser = await prisma.user.findUnique({
-      where: { id, email: user.email },
+      where: { id: userId, email: user.email },
     });
 
     if (existingUser) {
       const response = await prisma.user.delete({
-        where: { id, email: user.email },
+        where: { id: userId, email: user.email },
       });
 
       return NextResponse.json(response);
