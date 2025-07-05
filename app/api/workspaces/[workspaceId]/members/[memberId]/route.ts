@@ -5,12 +5,11 @@ import { NextResponse } from "next/server";
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { workspaceId: string; memberId: string } }
+  { params }: { params: Promise<{ workspaceId: string; memberId: string }> }
 ) {
   try {
     const user = await getUser();
-    const workspaceId = params.workspaceId;
-    const memberId = params.memberId;
+    const { workspaceId, memberId } = await params;
     if (!user || !user.id || !workspaceId || !memberId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -76,15 +75,14 @@ export async function DELETE(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { workspaceId: string; memberId: string } }
+  { params }: { params: Promise<{ workspaceId: string; memberId: string }> }
 ) {
   try {
     const user = await getUser();
-    const workspaceId = params.workspaceId;
-    const memberId = params.memberId;
+    const { workspaceId, memberId } = await params;
     const body = await request.json();
     const parsedBody = UpdateMemberRoleSchema.safeParse(body);
-    if (!parsedBody.success) {
+    if (!parsedBody.success || !user || !workspaceId || !memberId) {
       return NextResponse.json(
         { error: "Invalid request body" },
         { status: 400 }

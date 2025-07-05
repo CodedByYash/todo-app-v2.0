@@ -5,11 +5,11 @@ import { NextResponse } from "next/server";
 
 export async function POST(
   request: Request,
-  { params }: { params: { workspaceId: string } }
+  { params }: { params: Promise<{ workspaceId: string }> }
 ) {
   try {
     const user = await getUser();
-    const workspaceId = params.workspaceId;
+    const { workspaceId } = await params;
     if (!user || !user.id || !workspaceId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -84,11 +84,11 @@ export async function POST(
 
 export async function GET(
   request: Request,
-  { params }: { params: { workspaceId: string } }
+  { params }: { params: Promise<{ workspaceId: string }> }
 ) {
   try {
     const user = await getUser();
-    const workspaceId = params.workspaceId;
+    const { workspaceId } = await params;
     if (!user || !user.id || !workspaceId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

@@ -15,7 +15,7 @@ export async function GET() {
     where: { email: user.email },
   });
 
-  if (existingUser) {
+  if (!existingUser) {
     return new NextResponse("unable to find user", { status: 404 });
   }
 

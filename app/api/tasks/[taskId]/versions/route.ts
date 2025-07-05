@@ -4,17 +4,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { taskId: string } }
+  { params }: { params: Promise<{ taskId: string }> }
 ) {
   try {
     const user = await getUser();
-    const taskId = await params.taskId;
+    const { taskId } = await params;
 
     if (!user || !user.id || !taskId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const task = await prisma.tasks.findUnique({
+    const task = await prisma.task.findUnique({
       where: {
         id: taskId,
       },

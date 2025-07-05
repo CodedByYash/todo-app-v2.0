@@ -5,19 +5,20 @@ import { tasksSchema } from "@/lib/schema/schema";
 
 export async function GET(
   request: Request,
-  { params }: { params: { taskId: string } }
+  { params }: { params: Promise<{ taskId: string }> }
 ) {
   try {
+    const { taskId } = await params;
     const user = await getUser();
 
-    if (!user || !params.taskId || user.id) {
+    if (!user || !taskId || !user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
     }
 
     const userId = user.id;
 
     const task = await prisma.task.findUnique({
-      where: { id: params.taskId, userId },
+      where: { id: taskId, userId },
       include: { tags: true, subtasks: true },
     });
 
@@ -37,12 +38,13 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { taskId: string; workspaceId: string } }
+  { params }: { params: Promise<{ taskId: string; workspaceId: string }> }
 ) {
   try {
     const user = await getUser();
+    const { taskId, workspaceId } = await params;
 
-    if (!user || !params.taskId || !params.workspaceId || user.id) {
+    if (!user || !taskId || !workspaceId || !user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -59,7 +61,7 @@ export async function PUT(
     const userId = user.id;
 
     const existingTask = await prisma.task.findUnique({
-      where: { id: params.taskId, userId },
+      where: { id: taskId, userId },
     });
 
     if (!existingTask) {
@@ -67,7 +69,7 @@ export async function PUT(
     }
 
     const response = await prisma.task.update({
-      where: { id: params.taskId },
+      where: { id: taskId },
       data: parsedData.data,
     });
     return NextResponse.json(response);
@@ -82,17 +84,19 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { taskid: string } }
+  { params }: { params: Promise<{ taskId: string }> }
 ) {
   try {
-    const id = params.taskid;
+    const { taskId } = await params;
     const user = await getUser();
 
-    if (!id || !user || !user.id) {
+    if (!taskId || !user || !user.id) {
       return NextResponse.json({ error: "id is missing" }, { status: 401 });
     }
 
-    const existingTask = await prisma.task.findUnique({ where: { id } });
+    const existingTask = await prisma.task.findUnique({
+      where: { id: taskId },
+    });
 
     if (!existingTask) {
       return NextResponse.json({ error: "task is missing" }, { status: 404 });
@@ -100,7 +104,9 @@ export async function DELETE(
 
     const userId = user?.id;
 
-    const response = await prisma.task.delete({ where: { id, userId } });
+    const response = await prisma.task.delete({
+      where: { id: taskId, userId },
+    });
 
     if (!response) {
       return NextResponse.json(

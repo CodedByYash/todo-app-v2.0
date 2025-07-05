@@ -6,6 +6,9 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+  if (!id) {
+    return NextResponse.json({ error: "id is invalid" }, { status: 401 });
+  }
 
   const updated = await prisma.notification.update({
     where: { id },

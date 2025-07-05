@@ -10,6 +10,12 @@ export async function GET(request: Request) {
     const query = searchParams.get("query") || "";
     const page = parseInt(searchParams.get("page") || "1", 10);
     const limit = parseInt(searchParams.get("limit") || "10", 10);
+    if (!user || !user.email || !query || !page || !limit) {
+      return NextResponse.json(
+        { error: "Invalid data or params" },
+        { status: 401 }
+      );
+    }
 
     const skip = (page - 1) * limit;
 
@@ -24,7 +30,7 @@ export async function GET(request: Request) {
             ],
           },
           {
-            email: { not: user?.email },
+            email: { not: user?.email! },
           },
         ],
       },
@@ -58,7 +64,7 @@ export async function GET(request: Request) {
             ],
           },
           {
-            email: { not: user?.email },
+            email: { not: user?.email! },
           },
         ],
       },

@@ -12,7 +12,7 @@ export async function GET(request: Request) {
     }
 
     const existingUser = await prisma.user.findUnique({
-      where: { id: user.id, email: user.email },
+      where: { id: user.id, email: user.email! },
       include: {
         workspaces: true,
         ownedWorkspaces: true,
