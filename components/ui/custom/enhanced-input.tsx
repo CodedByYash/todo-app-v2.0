@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
-
+import { AnimatePresence, motion } from "motion/react";
+import { useState } from "react";
 export const EnhancedInput: React.FC<{
   icon: React.ReactNode;
   type: string;
@@ -12,6 +11,7 @@ export const EnhancedInput: React.FC<{
   error?: string;
   showPassword?: boolean;
   onTogglePassword?: () => void;
+  theme: any;
 }> = ({
   icon,
   type,
@@ -22,6 +22,7 @@ export const EnhancedInput: React.FC<{
   error,
   showPassword,
   onTogglePassword,
+  theme,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -33,22 +34,32 @@ export const EnhancedInput: React.FC<{
       className="relative"
     >
       <motion.div
-        className={`relative overflow-hidden rounded-2xl border-2 transition-all duration-300 ${
+        className={`relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${
           isFocused
-            ? "border-blue-500 shadow-lg shadow-blue-500/25"
+            ? `${theme.inputFocusBorder} shadow-lg ${
+                theme.isDark ? "shadow-blue-500/25" : "shadow-blue-500/15"
+              }`
             : error
             ? "border-red-400"
-            : "border-gray-200"
+            : theme.inputBorder
         }`}
         whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.99 }}
       >
         {/* Animated gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 opacity-50" />
+        <div
+          className={`absolute inset-0 ${
+            theme.isDark
+              ? "bg-gradient-to-r from-blue-50/5 to-purple-50/5"
+              : "bg-gradient-to-r from-blue-50 to-purple-50"
+          } opacity-50`}
+        />
 
         {/* Input field */}
         <div className="relative">
-          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 z-10">
+          <div
+            className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${theme.textTertiary} z-10`}
+          >
             {icon}
           </div>
           <input
@@ -58,19 +69,23 @@ export const EnhancedInput: React.FC<{
             onChange={onChange}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            className="w-full pl-12 pr-12 py-4 bg-transparent border-0 focus:outline-none text-gray-800 placeholder-gray-500 relative z-10"
+            className={`w-full pl-10 pr-10 py-3 bg-transparent border-0 focus:outline-none ${
+              theme.textPrimary
+            } ${
+              theme.isDark ? "placeholder-gray-500" : "placeholder-gray-400"
+            } relative z-10 text-sm`}
             placeholder={placeholder}
           />
           {onTogglePassword && (
             <button
               type="button"
               onClick={onTogglePassword}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 z-10"
+              className={`absolute right-3 top-1/2 transform -translate-y-1/2 ${theme.textTertiary} hover:${theme.textSecondary} z-10`}
             >
               {showPassword ? (
-                <EyeOff className="w-5 h-5" />
+                <EyeOff className="w-4 h-4" />
               ) : (
-                <Eye className="w-5 h-5" />
+                <Eye className="w-4 h-4" />
               )}
             </button>
           )}
@@ -78,7 +93,7 @@ export const EnhancedInput: React.FC<{
 
         {/* Animated border effect */}
         <motion.div
-          className="absolute inset-0 border-2 border-blue-500 rounded-2xl opacity-0"
+          className={`absolute inset-0 border-2 ${theme.inputFocusBorder} rounded-xl opacity-0`}
           animate={{
             opacity: isFocused ? 1 : 0,
             scale: isFocused ? 1 : 0.95,

@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 export const OAuthButton: React.FC<{
   provider: "google" | "github";
   onClick: () => void;
   children: React.ReactNode;
-}> = ({ provider, onClick, children }) => {
+  theme: any;
+}> = ({ provider, onClick, children, theme }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -18,13 +19,19 @@ export const OAuthButton: React.FC<{
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
-      <div className="relative overflow-hidden rounded-2xl border-2 border-gray-200 bg-white p-4 transition-all duration-300 hover:border-gray-300 hover:shadow-lg">
+      <div
+        className={`relative overflow-hidden rounded-xl border-2 ${theme.oauthBg} p-3 transition-all duration-300 hover:shadow-lg`}
+      >
         {/* Animated gradient background */}
         <motion.div
-          className={`absolute inset-0 bg-gradient-to-r ${
-            provider === "google"
-              ? "from-blue-50 to-red-50"
-              : "from-gray-50 to-purple-50"
+          className={`absolute inset-0 ${
+            theme.isDark
+              ? provider === "google"
+                ? "bg-gradient-to-r from-blue-50/5 to-red-50/5"
+                : "bg-gradient-to-r from-gray-50/5 to-purple-50/5"
+              : provider === "google"
+              ? "bg-gradient-to-r from-blue-50 to-red-50"
+              : "bg-gradient-to-r from-gray-50 to-purple-50"
           } opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
         />
 
@@ -35,7 +42,9 @@ export const OAuthButton: React.FC<{
 
         {/* Shimmer effect */}
         <motion.div
-          className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white to-transparent opacity-30"
+          className={`absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent ${
+            theme.isDark ? "via-white/10" : "via-white/50"
+          } to-transparent opacity-30`}
           animate={{
             x: isHovered ? "200%" : "-100%",
           }}

@@ -1,21 +1,24 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { FloatingParticles } from "@/components/ui/custom/floatingParticle";
 import {
-  Mail,
-  Lock,
   ArrowRight,
+  CheckCircle,
   Github,
+  Lock,
+  Mail,
   Sparkles,
   Star,
-  Zap,
-  CheckCircle,
   User,
+  Zap,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { NextResponse } from "next/server";
+import { useEffect, useState } from "react";
+import { ThemeToggle, useTheme } from "@/components/ui/custom/theme-component";
+import { AnimatePresence, motion, Variants } from "motion/react";
 import { OAuthButton } from "@/components/ui/custom/enhanced-oauth";
 import { EnhancedInput } from "@/components/ui/custom/enhanced-input";
-import { FloatingParticles } from "@/components/ui/custom/floatingParticle";
+import { EnhancedCheckbox } from "@/components/ui/custom/enhanced-checkbox";
+import { signIn } from "next-auth/react";
 
 interface FormData {
   fullName: string;
@@ -32,25 +35,24 @@ interface FormErrors {
 }
 
 const SignUpPage: React.FC = () => {
-  const router = useRouter();
-  const [formData, setFormData] = useState<FormData>({
+  const theme = useTheme();
+  const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
-  // Auto-progress through steps for visual appeal
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentStep((prev) => (prev + 1) % 4);
     }, 3000);
+
     return () => clearInterval(timer);
   }, []);
 
@@ -83,7 +85,7 @@ const SignUpPage: React.FC = () => {
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = "Please enter a valid email";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Please enter a valid email";
     }
@@ -97,7 +99,7 @@ const SignUpPage: React.FC = () => {
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
+      newErrors.confirmPassword = "Password do not match";
     }
 
     setErrors(newErrors);
@@ -107,7 +109,7 @@ const SignUpPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) return;
+    if (!validateForm) return;
 
     setIsLoading(true);
 
@@ -121,36 +123,33 @@ const SignUpPage: React.FC = () => {
           password: formData.password,
         }),
       });
-
-      if (response.ok) {
-        router.push("/auth/signin?message=Account created successfully");
-      } else {
-        const data = await response.json();
-        alert(data.error || "Something went wrong");
-      }
+      return NextResponse.json(response);
     } catch (error) {
       console.log(error);
-      alert("Network error");
+      return NextResponse.json(
+        { error: "Internal Server error" },
+        { status: 500 }
+      );
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
-  const handleGoogleSignUp = () => {
-    console.log("Google sign up clicked");
+  const handleGoogleSignIn = () => {
+    signIn("google", { callbackUrl: "/onboarding-redirect" });
   };
 
-  const handleGithubSignUp = () => {
-    console.log("GitHub sign up clicked");
+  const handleGithubSignIn = () => {
+    signIn("github", { callbackUrl: "/onboarding-redirect" });
   };
 
   const passwordStrength = (password: string): number => {
@@ -197,37 +196,60 @@ const SignUpPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+    <div
+      className={`min-h-screen ${theme.bg} relative overflow-hidden transition-all duration-500`}
+    >
+      {/* Theme Toggle */}
+      <ThemeToggle theme={theme} />
+
       {/* Animated background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900 via-blue-900 to-slate-900" />
+      <div
+        className={`absolute inset-0 ${
+          theme.isDark
+            ? "bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900 via-blue-900 to-slate-900"
+            : "bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-100 via-purple-100 to-pink-100"
+        }`}
+      />
 
       {/* Floating particles */}
-      <FloatingParticles />
+      <FloatingParticles theme={theme} />
 
       {/* Grid pattern overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.1)_1px,transparent_1px)] bg-[size:50px_50px] opacity-20" />
+      <div
+        className={`absolute inset-0 ${
+          theme.isDark
+            ? "bg-[linear-gradient(rgba(255,255,255,.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.1)_1px,transparent_1px)]"
+            : "bg-[linear-gradient(rgba(0,0,0,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,.05)_1px,transparent_1px)]"
+        } bg-[size:50px_50px] opacity-20`}
+      />
 
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="w-full max-w-7xl grid lg:grid-cols-2 gap-12 items-center"
+          className="w-full max-w-7xl grid lg:grid-cols-2 gap-12 items-start"
         >
           {/* Left Side - Hero Section */}
-          <motion.div variants={itemVariants} className="relative">
-            <div className="text-center lg:text-left space-y-8">
+          <motion.div variants={itemVariants} className="relative pt-8">
+            <div className="text-left space-y-8">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="relative"
               >
-                <h1 className="text-5xl lg:text-7xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight">
+                <h1
+                  className={`text-5xl lg:text-7xl font-bold ${
+                    theme.isDark
+                      ? "bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400"
+                      : "bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
+                  } bg-clip-text text-transparent leading-tight`}
+                >
                   Welcome to
                   <br />
                   <span className="relative">
-                    Taskito
+                    to Taskito
                     <motion.div
                       className="absolute -top-2 -right-2"
                       animate={{ rotate: 360 }}
@@ -237,7 +259,11 @@ const SignUpPage: React.FC = () => {
                         ease: "linear",
                       }}
                     >
-                      <Sparkles className="w-8 h-8 text-yellow-400" />
+                      <Sparkles
+                        className={`w-8 h-8 ${
+                          theme.isDark ? "text-yellow-400" : "text-yellow-500"
+                        }`}
+                      />
                     </motion.div>
                   </span>
                 </h1>
@@ -245,11 +271,11 @@ const SignUpPage: React.FC = () => {
 
               <motion.p
                 variants={itemVariants}
-                className="text-xl text-gray-300 max-w-lg mx-auto lg:mx-0"
+                className={`text-xl ${theme.textSecondary} max-w-lg`}
               >
                 Transform your productivity with our AI-powered task management
-                platform. Join thousands of users who&apos;ve revolutionized
-                their workflow.
+                platform. Join thousands of users who've revolutionized their
+                workflow.
               </motion.p>
 
               {/* Animated features */}
@@ -261,9 +287,13 @@ const SignUpPage: React.FC = () => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.5 }}
-                    className="flex items-center space-x-3 text-gray-300"
+                    className={`flex items-center space-x-3 ${theme.textSecondary}`}
                   >
-                    <div className="text-blue-400">
+                    <div
+                      className={`${
+                        theme.isDark ? "text-blue-400" : "text-blue-500"
+                      }`}
+                    >
                       {features[currentStep].icon}
                     </div>
                     <span className="text-lg">
@@ -272,58 +302,43 @@ const SignUpPage: React.FC = () => {
                   </motion.div>
                 </AnimatePresence>
               </div>
-
-              {/* Stats */}
-              <motion.div
-                variants={itemVariants}
-                className="grid grid-cols-3 gap-6 pt-8"
-              >
-                {[
-                  { number: "50K+", label: "Active Users" },
-                  { number: "1M+", label: "Tasks Completed" },
-                  { number: "99.9%", label: "Uptime" },
-                ].map((stat, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 + index * 0.1 }}
-                    className="text-center"
-                  >
-                    <div className="text-2xl font-bold text-white">
-                      {stat.number}
-                    </div>
-                    <div className="text-sm text-gray-400">{stat.label}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
             </div>
           </motion.div>
 
-          {/* Right Side - Sign Up Form */}
+          {/* Right Side - Sign In Form */}
           <motion.div variants={itemVariants} className="relative">
-            <div className="relative bg-white/10 backdrop-blur-2xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+            <div
+              className={`relative ${theme.cardBg} rounded-2xl p-6 border shadow-2xl max-w-md mx-auto`}
+            >
               {/* Glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur-xl" />
+              <div
+                className={`absolute inset-0 bg-gradient-to-r ${theme.glowEffect} rounded-2xl blur-xl`}
+              />
 
               <div className="relative z-10">
                 <motion.div
                   variants={itemVariants}
-                  className="text-center mb-8"
+                  className="text-center mb-6"
                 >
-                  <h2 className="text-3xl font-bold text-white mb-2">
+                  <h2
+                    className={`text-2xl font-bold ${theme.textPrimary} mb-2`}
+                  >
                     Create Your Account
                   </h2>
-                  <p className="text-gray-300">
+                  <p className={`${theme.textSecondary} text-sm`}>
                     Start your productivity journey today
                   </p>
                 </motion.div>
 
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {/* OAuth Providers */}
-                  <motion.div variants={itemVariants} className="space-y-4">
-                    <OAuthButton provider="google" onClick={handleGoogleSignUp}>
-                      <svg className="w-5 h-5" viewBox="0 0 24 24">
+                  <motion.div variants={itemVariants} className="space-y-3">
+                    <OAuthButton
+                      provider="google"
+                      onClick={handleGoogleSignIn}
+                      theme={theme}
+                    >
+                      <svg className="w-4 h-4" viewBox="0 0 24 24">
                         <path
                           fill="#4285F4"
                           d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -341,14 +356,22 @@ const SignUpPage: React.FC = () => {
                           d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                         />
                       </svg>
-                      <span className="text-gray-700 font-medium">
+                      <span
+                        className={`${theme.oauthText} font-medium text-sm`}
+                      >
                         Continue with Google
                       </span>
                     </OAuthButton>
 
-                    <OAuthButton provider="github" onClick={handleGithubSignUp}>
-                      <Github className="w-5 h-5 text-gray-700" />
-                      <span className="text-gray-700 font-medium">
+                    <OAuthButton
+                      provider="github"
+                      onClick={handleGithubSignIn}
+                      theme={theme}
+                    >
+                      <Github className={`w-4 h-4 ${theme.oauthText}`} />
+                      <span
+                        className={`${theme.oauthText} font-medium text-sm`}
+                      >
                         Continue with GitHub
                       </span>
                     </OAuthButton>
@@ -357,49 +380,58 @@ const SignUpPage: React.FC = () => {
                   {/* Divider */}
                   <motion.div variants={itemVariants} className="relative">
                     <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-white/20"></div>
+                      <div
+                        className={`w-full border-t ${
+                          theme.isDark ? "border-white/20" : "border-gray-300"
+                        }`}
+                      ></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                      <span className="px-4 bg-white/10 text-gray-300 rounded-full">
+                      <span
+                        className={`px-3 ${
+                          theme.isDark ? "bg-white/10" : "bg-white/80"
+                        } ${theme.textSecondary} rounded-full text-xs`}
+                      >
                         Or continue with email
                       </span>
                     </div>
                   </motion.div>
 
-                  {/* Form Fields */}
-                  <div className="space-y-4">
+                  {/*Fields */}
+                  <form onSubmit={handleSubmit} className="space-y-4">
                     <EnhancedInput
-                      icon={<User className="w-5 h-5" />}
+                      icon={<User className="w-4 h-4" />}
                       type="text"
                       name="fullName"
                       placeholder="Enter your full name"
                       value={formData.fullName}
                       onChange={handleInputChange}
                       error={errors.fullName}
+                      theme={theme}
                     />
-
                     <EnhancedInput
-                      icon={<Mail className="w-5 h-5" />}
+                      icon={<Mail className="w-4 h-4" />}
                       type="email"
                       name="email"
                       placeholder="Enter your email"
                       value={formData.email}
                       onChange={handleInputChange}
                       error={errors.email}
+                      theme={theme}
                     />
 
                     <EnhancedInput
-                      icon={<Lock className="w-5 h-5" />}
+                      icon={<Lock className="w-4 h-4" />}
                       type={showPassword ? "text" : "password"}
                       name="password"
-                      placeholder="Create a strong password"
+                      placeholder="Enter your password"
                       value={formData.password}
                       onChange={handleInputChange}
                       error={errors.password}
                       showPassword={showPassword}
                       onTogglePassword={() => setShowPassword(!showPassword)}
+                      theme={theme}
                     />
-
                     {/* Password Strength */}
                     <AnimatePresence>
                       {formData.password && (
@@ -410,7 +442,7 @@ const SignUpPage: React.FC = () => {
                           className="space-y-2"
                         >
                           <div className="flex items-center space-x-2">
-                            <div className="flex-1 h-2 bg-white/20 rounded-full overflow-hidden">
+                            <div className="flex-1 h-1.5 bg-white/20 rounded-full overflow-hidden">
                               <motion.div
                                 className={`h-full bg-gradient-to-r ${getPasswordStrengthColor(
                                   passwordStrength(formData.password)
@@ -436,7 +468,7 @@ const SignUpPage: React.FC = () => {
                     </AnimatePresence>
 
                     <EnhancedInput
-                      icon={<Lock className="w-5 h-5" />}
+                      icon={<Lock className="w-4 h-4" />}
                       type={showConfirmPassword ? "text" : "password"}
                       name="confirmPassword"
                       placeholder="Confirm your password"
@@ -444,65 +476,73 @@ const SignUpPage: React.FC = () => {
                       onChange={handleInputChange}
                       error={errors.confirmPassword}
                       showPassword={showConfirmPassword}
+                      theme={theme}
                       onTogglePassword={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
                     />
-                  </div>
 
-                  {/* Submit Button */}
-                  <motion.div variants={itemVariants}>
-                    <motion.button
-                      type="submit"
-                      onClick={handleSubmit}
-                      disabled={isLoading}
-                      className="relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 p-4 font-semibold text-white shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      {/* Animated background */}
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-0"
-                        whileHover={{ opacity: 1 }}
-                        transition={{ duration: 0.3 }}
-                      />
+                    {/* Submit Button */}
+                    <motion.div variants={itemVariants}>
+                      <motion.button
+                        type="submit"
+                        disabled={isLoading}
+                        className={`relative w-full overflow-hidden rounded-xl bg-gradient-to-r ${theme.buttonGradient} p-3 font-semibold text-white shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-sm`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        {/* Animated background */}
+                        <motion.div
+                          className={`absolute inset-0 bg-gradient-to-r ${
+                            theme.isDark
+                              ? "from-blue-500 to-purple-500"
+                              : "from-blue-600 to-purple-600"
+                          } opacity-0`}
+                          whileHover={{ opacity: 1 }}
+                          transition={{ duration: 0.3 }}
+                        />
 
-                      <div className="relative z-10 flex items-center justify-center space-x-2">
-                        {isLoading ? (
-                          <motion.div
-                            className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                            animate={{ rotate: 360 }}
-                            transition={{
-                              duration: 1,
-                              repeat: Infinity,
-                              ease: "linear",
-                            }}
-                          />
-                        ) : (
-                          <>
-                            <span>Create Account</span>
+                        <div className="relative z-10 flex items-center justify-center space-x-2">
+                          {isLoading ? (
                             <motion.div
-                              animate={{ x: [0, 5, 0] }}
-                              transition={{ duration: 1.5, repeat: Infinity }}
-                            >
-                              <ArrowRight className="w-5 h-5" />
-                            </motion.div>
-                          </>
-                        )}
-                      </div>
-                    </motion.button>
-                  </motion.div>
+                              className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                              animate={{ rotate: 360 }}
+                              transition={{
+                                duration: 1,
+                                repeat: Infinity,
+                                ease: "linear",
+                              }}
+                            />
+                          ) : (
+                            <>
+                              <span>Create Account</span>
+                              <motion.div
+                                animate={{ x: [0, 5, 0] }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                              >
+                                <ArrowRight className="w-4 h-4" />
+                              </motion.div>
+                            </>
+                          )}
+                        </div>
+                      </motion.button>
+                    </motion.div>
+                  </form>
                 </div>
 
-                {/* Sign In Link */}
+                {/* Sign Up Link */}
                 <motion.div
                   variants={itemVariants}
-                  className="text-center mt-6"
+                  className="text-center mt-4"
                 >
-                  <p className="text-gray-300">
+                  <p className={`${theme.textSecondary} text-sm`}>
                     Already have an account?{" "}
                     <motion.button
-                      className="text-blue-400 hover:text-blue-300 font-semibold transition-colors"
+                      className={`${
+                        theme.isDark
+                          ? "text-blue-400 hover:text-blue-300"
+                          : "text-blue-500 hover:text-blue-600"
+                      } font-semibold transition-colors`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -518,4 +558,5 @@ const SignUpPage: React.FC = () => {
     </div>
   );
 };
+
 export default SignUpPage;

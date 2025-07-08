@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-export const FloatingParticles: React.FC = () => {
+import { motion } from "motion/react";
+export const FloatingParticles: React.FC<{ theme: any }> = ({ theme }) => {
   const particles = Array.from({ length: 20 }, (_, i) => ({
     id: i,
     x: Math.random() * 100,
@@ -13,7 +13,7 @@ export const FloatingParticles: React.FC = () => {
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute w-1 h-1 bg-blue-300 rounded-full opacity-30"
+          className={`absolute w-1 h-1 ${theme.particleColor} rounded-full opacity-30`}
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
