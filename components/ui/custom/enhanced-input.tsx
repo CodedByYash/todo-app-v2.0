@@ -1,6 +1,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
+import { ThemeType } from "./theme-component";
 export const EnhancedInput: React.FC<{
   icon: React.ReactNode;
   type: string;
@@ -11,7 +12,7 @@ export const EnhancedInput: React.FC<{
   error?: string;
   showPassword?: boolean;
   onTogglePassword?: () => void;
-  theme: any;
+  theme: ThemeType;
 }> = ({
   icon,
   type,

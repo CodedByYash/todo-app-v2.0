@@ -2,6 +2,24 @@ import { Moon, Sun } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
+export interface ThemeType {
+  isDark: boolean;
+  toggleTheme: () => void;
+  bg: string;
+  cardBg: string;
+  textPrimary: string;
+  textSecondary: string;
+  textTertiary: string;
+  inputBg: string;
+  inputBorder: string;
+  inputFocusBorder: string;
+  buttonGradient: string;
+  oauthBg: string;
+  oauthText: string;
+  particleColor: string;
+  glowEffect: string;
+}
+
 export const useTheme = () => {
   const [isDark, setIsDark] = useState(true);
 
@@ -38,7 +56,7 @@ export const useTheme = () => {
   return theme;
 };
 
-export const ThemeToggle: React.FC<{ theme: any }> = ({ theme }) => {
+export const ThemeToggle: React.FC<{ theme: ThemeType }> = ({ theme }) => {
   return (
     <motion.button
       onClick={theme.toggleTheme}

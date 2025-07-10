@@ -10,8 +10,6 @@ import {
   Star,
   Zap,
   CheckCircle,
-  Moon,
-  Sun,
 } from "lucide-react";
 import { FloatingParticles } from "@/components/ui/custom/floatingParticle";
 import { OAuthButton } from "@/components/ui/custom/enhanced-oauth";
@@ -472,7 +470,7 @@ const SignInPage: React.FC = () => {
                   className="text-center mt-4"
                 >
                   <p className={`${theme.textSecondary} text-sm`}>
-                    Don't have an account?{" "}
+                    Don`&apos;`t have an account?{" "}
                     <motion.button
                       className={`${
                         theme.isDark

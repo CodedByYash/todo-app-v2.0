@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { motion } from "motion/react";
+import { ThemeType } from "./theme-component";
 
 export const OAuthButton: React.FC<{
   provider: "google" | "github";
   onClick: () => void;
   children: React.ReactNode;
-  theme: any;
+  theme: ThemeType;
 }> = ({ provider, onClick, children, theme }) => {
   const [isHovered, setIsHovered] = useState(false);
 

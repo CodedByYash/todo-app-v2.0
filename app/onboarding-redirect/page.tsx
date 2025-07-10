@@ -9,7 +9,7 @@ export default function OnboardingRedirect() {
 
   useEffect(() => {
     if (status === "loading") return;
-    if (session?.user && (session.user as any).isNewUser) {
+    if (session?.user && session.user.isNewUser) {
       router.replace("/onboarding");
     } else {
       router.replace("/dashboard");

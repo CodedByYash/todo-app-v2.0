@@ -17,7 +17,6 @@ import { ThemeToggle, useTheme } from "@/components/ui/custom/theme-component";
 import { AnimatePresence, motion, Variants } from "motion/react";
 import { OAuthButton } from "@/components/ui/custom/enhanced-oauth";
 import { EnhancedInput } from "@/components/ui/custom/enhanced-input";
-import { EnhancedCheckbox } from "@/components/ui/custom/enhanced-checkbox";
 import { signIn } from "next-auth/react";
 
 interface FormData {
@@ -36,7 +35,7 @@ interface FormErrors {
 
 const SignUpPage: React.FC = () => {
   const theme = useTheme();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
     password: "",
@@ -274,8 +273,8 @@ const SignUpPage: React.FC = () => {
                 className={`text-xl ${theme.textSecondary} max-w-lg`}
               >
                 Transform your productivity with our AI-powered task management
-                platform. Join thousands of users who've revolutionized their
-                workflow.
+                platform. Join thousands of users who`&apos;`ve revolutionized
+                their workflow.
               </motion.p>
 
               {/* Animated features */}

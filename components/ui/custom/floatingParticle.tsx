@@ -1,5 +1,8 @@
 import { motion } from "motion/react";
-export const FloatingParticles: React.FC<{ theme: any }> = ({ theme }) => {
+import { ThemeType } from "./theme-component";
+export const FloatingParticles: React.FC<{ theme: ThemeType }> = ({
+  theme,
+}) => {
   const particles = Array.from({ length: 20 }, (_, i) => ({
     id: i,
     x: Math.random() * 100,

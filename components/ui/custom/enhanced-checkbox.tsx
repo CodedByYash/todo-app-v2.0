@@ -1,10 +1,11 @@
 import { CheckCircle } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import type { ThemeType } from "@/components/ui/custom/theme-component";
 export const EnhancedCheckbox: React.FC<{
   checked: boolean;
   onChange: (checked: boolean) => void;
   label: string;
-  theme: any;
+  theme: ThemeType;
 }> = ({ checked, onChange, label, theme }) => {
   return (
     <motion.div
