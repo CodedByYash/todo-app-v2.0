@@ -1,5 +1,6 @@
 "use client";
 
+import OnboardingForm from "@/components/OnboardingForm";
 // import OnboardingForm from "@/components/OnboardingForm";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
@@ -12,8 +13,8 @@ const OnboardingPage = () => {
     return <div>Loading...</div>;
   }
 
-  if (!session) {
-    redirect("/sign-in");
+  if (!session || !session.user.email || !session.user.username) {
+    redirect("/auth/sign-in");
   }
 
   return (
@@ -24,11 +25,11 @@ const OnboardingPage = () => {
           Let&apos;s set up your account, {session?.user?.username || ""}.
           we&apos;ll need a few details to get you started
         </p>
-        {/* <OnboardingForm
+        <OnboardingForm
           userId={session?.user?.id}
           userEmail={session?.user?.email}
           userName={session?.user?.username}
-        /> */}
+        />
       </div>
     </div>
   );

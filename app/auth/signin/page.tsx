@@ -18,6 +18,7 @@ import { ThemeToggle, useTheme } from "@/components/ui/custom/theme-component";
 import { EnhancedCheckbox } from "@/components/ui/custom/enhanced-checkbox";
 import { signIn } from "next-auth/react";
 import { NextResponse } from "next/server";
+import { redirect, useRouter } from "next/navigation";
 
 interface FormData {
   email: string;
@@ -32,6 +33,7 @@ interface FormErrors {
 
 const SignInPage: React.FC = () => {
   const theme = useTheme();
+  const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
     email: "",
@@ -470,7 +472,7 @@ const SignInPage: React.FC = () => {
                   className="text-center mt-4"
                 >
                   <p className={`${theme.textSecondary} text-sm`}>
-                    Don`&apos;`t have an account?{" "}
+                    Don&apos;t have an account?{" "}
                     <motion.button
                       className={`${
                         theme.isDark
@@ -479,6 +481,7 @@ const SignInPage: React.FC = () => {
                       } font-semibold transition-colors`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
+                      onClick={() => router.replace("/auth/signup")}
                     >
                       Sign up
                     </motion.button>

@@ -18,6 +18,7 @@ import { AnimatePresence, motion, Variants } from "motion/react";
 import { OAuthButton } from "@/components/ui/custom/enhanced-oauth";
 import { EnhancedInput } from "@/components/ui/custom/enhanced-input";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   fullName: string;
@@ -35,6 +36,7 @@ interface FormErrors {
 
 const SignUpPage: React.FC = () => {
   const theme = useTheme();
+  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
@@ -108,7 +110,7 @@ const SignUpPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm) return;
+    if (!validateForm()) return;
 
     setIsLoading(true);
 
@@ -122,7 +124,9 @@ const SignUpPage: React.FC = () => {
           password: formData.password,
         }),
       });
-      return NextResponse.json(response);
+      if (response.ok) {
+        router.replace("/onboarding");
+      }
     } catch (error) {
       console.log(error);
       return NextResponse.json(
@@ -273,7 +277,7 @@ const SignUpPage: React.FC = () => {
                 className={`text-xl ${theme.textSecondary} max-w-lg`}
               >
                 Transform your productivity with our AI-powered task management
-                platform. Join thousands of users who`&apos;`ve revolutionized
+                platform. Join thousands of users who&apos;ve revolutionized
                 their workflow.
               </motion.p>
 
@@ -544,6 +548,7 @@ const SignUpPage: React.FC = () => {
                       } font-semibold transition-colors`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
+                      onClick={() => router.replace("/auth/signin")}
                     >
                       Sign in
                     </motion.button>
