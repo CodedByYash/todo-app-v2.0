@@ -21,10 +21,10 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     <Link
       href={item.href}
       key={item.name}
-      className={`${
+      className={`p-1 relative ${
         collapsed
-          ? "relative"
-          : "group relative flex items-center px-3 py-2 text-md font-medium rounded-lg"
+          ? ""
+          : "group flex items-center  text-md font-medium rounded-lg"
       } ${
         isActive
           ? "text-gray-900 hover:bg-gray-100 font-semibold"
@@ -34,11 +34,14 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       {isActive && (
         <span className="absolute left-0 top-0 h-full w-2 bg-emerald-600 rounded-r-sm" />
       )}
-      <Icon
-        className={`w-5 h-5 mr-3 ml-3 ${
-          isActive ? "text-emerald-600 font-semibold" : "text-gray-600"
-        }`}
-      />
+      <span className="flex items-center justify-center p-1 w-full">
+        <Icon
+          className={`w-5 h-5 mr-3 ml-3 ${
+            isActive ? "text-emerald-600 font-semibold" : "text-gray-600"
+          }`}
+        />
+        {!collapsed && item.name}
+      </span>
     </Link>
   );
 };
