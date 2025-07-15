@@ -2,31 +2,18 @@
 import React, { useState, useEffect } from "react";
 import {
   Plus,
-  Search,
-  Bell,
-  Calendar,
-  BarChart3,
-  Users,
-  Settings,
-  HelpCircle,
-  LogOut,
   Play,
   Pause,
   Square,
   CheckCircle2,
   Circle,
   Clock,
-  Flag,
-  Filter,
   MoreHorizontal,
-  ArrowUpRight,
-  Target,
-  TrendingUp,
-  User,
   FolderOpen,
-  Smartphone,
 } from "lucide-react";
 import StatCard from "@/components/ui/custom/stat-card";
+import Sidebar from "@/components/ui/custom/Sidebar/Sidebar";
+import DashboardHeader from "@/components/ui/custom/header";
 
 const TodoDashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -167,135 +154,14 @@ const TodoDashboard = () => {
   return (
     <div className="min-h-screen bg-[#FFFFFF] flex p-5">
       {/* Sidebar */}
-      <div className="w-64  shadow-sm flex flex-col p-1 bg-[#f7f7f7] rounded-2xl mr-6">
-        <div className="flex items-center space-x-2 p-5 ">
-          <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center">
-            <CheckCircle2 className="w-5 h-5 text-white" />
-          </div>
-          <span className="text-xl font-bold text-gray-900">Taskito</span>
-        </div>
-
-        <nav className="flex-1 px-4 py-4 space-y-2">
-          <div className="text-xs font-medium text-gray-400 uppercase tracking-wider px-2 mb-3">
-            Menu
-          </div>
-          <a
-            href="#"
-            className="flex items-center px-3 py-2 text-sm font-medium text-white bg-emerald-600 rounded-lg"
-          >
-            <BarChart3 className="w-4 h-4 mr-3" />
-            Dashboard
-          </a>
-          <a
-            href="#"
-            className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg"
-          >
-            <CheckCircle2 className="w-4 h-4 mr-3" />
-            Tasks
-            <span className="ml-auto bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full">
-              12
-            </span>
-          </a>
-          <a
-            href="#"
-            className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg"
-          >
-            <Calendar className="w-4 h-4 mr-3" />
-            Calendar
-          </a>
-          <a
-            href="#"
-            className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg"
-          >
-            <BarChart3 className="w-4 h-4 mr-3" />
-            Analytics
-          </a>
-          <a
-            href="#"
-            className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg"
-          >
-            <Users className="w-4 h-4 mr-3" />
-            Team
-          </a>
-
-          <div className="text-xs font-medium text-gray-500 uppercase tracking-wider px-2 mb-3 mt-6">
-            General
-          </div>
-          <a
-            href="#"
-            className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg"
-          >
-            <Settings className="w-4 h-4 mr-3" />
-            Settings
-          </a>
-          <a
-            href="#"
-            className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg"
-          >
-            <HelpCircle className="w-4 h-4 mr-3" />
-            Help
-          </a>
-          <a
-            href="#"
-            className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg"
-          >
-            <LogOut className="w-4 h-4 mr-3" />
-            Logout
-          </a>
-        </nav>
-
-        {/* Mobile App Download Card */}
-        <div className="m-4 p-4 bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-lg text-white">
-          <div className="flex items-center mb-2">
-            <Smartphone className="w-5 h-5 mr-2" />
-            <span className="text-sm font-medium">Download our Mobile App</span>
-          </div>
-          <p className="text-xs text-emerald-100 mb-3">
-            Get easy access anywhere you go
-          </p>
-          <button className="w-full bg-white text-emerald-600 text-sm font-medium py-2 px-4 rounded-lg hover:bg-emerald-50 transition-colors">
-            Download
-          </button>
-        </div>
+      <div>
+        <Sidebar />
       </div>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <header className="shadow-sm rounded-2xl px-6 py-5 bg-[#f7f7f7] mb-3">
-          <div className="flex items-center justify-between">
-            <div className="relative bg-[#FFFFFF] rounded-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search task"
-                className="pl-10 pr-4 py-2 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-              />
-            </div>
-            <div className="flex gap-4">
-              <button className="relative p-2 text-gray-400 hover:text-gray-600 bg-[#FFFFFF] rounded-full">
-                <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                  3
-                </span>
-              </button>
-
-              <div className="flex items-center space-x-4">
-                <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">TM</span>
-                </div>
-                <div className="text-left">
-                  <div className="text-sm font-medium text-gray-900">
-                    Totok Michael
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    tmichael20@gmail.com
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
+        <DashboardHeader />
 
         {/* Dashboard Content */}
         <div className="flex-1 p-6 space-y-6 bg-[#f7f7f7] rounded-2xl">
@@ -318,47 +184,39 @@ const TodoDashboard = () => {
           </div>
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 space-x-4">
-            <div className="bg-gradient-to-br from-green-500 to-green-950 text-white p-4 rounded-2xl">
-              <div className="flex flex-col items-start">
-                <div>
-                  <div className="text-emerald-100 text-lg flex  items-center justify-between  space-x-[45px]">
-                    <h1>Total Projects</h1>
-                    <button className="bg-[#ffffff] rounded-full p-1">
-                      <ArrowUpRight className="w-5 h-5 text-slate-500 " />
-                    </button>
-                  </div>
-                  <div className="text-5xl mt-2">24</div>
-                  <div className="text-emerald-200 text-xs flex items-center mt-1">
-                    <TrendingUp className="w-3 h-3 mr-1" />
-                    Increased from last month
-                  </div>
-                </div>
-              </div>
-            </div>
+            <StatCard
+              title="Total Projects"
+              count={24}
+              description="Increased from last month"
+              isColored={true}
+            />
 
             <StatCard
               title="Ended Projects"
               count={10}
               description="Increased from last month"
+              isColored={false}
             />
 
             <StatCard
               title="Running Projects"
               count={12}
               description="Increased from last month"
+              isColored={false}
             />
 
             <StatCard
               title="Pending Project"
               count={2}
               description="On Process"
+              isColored={false}
             />
           </div>
 
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Project Analytics */}
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div className="bg-white p-6 rounded-2xl ">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
                 Project Analytics
               </h3>
