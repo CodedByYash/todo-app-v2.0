@@ -23,8 +23,8 @@ const getBarColor = (percent: number) => {
 
 const GraphAnalysis: React.FC<GraphAnalyticsProps> = ({ data }) => {
   return (
-    <div className="p-6 rounded-[2rem] shadow w-full h-full">
-      <h3 className="text-xl font-semibold text-gray-800 mb-8">
+    <div className="p-6 rounded-[2rem] shadow w-full h-full bg-gradient-to-br from-stone-50 via-gray-300 to-stone-200">
+      <h3 className="text-2xl font-semibold text-gray-800 mb-8">
         Weekly Productivity Tracker
       </h3>
       <div className="flex items-baseline justify-between space-x-2 h-40">
