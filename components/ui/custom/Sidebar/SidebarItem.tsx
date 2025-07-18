@@ -33,7 +33,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           ${collapsed ? "justify-center p-3" : "justify-start p-3 mx-2"}
           ${
             isActive
-              ? "bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-lg shadow-emerald-500/25"
+              ? "bg-gradient-to-r from-emerald-800 to-emerald-500 hover:from-green-700 hover:to-green-400 transition text-white shadow-lg shadow-emerald-500/25"
               : "text-gray-700 hover:bg-gray-100 hover:shadow-md"
           }
         `}

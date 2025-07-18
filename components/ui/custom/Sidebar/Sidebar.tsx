@@ -33,7 +33,10 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   const handleToggleCollapse = () => {
+    console.log(collapsed);
+    console.log("called");
     setCollapsed((prev) => !prev);
+    console.log(collapsed);
   };
 
   const sidebarVariants: Variants = {
@@ -101,7 +104,7 @@ const Sidebar = () => {
           transition={{ type: "spring", stiffness: 400, damping: 20 }}
         >
           <motion.div
-            className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/25"
+            className="w-10 h-10 bg-gradient-to-r from-emerald-800 to-emerald-500 hover:from-green-700 hover:to-green-400 transition rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/25"
             whileHover={{
               scale: 1.1,
               rotate: [0, -10, 10, 0],
@@ -119,6 +122,7 @@ const Sidebar = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
+                variants={logoVariants}
                 className="flex flex-col"
               >
                 <span className="text-xl font-bold text-gray-900">Taskito</span>

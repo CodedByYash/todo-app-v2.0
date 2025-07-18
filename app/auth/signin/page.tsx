@@ -18,7 +18,7 @@ import { ThemeToggle, useTheme } from "@/components/ui/custom/theme-component";
 import { EnhancedCheckbox } from "@/components/ui/custom/enhanced-checkbox";
 import { signIn } from "next-auth/react";
 import { NextResponse } from "next/server";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   email: string;

@@ -14,6 +14,8 @@ import {
 import StatCard from "@/components/ui/custom/stat-card";
 import Sidebar from "@/components/ui/custom/Sidebar/Sidebar";
 import DashboardHeader from "@/components/ui/custom/header";
+import GraphAnalysis from "@/components/ui/custom/analytics/GraphAnalysis";
+import Reminders from "@/components/ui/custom/reminders/Reminders";
 
 const TodoDashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -146,6 +148,16 @@ const TodoDashboard = () => {
     }
   };
 
+  const weeklyData = [
+    { day: "Mon", completed: 4, uncompleted: 1 },
+    { day: "Tue", completed: 2, uncompleted: 3 },
+    { day: "Wed", completed: 0, uncompleted: 5 },
+    { day: "Thu", completed: 3, uncompleted: 2 },
+    { day: "Fri", completed: 5, uncompleted: 0 },
+    { day: "Sat", completed: 1, uncompleted: 4 },
+    { day: "Sun", completed: 0, uncompleted: 0 }, // this should show a striped gray bar
+  ];
+
   const completedTasks = tasks.filter((task) => task.completed).length;
   const totalTasks = tasks.length;
   const completionPercentage =
@@ -188,84 +200,38 @@ const TodoDashboard = () => {
               title="Total Projects"
               count={24}
               description="Increased from last month"
-              isColored={true}
+              variant="success"
             />
 
             <StatCard
               title="Ended Projects"
               count={10}
               description="Increased from last month"
-              isColored={false}
+              variant="neutral"
             />
 
             <StatCard
               title="Running Projects"
               count={12}
               description="Increased from last month"
-              isColored={false}
+              variant="info"
             />
 
             <StatCard
               title="Pending Project"
               count={2}
               description="On Process"
-              isColored={false}
+              variant="danger"
             />
           </div>
 
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Project Analytics */}
-            <div className="bg-white p-6 rounded-2xl ">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Project Analytics
-              </h3>
-              <div className="flex items-center justify-center h-48">
-                <div className="text-center">
-                  <div className="flex justify-center space-x-2 mb-4">
-                    <div className="w-8 h-16 bg-gray-300 rounded"></div>
-                    <div className="w-8 h-24 bg-emerald-300 rounded"></div>
-                    <div className="w-8 h-20 bg-emerald-400 rounded"></div>
-                    <div className="w-8 h-32 bg-emerald-600 rounded"></div>
-                    <div className="w-8 h-16 bg-gray-300 rounded"></div>
-                    <div className="w-8 h-12 bg-gray-300 rounded"></div>
-                    <div className="w-8 h-20 bg-gray-300 rounded"></div>
-                  </div>
-                  <div className="flex justify-center space-x-4 text-xs text-gray-500">
-                    <span>M</span>
-                    <span>T</span>
-                    <span>W</span>
-                    <span>T</span>
-                    <span>F</span>
-                    <span>S</span>
-                    <span>S</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <GraphAnalysis data={weeklyData} />
 
             {/* Reminders */}
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Reminders
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="font-medium text-gray-900">
-                      Meeting with Arc Company
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      Time: 10:00 pm - 04:00 pm
-                    </div>
-                  </div>
-                </div>
-                <button className="w-full bg-emerald-600 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-emerald-700 transition-colors">
-                  <Play className="w-4 h-4" />
-                  <span>Start Meeting</span>
-                </button>
-              </div>
-            </div>
+            <Reminders />
 
             {/* Project Progress */}
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">

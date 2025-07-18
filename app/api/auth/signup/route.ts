@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma/prisma";
 import { NextResponse } from "next/server";
 import { signupSchema } from "@/lib/schema/schema";
-import { redirect } from "next/navigation";
 
 export async function POST(request: Request) {
   try {
