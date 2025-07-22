@@ -1,21 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import {
-  Plus,
-  Play,
-  Pause,
-  Square,
-  CheckCircle2,
-  Circle,
-  Clock,
-  MoreHorizontal,
-  FolderOpen,
-} from "lucide-react";
+import { Plus } from "lucide-react";
 import StatCard from "@/components/ui/custom/stat-card";
 import Sidebar from "@/components/ui/custom/Sidebar/Sidebar";
 import DashboardHeader from "@/components/ui/custom/header";
 import GraphAnalysis from "@/components/ui/custom/analytics/GraphAnalysis";
 import Reminders from "@/components/ui/custom/reminders/Reminders";
+// import ProjectProgress from "@/components/ui/custom/Project Progress/ProjectProgress";
+import TaskCard from "@/components/ui/custom/tasks/TasksCard";
+import TimeTracker from "@/components/ui/custom/Time Tracker/TimeTracker";
+import TeamCollaboration from "@/components/ui/custom/team collab/TeamCollaboration";
 
 const TodoDashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -95,6 +89,34 @@ const TodoDashboard = () => {
     },
   ]);
 
+  const members = [
+    {
+      id: 1,
+      name: "Alexandra Deff",
+      initials: "AD",
+      status: "Completed",
+      currentTask: "GitHub Project Repository",
+      completionPercentage: 75,
+    },
+    {
+      id: 1,
+      name: "Alexandra Deff",
+      initials: "AD",
+      status: "Completed",
+      currentTask: "GitHub Project Repository",
+      completionPercentage: 75,
+    },
+    {
+      id: 1,
+      name: "Alexandra Deff",
+      initials: "AD",
+      status: "Completed",
+      currentTask: "GitHub Project Repository",
+      completionPercentage: 75,
+    },
+    // Add more members
+  ];
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -151,11 +173,11 @@ const TodoDashboard = () => {
   const weeklyData = [
     { day: "Mon", completed: 4, uncompleted: 1 },
     { day: "Tue", completed: 2, uncompleted: 3 },
-    { day: "Wed", completed: 0, uncompleted: 5 },
+    { day: "Wed", completed: 5, uncompleted: 5 },
     { day: "Thu", completed: 3, uncompleted: 2 },
     { day: "Fri", completed: 5, uncompleted: 0 },
     { day: "Sat", completed: 1, uncompleted: 4 },
-    { day: "Sun", completed: 0, uncompleted: 0 }, // this should show a striped gray bar
+    { day: "Sun", completed: 6, uncompleted: 2 }, // this should show a striped gray bar
   ];
 
   const completedTasks = tasks.filter((task) => task.completed).length;
@@ -189,39 +211,39 @@ const TodoDashboard = () => {
                 <Plus className="w-4 h-4" />
                 <span>Add Task</span>
               </button>
-              <button className="border border-green-700 text-green-700 px-4 py-2 rounded-full hover:bg-gray-50 transition-colors">
+              <button className="border border-green-700 text-green-700 px-4 py-2 rounded-full hover:bg-gradient-to-r hover:from-green-800 hover:via-emerald-700 hover:to-green-500 hover:text-white transition-all">
                 Import Data
               </button>
             </div>
           </div>
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 space-x-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard
-              title="Total Projects"
+              title="Total Tasks"
               count={24}
               description="Increased from last month"
               variant="success"
             />
 
             <StatCard
-              title="Ended Projects"
+              title="Ended Tasks"
               count={10}
               description="Increased from last month"
               variant="neutral"
             />
 
             <StatCard
-              title="Running Projects"
+              title="Running Tasks"
               count={12}
               description="Increased from last month"
-              variant="info"
+              variant="neutral"
             />
 
             <StatCard
-              title="Pending Project"
+              title="Overdue Tasks"
               count={2}
               description="On Process"
-              variant="danger"
+              variant="neutral"
             />
           </div>
 
@@ -234,65 +256,19 @@ const TodoDashboard = () => {
             <Reminders />
 
             {/* Project Progress */}
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Project Progress
-              </h3>
-              <div className="text-center">
-                <div className="relative inline-flex items-center justify-center w-32 h-32 mb-4">
-                  <svg className="w-32 h-32 transform -rotate-90">
-                    <circle
-                      cx="64"
-                      cy="64"
-                      r="56"
-                      stroke="currentColor"
-                      strokeWidth="8"
-                      fill="none"
-                      className="text-gray-200"
-                    />
-                    <circle
-                      cx="64"
-                      cy="64"
-                      r="56"
-                      stroke="currentColor"
-                      strokeWidth="8"
-                      fill="none"
-                      strokeDasharray="351.86"
-                      strokeDashoffset={
-                        351.86 - (351.86 * completionPercentage) / 100
-                      }
-                      className="text-emerald-600"
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-3xl font-bold text-gray-900">
-                      {completionPercentage}%
-                    </span>
-                  </div>
-                </div>
-                <div className="text-sm text-gray-500 mb-4">Project Ended</div>
-                <div className="flex justify-center space-x-4 text-xs">
-                  <div className="flex items-center">
-                    <div className="w-3 h-3 bg-emerald-600 rounded-full mr-1"></div>
-                    <span>Completed</span>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-3 h-3 bg-blue-600 rounded-full mr-1"></div>
-                    <span>In Progress</span>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-3 h-3 bg-gray-300 rounded-full mr-1"></div>
-                    <span>Pending</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {/* <ProjectProgress
+              completedPercentage={41}
+              inProgressPercentage={20}
+              pendingPercentage={39}
+            /> */}
+            <TaskCard />
           </div>
 
           {/* Bottom Section */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Team Collaboration */}
-            <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <TeamCollaboration members={members} />
+            {/* <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900">
                   Team Collaboration
@@ -326,10 +302,11 @@ const TodoDashboard = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* Time Tracker */}
-            <div className="bg-gradient-to-br from-emerald-600 to-emerald-700 p-6 rounded-lg text-white">
+            <TimeTracker />
+            {/* <div className="bg-gradient-to-br from-emerald-600 to-emerald-700 p-6 rounded-lg text-white">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold">Time Tracker</h3>
                 <MoreHorizontal className="w-5 h-5" />
@@ -360,64 +337,7 @@ const TodoDashboard = () => {
                   <Square className="w-6 h-6" />
                 </button>
               </div>
-            </div>
-          </div>
-
-          {/* Current Tasks */}
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
-                Current Tasks
-              </h3>
-              <button className="text-emerald-600 hover:text-emerald-700 flex items-center space-x-1">
-                <Plus className="w-4 h-4" />
-                <span>Add Task</span>
-              </button>
-            </div>
-            <div className="space-y-3">
-              {tasks.map((task) => (
-                <div
-                  key={task.id}
-                  className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg"
-                >
-                  <button
-                    onClick={() => toggleTask(tasks)}
-                    className="flex-shrink-0"
-                  >
-                    {task.completed ? (
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                    ) : (
-                      <Circle className="w-5 h-5 text-gray-400 hover:text-emerald-600" />
-                    )}
-                  </button>
-                  <div className="flex-1">
-                    <div
-                      className={`font-medium ${
-                        task.completed
-                          ? "line-through text-gray-500"
-                          : "text-gray-900"
-                      }`}
-                    >
-                      {task.title}
-                    </div>
-                    <div className="text-sm text-gray-500 flex items-center space-x-2">
-                      <FolderOpen className="w-3 h-3" />
-                      <span>{task.project}</span>
-                      <span>•</span>
-                      <Clock className="w-3 h-3" />
-                      <span>Due: {task.dueDate}</span>
-                    </div>
-                  </div>
-                  <span
-                    className={`px-2 py-1 text-xs rounded-full ${getPriorityColor(
-                      task.priority
-                    )}`}
-                  >
-                    {task.priority}
-                  </span>
-                </div>
-              ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

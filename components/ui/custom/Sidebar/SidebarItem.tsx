@@ -33,7 +33,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           ${collapsed ? "justify-center p-3" : "justify-start p-3 mx-2"}
           ${
             isActive
-              ? "bg-gradient-to-r from-emerald-800 to-emerald-500 hover:from-green-700 hover:to-green-400 transition text-white shadow-lg shadow-emerald-500/25"
+              ? "bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-lg shadow-emerald-500/25"
               : "text-gray-700 hover:bg-gray-100 hover:shadow-md"
           }
         `}
@@ -86,7 +86,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           )}
         </AnimatePresence>
 
-        {/* Tooltip for collapsed state */}
+        {/* Tooltip for collapsed state - only show on desktop */}
         {collapsed && (
           <motion.div
             initial={{ opacity: 0, x: -10 }}
@@ -94,7 +94,14 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
             whileHover={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.2 }}
             className="
-              absolute left-full ml-4 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-lg z-50 whitespace-nowrap pointer-events-none before:content-[''] before:absolute before:right-full before:top-1/2  before:transform before:-translate-y-1/2 before:border-4  before:border-transparent before:border-r-gray-900
+              absolute left-full ml-4 px-3 py-2 
+              bg-gray-900 text-white text-sm rounded-lg
+              shadow-lg z-50 whitespace-nowrap
+              pointer-events-none
+              before:content-[''] before:absolute before:right-full before:top-1/2 
+              before:transform before:-translate-y-1/2 before:border-4 
+              before:border-transparent before:border-r-gray-900
+              hidden md:block
             "
           >
             {item.name}
