@@ -1,116 +1,130 @@
-import getUser from "@/lib/getUser";
-import { prisma } from "@/lib/prisma/prisma";
-import { Prisma } from "@/prisma/generated/prisma";
 import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma/prisma";
+import { z } from "zod";
+import getUser from "@/lib/getUser";
 
+// Query schema for validation
+const dashboardQuerySchema = z.object({
+  workspaceId: z.string().uuid().optional(),
+});
+
+// Response type
+type DashboardData = {
+  taskCounts: {
+    total: number;
+    completed: number;
+    ongoing: number;
+    overdue: number;
+  };
+  analytics: {
+    byPriority: { low: number; medium: number; high: number };
+    byStatusOverTime: { date: string; completed: number; ongoing: number }[];
+  };
+};
+
+// GET: Fetch dashboard data
 export async function GET(request: Request) {
   try {
     const user = await getUser();
 
-    if (!user || !user.id) {
+    if (!user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const existingUser = await prisma.user.findUnique({
-      where: { id: user.id, email: user.email! },
-      include: {
-        workspaces: true,
-        ownedWorkspaces: true,
-      },
+    const { searchParams } = new URL(request.url);
+    const query = dashboardQuerySchema.safeParse({
+      workspaceId: searchParams.get("workspaceId"),
     });
 
-    if (!existingUser) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    if (!query.success) {
+      return NextResponse.json({ error: query.error.errors }, { status: 400 });
     }
 
-    const { searchParams } = new URL(request.url);
-    const workspaceId = searchParams.get("workspaceId");
-    const priority = searchParams.get("priority") as
-      | "low"
-      | "medium"
-      | "high"
-      | "no_priority"
-      | null;
-    const dueDate = searchParams.get("dueDate");
-    const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "10");
-    const skip = (page - 1) * limit;
+    const { workspaceId } = query.data;
 
-    const taskWhere: Prisma.TaskWhereInput = {
+    // Base where clause
+    const whereClause = {
       userId: user.id,
+      ...(workspaceId && {
+        workspaceId,
+        workspace: {
+          OR: [
+            { ownerId: user.id },
+            { members: { some: { userId: user.id } } },
+          ],
+        },
+      }),
     };
 
-    if (workspaceId) {
-      taskWhere.workspaceId = workspaceId;
-    }
+    // Task counts
+    const [total, completed, overdue] = await Promise.all([
+      prisma.task.count({ where: whereClause }),
+      prisma.task.count({ where: { ...whereClause, completed: true } }),
+      prisma.task.count({
+        where: {
+          ...whereClause,
+          completed: false,
+          dueDate: { lt: new Date() },
+        },
+      }),
+    ]);
 
-    if (priority) {
-      taskWhere.priority = priority;
-    }
+    const ongoing = total - completed;
 
-    const now = new Date();
-
-    if (dueDate === "today") {
-      const start = new Date(now);
-      start.setHours(0, 0, 0, 0);
-      const end = new Date(start);
-      end.setDate(end.getDate() + 1);
-      taskWhere.dueDate = { gte: start, lt: end };
-    } else if (dueDate === "overdue") {
-      taskWhere.dueDate = { lt: now };
-      taskWhere.completed = false;
-    } else if (dueDate === "upcoming") {
-      taskWhere.dueDate = { gt: now };
-    }
-
-    const tasks = await prisma.task.findMany({
-      where: taskWhere,
-      orderBy: { updatedAt: "desc" },
-      skip,
-      take: limit,
-      include: {
-        tags: true,
-        taskVersions: { select: { version: true, createdAt: true } },
-      },
+    // Analytics: Tasks by priority
+    const priorityCounts = await prisma.task.groupBy({
+      by: ["priority"],
+      where: whereClause,
+      _count: { _all: true },
     });
 
-    const totalTasks = await prisma.task.count({ where: taskWhere });
-    const completedTasks = await prisma.task.count({
-      where: { ...taskWhere, completed: true },
-    });
-    const pendingtasks = await prisma.task.count({
-      where: { ...taskWhere, completed: true },
+    const byPriority = {
+      low: priorityCounts.find((p) => p.priority === "low")?._count._all || 0,
+      medium:
+        priorityCounts.find((p) => p.priority === "medium")?._count._all || 0,
+      high: priorityCounts.find((p) => p.priority === "high")?._count._all || 0,
+    };
+
+    // Analytics: Tasks by status over time (last 7 days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const tasksByDate = await prisma.task.groupBy({
+      by: ["createdAt"],
+      where: { ...whereClause, createdAt: { gte: sevenDaysAgo } },
+      _count: { completed: true, _all: true },
     });
 
-    const tags = await prisma.tag.findMany({
-      where: workspaceId ? { workspaceId } : undefined,
-    });
+    const byStatusOverTime = Array.from({ length: 7 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toISOString().split("T")[0];
+      const dayTasks = tasksByDate.filter(
+        (t) => t.createdAt.toISOString().split("T")[0] === dateStr
+      );
+      return {
+        date: dateStr,
+        completed: dayTasks.reduce(
+          (sum, t) => sum + (t._count.completed || 0),
+          0
+        ),
+        ongoing: dayTasks.reduce(
+          (sum, t) => sum + (t._count._all - (t._count.completed || 0)),
+          0
+        ),
+      };
+    }).reverse();
 
-    return NextResponse.json({
-      user: {
-        id: existingUser.id,
-        name: existingUser.name,
-        email: existingUser.email,
-        profilePicture: existingUser.profilePicture,
-      },
-      workspaces: [...existingUser.ownedWorkspaces, ...existingUser.workspaces],
-      tags,
-      tasks,
-      pageInfo: {
-        page,
-        limit,
-        total: totalTasks,
-      },
-      starus: {
-        total: totalTasks,
-        pending: pendingtasks,
-        completed: completedTasks,
-      },
-    });
-  } catch (err) {
-    console.error(err);
+    const data: DashboardData = {
+      taskCounts: { total, completed, ongoing, overdue },
+      analytics: { byPriority, byStatusOverTime },
+    };
+
+    return NextResponse.json(data, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: "Failed to fetch dashboard data" },
       { status: 500 }
     );
   }

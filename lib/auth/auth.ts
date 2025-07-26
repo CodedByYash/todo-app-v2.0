@@ -2,15 +2,15 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma/prisma";
-import { compare } from "bcryptjs";
+import { compare, hash } from "bcryptjs";
 import { User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 
-// Extend the user type internally
 interface CustomUser extends User {
   id: string;
   username?: string;
+  onboardingCompleted?: boolean;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -24,35 +24,92 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
+        username: { label: "Username", type: "text" },
+        firstname: { label: "First Name", type: "text" },
+        lastname: { label: "Last Name", type: "text" },
       },
       async authorize(credentials): Promise<CustomUser | null> {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
+        if (credentials.username) {
+          // Signup flow
+          const existingUser = await prisma.user.findFirst({
+            where: {
+              OR: [
+                { email: credentials.email },
+                { username: credentials.username },
+              ],
+            },
+          });
+          if (existingUser) {
+            throw new Error("Email or username already exists");
+          }
 
-        if (!user || !user.password) return null;
+          const hashedPassword = await hash(credentials.password, 10);
+          const user = await prisma.user.create({
+            data: {
+              email: credentials.email,
+              username: credentials.username,
+              firstname: credentials.firstname,
+              lastname: credentials.lastname,
+              password: hashedPassword,
+              onboardingCompleted: false,
+            },
+          });
 
-        const isValid = await compare(credentials.password, user.password);
-        if (!isValid) return null;
+          return {
+            id: user.id,
+            email: user.email,
+            username: user.username ?? undefined,
+            onboardingCompleted: user.onboardingCompleted,
+          };
+        } else {
+          // Signin flow
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email },
+          });
 
-        return {
-          id: user.id,
-          email: user.email,
-          username: user.username ?? undefined,
-        };
+          if (!user || !user.password) return null;
+
+          const isValid = await compare(credentials.password, user.password);
+          if (!isValid) return null;
+
+          return {
+            id: user.id,
+            email: user.email,
+            username: user.username ?? undefined,
+            onboardingCompleted: user.onboardingCompleted,
+          };
+        }
       },
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          email: profile.email,
+          username: profile.email.split("@")[0],
+          name: profile.name,
+          onboardingCompleted: false,
+        };
+      },
     }),
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      profile(profile) {
+        return {
+          id: profile.id.toString(),
+          email: profile.email || `${profile.login}@github.com`,
+          username: profile.login,
+          name: profile.name,
+          onboardingCompleted: false,
+        };
+      },
     }),
   ],
   callbacks: {
@@ -60,18 +117,27 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
-        // Cast safely to CustomUser
         token.username = (user as CustomUser).username;
+        token.onboardingCompleted = (user as CustomUser).onboardingCompleted;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string;
+        session.user.id = token.id;
         session.user.email = token.email!;
-        (session.user as CustomUser).username = token.username as string;
+        session.user.username = token.username;
+        session.user.onboardingCompleted = token.onboardingCompleted;
       }
       return session;
+    },
+    async redirect({ url, baseUrl }) {
+      // After sign-in or sign-up, redirect to base URL
+      // Client-side components will handle onboarding check
+      if (url.includes("sign-in") || url.includes("sign-up")) {
+        return baseUrl;
+      }
+      return url;
     },
   },
   pages: {

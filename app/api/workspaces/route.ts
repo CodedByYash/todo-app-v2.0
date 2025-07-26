@@ -2,19 +2,21 @@ import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
 import { workspaceSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
+import { z } from "zod";
+
+type ErrorResponse = { error: string | z.ZodError["errors"] };
 
 export async function GET() {
   try {
     const user = await getUser();
 
-    if (!user || !user.id) {
+    if (!user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = user.id;
     const workspaces = await prisma.workspace.findMany({
       where: {
-        OR: [{ ownerId: userId }, { members: { some: { userId: userId } } }],
+        OR: [{ ownerId: user.id }, { members: { some: { userId: user.id } } }],
       },
       include: {
         members: {
@@ -28,20 +30,14 @@ export async function GET() {
           select: { id: true, name: true },
         },
       },
+      orderBy: { createdAt: "desc" },
     });
 
-    if (!workspaces) {
-      return NextResponse.json(
-        { message: "no workspace exists" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(workspaces);
+    return NextResponse.json(workspaces, { status: 20 });
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching workspaces:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Failed to fetch workspaces" },
       { status: 500 }
     );
   }
@@ -51,11 +47,9 @@ export async function POST(request: Request) {
   try {
     const user = await getUser();
 
-    if (!user || !user.id) {
+    if (!user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
-    const userId = user.id;
 
     const data = await request.json();
     const parsedData = workspaceSchema.safeParse(data);
@@ -77,18 +71,14 @@ export async function POST(request: Request) {
       workspaceSize,
     } = parsedData.data;
 
-    if (
-      !description ||
-      !imageUrl ||
-      !workspacename ||
-      !type ||
-      !organizationName ||
-      !organizationDomain ||
-      !workspaceSize
-    ) {
+    const existingWorkspace = await prisma.workspace.findFirst({
+      where: { workspacename, ownerId: user.id },
+    });
+
+    if (existingWorkspace) {
       return NextResponse.json(
-        { error: "information is missing" },
-        { status: 400 }
+        { error: "Workspace name already exists" },
+        { status: 409 }
       );
     }
 
@@ -101,33 +91,21 @@ export async function POST(request: Request) {
         organizationName,
         organizationDomain,
         workspaceSize,
-        ownerId: userId,
-        users: {
-          connect: {
-            id: userId,
-          },
-        },
+        ownerId: user.id,
         members: {
           create: {
-            userId,
+            userId: user.id,
             role: "OWNER",
           },
         },
       },
     });
 
-    if (!workspace) {
-      return NextResponse.json(
-        { message: "Failed to create workspace" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(workspace);
+    return NextResponse.json(workspace, { status: 201 });
   } catch (error) {
-    console.log(error);
+    console.error("Error creating workspace:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Failed to create workspace" },
       { status: 500 }
     );
   }

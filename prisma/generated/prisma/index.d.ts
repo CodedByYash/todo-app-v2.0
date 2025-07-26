@@ -2477,6 +2477,7 @@ export namespace Prisma {
     updatedAt: Date | null
     bio: string | null
     isPro: boolean | null
+    onboardingCompleted: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -2493,6 +2494,7 @@ export namespace Prisma {
     updatedAt: Date | null
     bio: string | null
     isPro: boolean | null
+    onboardingCompleted: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -2509,6 +2511,7 @@ export namespace Prisma {
     updatedAt: number
     bio: number
     isPro: number
+    onboardingCompleted: number
     _all: number
   }
 
@@ -2527,6 +2530,7 @@ export namespace Prisma {
     updatedAt?: true
     bio?: true
     isPro?: true
+    onboardingCompleted?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -2543,6 +2547,7 @@ export namespace Prisma {
     updatedAt?: true
     bio?: true
     isPro?: true
+    onboardingCompleted?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -2559,6 +2564,7 @@ export namespace Prisma {
     updatedAt?: true
     bio?: true
     isPro?: true
+    onboardingCompleted?: true
     _all?: true
   }
 
@@ -2648,6 +2654,7 @@ export namespace Prisma {
     updatedAt: Date
     bio: string | null
     isPro: boolean
+    onboardingCompleted: boolean
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -2681,6 +2688,7 @@ export namespace Prisma {
     updatedAt?: boolean
     bio?: boolean
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: boolean | User$tasksArgs<ExtArgs>
     attachments?: boolean | User$attachmentsArgs<ExtArgs>
     workspaces?: boolean | User$workspacesArgs<ExtArgs>
@@ -2709,6 +2717,7 @@ export namespace Prisma {
     updatedAt?: boolean
     bio?: boolean
     isPro?: boolean
+    onboardingCompleted?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2725,6 +2734,7 @@ export namespace Prisma {
     updatedAt?: boolean
     bio?: boolean
     isPro?: boolean
+    onboardingCompleted?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2741,9 +2751,10 @@ export namespace Prisma {
     updatedAt?: boolean
     bio?: boolean
     isPro?: boolean
+    onboardingCompleted?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "username" | "password" | "emailVerified" | "firstname" | "lastname" | "profilePicture" | "createdAt" | "updatedAt" | "bio" | "isPro", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "username" | "password" | "emailVerified" | "firstname" | "lastname" | "profilePicture" | "createdAt" | "updatedAt" | "bio" | "isPro" | "onboardingCompleted", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tasks?: boolean | User$tasksArgs<ExtArgs>
     attachments?: boolean | User$attachmentsArgs<ExtArgs>
@@ -2790,6 +2801,7 @@ export namespace Prisma {
       updatedAt: Date
       bio: string | null
       isPro: boolean
+      onboardingCompleted: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -3237,6 +3249,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly bio: FieldRef<"User", 'String'>
     readonly isPro: FieldRef<"User", 'Boolean'>
+    readonly onboardingCompleted: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -18614,7 +18627,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     bio: 'bio',
-    isPro: 'isPro'
+    isPro: 'isPro',
+    onboardingCompleted: 'onboardingCompleted'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -18988,6 +19002,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     bio?: StringNullableFilter<"User"> | string | null
     isPro?: BoolFilter<"User"> | boolean
+    onboardingCompleted?: BoolFilter<"User"> | boolean
     tasks?: TaskListRelationFilter
     attachments?: AttachmentListRelationFilter
     workspaces?: WorkspaceListRelationFilter
@@ -19015,6 +19030,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     bio?: SortOrderInput | SortOrder
     isPro?: SortOrder
+    onboardingCompleted?: SortOrder
     tasks?: TaskOrderByRelationAggregateInput
     attachments?: AttachmentOrderByRelationAggregateInput
     workspaces?: WorkspaceOrderByRelationAggregateInput
@@ -19045,6 +19061,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     bio?: StringNullableFilter<"User"> | string | null
     isPro?: BoolFilter<"User"> | boolean
+    onboardingCompleted?: BoolFilter<"User"> | boolean
     tasks?: TaskListRelationFilter
     attachments?: AttachmentListRelationFilter
     workspaces?: WorkspaceListRelationFilter
@@ -19072,6 +19089,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     bio?: SortOrderInput | SortOrder
     isPro?: SortOrder
+    onboardingCompleted?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -19094,6 +19112,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     isPro?: BoolWithAggregatesFilter<"User"> | boolean
+    onboardingCompleted?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type AccountWhereInput = {
@@ -20036,6 +20055,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskCreateNestedManyWithoutUserInput
     attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
@@ -20063,6 +20083,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
@@ -20090,6 +20111,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
@@ -20117,6 +20139,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
@@ -20144,6 +20167,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -20160,6 +20184,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -20176,6 +20201,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type AccountCreateInput = {
@@ -21314,6 +21340,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     bio?: SortOrder
     isPro?: SortOrder
+    onboardingCompleted?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -21330,6 +21357,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     bio?: SortOrder
     isPro?: SortOrder
+    onboardingCompleted?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -21346,6 +21374,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     bio?: SortOrder
     isPro?: SortOrder
+    onboardingCompleted?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -24362,6 +24391,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskCreateNestedManyWithoutUserInput
     attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
@@ -24388,6 +24418,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
@@ -24430,6 +24461,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
@@ -24456,6 +24488,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
@@ -24482,6 +24515,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskCreateNestedManyWithoutUserInput
     attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
@@ -24508,6 +24542,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
@@ -24550,6 +24585,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
@@ -24576,6 +24612,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
@@ -24602,6 +24639,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskCreateNestedManyWithoutUserInput
     attachments?: AttachmentCreateNestedManyWithoutUserInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
@@ -24628,6 +24666,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
@@ -24705,6 +24744,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskCreateNestedManyWithoutUserInput
     attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
@@ -24731,6 +24771,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
@@ -24835,6 +24876,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     bio?: StringNullableFilter<"User"> | string | null
     isPro?: BoolFilter<"User"> | boolean
+    onboardingCompleted?: BoolFilter<"User"> | boolean
   }
 
   export type TaskUpsertWithWhereUniqueWithoutWorkspaceInput = {
@@ -24878,6 +24920,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
@@ -24904,6 +24947,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
@@ -24974,6 +25018,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
@@ -25000,6 +25045,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
@@ -25303,6 +25349,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
@@ -25329,6 +25376,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
@@ -25748,6 +25796,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceCreateNestedManyWithoutOwnerInput
@@ -25774,6 +25823,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
     ownedWorkspaces?: WorkspaceUncheckedCreateNestedManyWithoutOwnerInput
@@ -25884,6 +25934,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
@@ -25910,6 +25961,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
@@ -26101,6 +26153,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskCreateNestedManyWithoutUserInput
     attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
@@ -26127,6 +26180,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
@@ -26212,6 +26266,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
@@ -26238,6 +26293,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
@@ -26313,6 +26369,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskCreateNestedManyWithoutUserInput
     attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
@@ -26339,6 +26396,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
@@ -26381,6 +26439,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
@@ -26407,6 +26466,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
@@ -26433,6 +26493,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskCreateNestedManyWithoutUserInput
     attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
@@ -26459,6 +26520,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
@@ -26501,6 +26563,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
@@ -26527,6 +26590,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
@@ -26553,6 +26617,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskCreateNestedManyWithoutUserInput
     attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
@@ -26579,6 +26644,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
@@ -26662,6 +26728,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
@@ -26688,6 +26755,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
@@ -26761,6 +26829,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskCreateNestedManyWithoutUserInput
     attachments?: AttachmentCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceCreateNestedManyWithoutUsersInput
@@ -26787,6 +26856,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bio?: string | null
     isPro?: boolean
+    onboardingCompleted?: boolean
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutUserInput
     workspaces?: WorkspaceUncheckedCreateNestedManyWithoutUsersInput
@@ -26870,6 +26940,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUpdateManyWithoutUsersNestedInput
@@ -26896,6 +26967,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     workspaces?: WorkspaceUncheckedUpdateManyWithoutUsersNestedInput
@@ -27471,6 +27543,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUpdateManyWithoutUserNestedInput
     ownedWorkspaces?: WorkspaceUpdateManyWithoutOwnerNestedInput
@@ -27497,6 +27570,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutUserNestedInput
     ownedWorkspaces?: WorkspaceUncheckedUpdateManyWithoutOwnerNestedInput
@@ -27523,6 +27597,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     isPro?: BoolFieldUpdateOperationsInput | boolean
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type TaskUpdateWithoutWorkspaceInput = {

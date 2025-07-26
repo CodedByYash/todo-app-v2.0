@@ -133,7 +133,8 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   bio: 'bio',
-  isPro: 'isPro'
+  isPro: 'isPro',
+  onboardingCompleted: 'onboardingCompleted'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {

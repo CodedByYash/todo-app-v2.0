@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion, Variants } from "motion/react";
 import {
@@ -16,8 +17,7 @@ import { OAuthButton } from "@/components/ui/custom/enhanced-oauth";
 import { EnhancedInput } from "@/components/ui/custom/enhanced-input";
 import { ThemeToggle, useTheme } from "@/components/ui/custom/theme-component";
 import { EnhancedCheckbox } from "@/components/ui/custom/enhanced-checkbox";
-import { signIn } from "next-auth/react";
-import { NextResponse } from "next/server";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 interface FormData {
@@ -32,6 +32,7 @@ interface FormErrors {
 }
 
 const SignInPage: React.FC = () => {
+  const { data: session, status } = useSession();
   const theme = useTheme();
   const router = useRouter();
 
@@ -40,13 +41,22 @@ const SignInPage: React.FC = () => {
     password: "",
     rememberMe: false,
   });
-
   const [errors, setErrors] = useState<FormErrors>({});
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
-  // Auto-progress through steps for visual appeal
+  // Redirect authenticated users
+  useEffect(() => {
+    if (status === "authenticated") {
+      console.log("change");
+      router.replace(
+        session.user.onboardingCompleted ? "/dashboard" : "/onboarding"
+      );
+    }
+  }, [status, session, router]);
+
+  // Auto-progress through features
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentStep((prev) => (prev + 1) % 4);
@@ -74,57 +84,43 @@ const SignInPage: React.FC = () => {
       transition: { duration: 0.6, ease: "easeOut" },
     },
   };
-
+  console.log("change2");
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
-
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Please enter a valid email";
     }
-
     if (!formData.password) {
       newErrors.password = "Password is required";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!validateForm()) return;
 
     setIsLoading(true);
+    const result = await signIn("credentials", {
+      redirect: false,
+      email: formData.email,
+      password: formData.password,
+    });
 
-    try {
-      const response = await fetch("/api/auth/signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-      return NextResponse.json(response);
-    } catch (error) {
-      console.log(error);
-      return NextResponse.json(
-        { error: "Internal Server error" },
-        { status: 500 }
-      );
-    } finally {
-      setIsLoading(false);
+    setIsLoading(false);
+    if (result?.error) {
+      setErrors({ password: result.error });
+    } else {
+      router.replace("/"); // LandingPage will handle redirect based on onboardingCompleted
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -135,15 +131,16 @@ const SignInPage: React.FC = () => {
   };
 
   const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "/onboarding-redirect" });
+    signIn("google", { callbackUrl: "/" });
   };
 
   const handleGithubSignIn = () => {
-    signIn("github", { callbackUrl: "/onboarding-redirect" });
+    signIn("github", { callbackUrl: "/" });
   };
 
   const handleForgotPassword = () => {
     console.log("Forgot password clicked");
+    // TODO: Implement forgot password flow using VerificationToken
   };
 
   const features = [
@@ -165,26 +162,27 @@ const SignInPage: React.FC = () => {
     },
   ];
 
+  if (status === "loading") {
+    return (
+      <div className="flex justify-center items-center h-screen text-gray-600">
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <div
       className={`min-h-screen ${theme.bg} relative overflow-hidden transition-all duration-500`}
     >
-      {/* Theme Toggle */}
       <ThemeToggle theme={theme} />
-
-      {/* Animated background */}
       <div
         className={`absolute inset-0 ${
           theme.isDark
-            ? "bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900 via-blue-900 to-slate-900"
-            : "bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-100 via-purple-100 to-pink-100"
+            ? "bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900 via-teal-900 to-slate-900"
+            : "bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-100 via-teal-100 to-stone-100"
         }`}
       />
-
-      {/* Floating particles */}
       <FloatingParticles theme={theme} />
-
-      {/* Grid pattern overlay */}
       <div
         className={`absolute inset-0 ${
           theme.isDark
@@ -192,7 +190,6 @@ const SignInPage: React.FC = () => {
             : "bg-[linear-gradient(rgba(0,0,0,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,.05)_1px,transparent_1px)]"
         } bg-[size:50px_50px] opacity-20`}
       />
-
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
         <motion.div
           variants={containerVariants}
@@ -200,7 +197,6 @@ const SignInPage: React.FC = () => {
           animate="visible"
           className="w-full max-w-7xl grid lg:grid-cols-2 gap-12 items-start"
         >
-          {/* Left Side - Hero Section */}
           <motion.div variants={itemVariants} className="relative pt-8">
             <div className="text-left space-y-8">
               <motion.div
@@ -212,8 +208,8 @@ const SignInPage: React.FC = () => {
                 <h1
                   className={`text-5xl lg:text-7xl font-bold ${
                     theme.isDark
-                      ? "bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400"
-                      : "bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
+                      ? "bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400"
+                      : "bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600"
                   } bg-clip-text text-transparent leading-tight`}
                 >
                   Welcome Back
@@ -238,7 +234,6 @@ const SignInPage: React.FC = () => {
                   </span>
                 </h1>
               </motion.div>
-
               <motion.p
                 variants={itemVariants}
                 className={`text-xl ${theme.textSecondary} max-w-lg`}
@@ -246,8 +241,6 @@ const SignInPage: React.FC = () => {
                 Continue your productivity journey with our AI-powered task
                 management platform. Your organized workflow awaits.
               </motion.p>
-
-              {/* Animated features */}
               <div className="space-y-4">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -260,7 +253,7 @@ const SignInPage: React.FC = () => {
                   >
                     <div
                       className={`${
-                        theme.isDark ? "text-blue-400" : "text-blue-500"
+                        theme.isDark ? "text-emerald-400" : "text-emerald-500"
                       }`}
                     >
                       {features[currentStep].icon}
@@ -273,17 +266,13 @@ const SignInPage: React.FC = () => {
               </div>
             </div>
           </motion.div>
-
-          {/* Right Side - Sign In Form */}
           <motion.div variants={itemVariants} className="relative">
             <div
               className={`relative ${theme.cardBg} rounded-2xl p-6 border shadow-2xl max-w-md mx-auto`}
             >
-              {/* Glow effect */}
               <div
-                className={`absolute inset-0 bg-gradient-to-r ${theme.glowEffect} rounded-2xl blur-xl`}
+                className={`absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl blur-xl opacity-30`}
               />
-
               <div className="relative z-10">
                 <motion.div
                   variants={itemVariants}
@@ -298,9 +287,7 @@ const SignInPage: React.FC = () => {
                     Welcome back! Please enter your details
                   </p>
                 </motion.div>
-
                 <div className="space-y-4">
-                  {/* OAuth Providers */}
                   <motion.div variants={itemVariants} className="space-y-3">
                     <OAuthButton
                       provider="google"
@@ -331,7 +318,6 @@ const SignInPage: React.FC = () => {
                         Continue with Google
                       </span>
                     </OAuthButton>
-
                     <OAuthButton
                       provider="github"
                       onClick={handleGithubSignIn}
@@ -345,8 +331,6 @@ const SignInPage: React.FC = () => {
                       </span>
                     </OAuthButton>
                   </motion.div>
-
-                  {/* Divider */}
                   <motion.div variants={itemVariants} className="relative">
                     <div className="absolute inset-0 flex items-center">
                       <div
@@ -365,8 +349,6 @@ const SignInPage: React.FC = () => {
                       </span>
                     </div>
                   </motion.div>
-
-                  {/*Fields */}
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <EnhancedInput
                       icon={<Mail className="w-4 h-4" />}
@@ -378,7 +360,6 @@ const SignInPage: React.FC = () => {
                       error={errors.email}
                       theme={theme}
                     />
-
                     <EnhancedInput
                       icon={<Lock className="w-4 h-4" />}
                       type={showPassword ? "text" : "password"}
@@ -391,8 +372,6 @@ const SignInPage: React.FC = () => {
                       onTogglePassword={() => setShowPassword(!showPassword)}
                       theme={theme}
                     />
-
-                    {/* Remember Me & Forgot Password */}
                     <motion.div
                       variants={itemVariants}
                       className="flex items-center justify-between"
@@ -408,8 +387,8 @@ const SignInPage: React.FC = () => {
                         onClick={handleForgotPassword}
                         className={`text-sm ${
                           theme.isDark
-                            ? "text-blue-400 hover:text-blue-300"
-                            : "text-blue-500 hover:text-blue-600"
+                            ? "text-emerald-400 hover:text-emerald-300"
+                            : "text-emerald-500 hover:text-emerald-600"
                         } transition-colors`}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -417,27 +396,19 @@ const SignInPage: React.FC = () => {
                         Forgot password?
                       </motion.button>
                     </motion.div>
-
-                    {/* Submit Button */}
                     <motion.div variants={itemVariants}>
                       <motion.button
                         type="submit"
                         disabled={isLoading}
-                        className={`relative w-full overflow-hidden rounded-xl bg-gradient-to-r ${theme.buttonGradient} p-3 font-semibold text-white shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-sm`}
+                        className={`relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-600 p-3 font-semibold text-white shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-sm`}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        {/* Animated background */}
                         <motion.div
-                          className={`absolute inset-0 bg-gradient-to-r ${
-                            theme.isDark
-                              ? "from-blue-500 to-purple-500"
-                              : "from-blue-600 to-purple-600"
-                          } opacity-0`}
+                          className={`absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-700 opacity-0`}
                           whileHover={{ opacity: 1 }}
                           transition={{ duration: 0.3 }}
                         />
-
                         <div className="relative z-10 flex items-center justify-center space-x-2">
                           {isLoading ? (
                             <motion.div
@@ -464,29 +435,27 @@ const SignInPage: React.FC = () => {
                       </motion.button>
                     </motion.div>
                   </form>
+                  <motion.div
+                    variants={itemVariants}
+                    className="text-center mt-4"
+                  >
+                    <p className={`${theme.textSecondary} text-sm`}>
+                      Don’t have an account?{" "}
+                      <motion.button
+                        className={`${
+                          theme.isDark
+                            ? "text-emerald-400 hover:text-emerald-300"
+                            : "text-emerald-500 hover:text-emerald-600"
+                        } font-semibold transition-colors`}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => router.replace("/auth/signup")}
+                      >
+                        Sign up
+                      </motion.button>
+                    </p>
+                  </motion.div>
                 </div>
-
-                {/* Sign Up Link */}
-                <motion.div
-                  variants={itemVariants}
-                  className="text-center mt-4"
-                >
-                  <p className={`${theme.textSecondary} text-sm`}>
-                    Don&apos;t have an account?{" "}
-                    <motion.button
-                      className={`${
-                        theme.isDark
-                          ? "text-blue-400 hover:text-blue-300"
-                          : "text-blue-500 hover:text-blue-600"
-                      } font-semibold transition-colors`}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => router.replace("/auth/signup")}
-                    >
-                      Sign up
-                    </motion.button>
-                  </p>
-                </motion.div>
               </div>
             </div>
           </motion.div>

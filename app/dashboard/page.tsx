@@ -12,9 +12,6 @@ import TimeTracker from "@/components/ui/custom/Time Tracker/TimeTracker";
 import TeamCollaboration from "@/components/ui/custom/team collab/TeamCollaboration";
 
 const TodoDashboard = () => {
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [timerSeconds, setTimerSeconds] = useState(5048); // 01:24:08
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -58,37 +55,6 @@ const TodoDashboard = () => {
     },
   ]);
 
-  const [teamMembers] = useState([
-    {
-      id: 1,
-      name: "Alexandra Deff",
-      role: "Working on GitHub Project Repository",
-      status: "Completed",
-      avatar: "👩‍💻",
-    },
-    {
-      id: 2,
-      name: "Edwin Adenike",
-      role: "Working on Integrate User Authentication System",
-      status: "In Progress",
-      avatar: "👨‍💼",
-    },
-    {
-      id: 3,
-      name: "Isaac Oluwatemilorun",
-      role: "Working on Develop Order Filter Functionality",
-      status: "Pending",
-      avatar: "👨‍🎨",
-    },
-    {
-      id: 4,
-      name: "David Oshodi",
-      role: "Working on Responsive Layout for Homepage",
-      status: "In Progress",
-      avatar: "👨‍💻",
-    },
-  ]);
-
   const members = [
     {
       id: 1,
@@ -116,59 +82,6 @@ const TodoDashboard = () => {
     },
     // Add more members
   ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-      if (isTimerRunning) {
-        setTimerSeconds((prev) => prev + 1);
-      }
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [isTimerRunning]);
-
-  const formatTime = (seconds: any) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-  };
-
-  const toggleTask = (id: any) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
-  };
-
-  const getPriorityColor = (priority: any) => {
-    switch (priority) {
-      case "high":
-        return "text-red-600 bg-red-50";
-      case "medium":
-        return "text-orange-600 bg-orange-50";
-      case "low":
-        return "text-green-600 bg-green-50";
-      default:
-        return "text-gray-600 bg-gray-50";
-    }
-  };
-
-  const getStatusColor = (status: any) => {
-    switch (status) {
-      case "Completed":
-        return "text-green-600 bg-green-50";
-      case "In Progress":
-        return "text-blue-600 bg-blue-50";
-      case "Pending":
-        return "text-orange-600 bg-orange-50";
-      default:
-        return "text-gray-600 bg-gray-50";
-    }
-  };
 
   const weeklyData = [
     { day: "Mon", completed: 4, uncompleted: 1 },
@@ -261,13 +174,13 @@ const TodoDashboard = () => {
               inProgressPercentage={20}
               pendingPercentage={39}
             /> */}
-            <TaskCard />
+            {/*<TaskCard />*/}
           </div>
 
           {/* Bottom Section */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Team Collaboration */}
-            <TeamCollaboration members={members} />
+            {/*<TeamCollaboration members={members} />*/}
             {/* <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900">

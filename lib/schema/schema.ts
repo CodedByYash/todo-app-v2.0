@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export type ErrorResponse = { error: string | z.ZodError["errors"] };
+
 export const personalInfoSchema = z.object({
   username: z
     .string()
@@ -51,6 +53,7 @@ export const tasksSchema = z.object({
   priority: z.enum(["low", "medium", "high", "no_priority"]),
   dueDate: z.string().datetime(),
   parentTaskId: z.string().optional(),
+  workspaceId: z.string(),
 });
 
 export const createUserSchema = z.object({
