@@ -22,6 +22,7 @@ model User {
   updatedAt            DateTime          @updatedAt
   bio                  String?
   isPro                Boolean           @default(false)
+  onboardingCompleted  Boolean           @default(false)
   tasks                Task[]
   attachments          Attachment[]
   workspaces           Workspace[]       @relation("WorkspaceUsers")

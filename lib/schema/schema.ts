@@ -145,3 +145,8 @@ export const CommentSchema = z.object({
   userId: z.string(),
   taskId: z.string(),
 });
+
+export type WorkspaceContextType = {
+  selectedWorkspaceId: string | null;
+  setSelectedWorkspaceId: (id: string | null) => void;
+};

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import StatCard from "@/components/ui/custom/stat-card";
-import Sidebar from "@/components/ui/custom/Sidebar/Sidebar";
+import Sidebar, { useWorkspace } from "@/components/ui/custom/Sidebar/Sidebar";
 import DashboardHeader from "@/components/ui/custom/header";
 import GraphAnalysis from "@/components/ui/custom/analytics/GraphAnalysis";
 import Reminders from "@/components/ui/custom/reminders/Reminders";
@@ -10,93 +10,111 @@ import Reminders from "@/components/ui/custom/reminders/Reminders";
 import TaskCard from "@/components/ui/custom/tasks/TasksCard";
 import TimeTracker from "@/components/ui/custom/Time Tracker/TimeTracker";
 import TeamCollaboration from "@/components/ui/custom/team collab/TeamCollaboration";
+import { useSession } from "next-auth/react";
+import { useTheme } from "@/components/ui/custom/theme-component";
+import { useRouter } from "next/navigation";
+
+interface DashboardData {
+  taskCounts: {
+    total: number;
+    completed: number;
+    ongoing: number;
+    overdue: number;
+  };
+  analytics: {
+    byPriority: { low: number; medium: number; high: number };
+    byStatusOverTime: { data: string; completed: number; ongoing: number };
+    [];
+  };
+}
 
 const TodoDashboard = () => {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Develop API Endpoints",
-      completed: false,
-      priority: "high",
-      project: "Backend Development",
-      dueDate: "Nov 28, 2024",
-    },
-    {
-      id: 2,
-      title: "Onboarding Flow Design",
-      completed: false,
-      priority: "medium",
-      project: "UX Design",
-      dueDate: "Nov 29, 2024",
-    },
-    {
-      id: 3,
-      title: "Build Dashboard Components",
-      completed: false,
-      priority: "high",
-      project: "Frontend Development",
-      dueDate: "Nov 30, 2024",
-    },
-    {
-      id: 4,
-      title: "Optimize Page Load Speed",
-      completed: false,
-      priority: "medium",
-      project: "Performance",
-      dueDate: "Dec 1, 2024",
-    },
-    {
-      id: 5,
-      title: "Cross-Browser Testing",
-      completed: false,
-      priority: "low",
-      project: "QA Testing",
-      dueDate: "Dec 4, 2024",
-    },
-  ]);
+  const { data: session, status } = useSession();
+  const { selectedWorkspace, workspaces } = useWorkspace();
+  const { theme } = useTheme();
+  const router = useRouter();
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+    null
+  );
+  const [teamMembers, setTeamMembers] = useState<
+    { id: string; username: string; firstname: String; lastname: string }[]
+  >([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const members = [
-    {
-      id: 1,
-      name: "Alexandra Deff",
-      initials: "AD",
-      status: "Completed",
-      currentTask: "GitHub Project Repository",
-      completionPercentage: 75,
-    },
-    {
-      id: 1,
-      name: "Alexandra Deff",
-      initials: "AD",
-      status: "Completed",
-      currentTask: "GitHub Project Repository",
-      completionPercentage: 75,
-    },
-    {
-      id: 1,
-      name: "Alexandra Deff",
-      initials: "AD",
-      status: "Completed",
-      currentTask: "GitHub Project Repository",
-      completionPercentage: 75,
-    },
-    // Add more members
-  ];
+  useEffect(() => {
+    if (status === "loading") return;
 
-  const weeklyData = [
-    { day: "Mon", completed: 4, uncompleted: 1 },
-    { day: "Tue", completed: 2, uncompleted: 3 },
-    { day: "Wed", completed: 5, uncompleted: 5 },
-    { day: "Thu", completed: 3, uncompleted: 2 },
-    { day: "Fri", completed: 5, uncompleted: 0 },
-    { day: "Sat", completed: 1, uncompleted: 4 },
-    { day: "Sun", completed: 6, uncompleted: 2 }, // this should show a striped gray bar
-  ];
+    if (!session) {
+      router.replace("/auth/signin");
+      return;
+    }
+    if (!session.user.onboardingCompleted) {
+      router.replace("/onboarding");
+      return;
+    }
+  }, [session, status, router]);
 
-  const completedTasks = tasks.filter((task) => task.completed).length;
-  const totalTasks = tasks.length;
-  const completionPercentage =
-    totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      if (!selectedWorkspace) return;
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          `/api/dashboard?workspaceId=${selectedWorkspace}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setDashboardData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  }, []);
+
+  // const { data, isLoading } = useQuery({
+  //   queryKey:["dashboard",workspaceId],
+  //   queryFn: () => fetchDashboardData(workspaceId);
+  // });
+  // const members = [
+  //   {
+  //     id: 1,
+  //     name: "Alexandra Deff",
+  //     initials: "AD",
+  //     status: "Completed",
+  //     currentTask: "GitHub Project Repository",
+  //     completionPercentage: 75,
+  //   },
+  //   {
+  //     id: 1,
+  //     name: "Alexandra Deff",
+  //     initials: "AD",
+  //     status: "Completed",
+  //     currentTask: "GitHub Project Repository",
+  //     completionPercentage: 75,
+  //   },
+  //   {
+  //     id: 1,
+  //     name: "Alexandra Deff",
+  //     initials: "AD",
+  //     status: "Completed",
+  //     currentTask: "GitHub Project Repository",
+  //     completionPercentage: 75,
+  //   },
+  //   // Add more members
+  // ];
+
+  // const weeklyData = [
+  //   { day: "Mon", completed: 4, uncompleted: 1 },
+  //   { day: "Tue", completed: 2, uncompleted: 3 },
+  //   { day: "Wed", completed: 5, uncompleted: 5 },
+  //   { day: "Thu", completed: 3, uncompleted: 2 },
+  //   { day: "Fri", completed: 5, uncompleted: 0 },
+  //   { day: "Sat", completed: 1, uncompleted: 4 },
+  //   { day: "Sun", completed: 6, uncompleted: 2 }, // this should show a striped gray bar
+  // ];
 
   return (
     <div className="min-h-screen bg-[#FFFFFF] flex p-5">

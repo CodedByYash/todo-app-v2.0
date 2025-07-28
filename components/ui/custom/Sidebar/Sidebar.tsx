@@ -13,9 +13,11 @@ import {
   X,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, createContext, useContext } from "react";
 import { motion, AnimatePresence, Variants } from "motion/react";
 import SidebarItem from "./SidebarItem";
+import { useSession } from "next-auth/react";
+import EnhancedSelect from "../enhancedSelect";
 
 const SidebarItems = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -29,13 +31,55 @@ const SidebarItems = [
   { name: "Notifications", href: "/notification", icon: Bell },
 ];
 
+interface Workspace {
+  id: string;
+  workspacename: string;
+}
+
+interface WorkspaceContextType {
+  selectedWorkspace: string | null;
+  setSelectedWorkspace: (id: string | null) => void;
+  workspaces: Workspace[];
+}
+
+const WorkspaceContext = createContext<WorkspaceContextType | undefined>(
+  undefined
+);
+
+export const useWorkspace = () => {
+  const context = useContext(WorkspaceContext);
+  if (!context) {
+    throw new Error("useWorkspace must be used within a WorkspaceProvider");
+  }
+  return context;
+};
+
 const Sidebar = () => {
+  const { data: session } = useSession();
   const [collapsed, setCollapsed] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  const [selectedWorkspace, setSelectedWorkspace] = useState<string | null>(
+    null
+  );
   const pathname = usePathname();
   const memoizedSidebarItems = useMemo(() => SidebarItems, []);
+
+  useEffect(() => {
+    const fetchWorkspaces = async () => {
+      if (session?.user?.id) {
+        const response = await fetch("/api/workspaces");
+        const data = await response.json();
+        setWorkspaces(data);
+        if (data.length > 0 && !selectedWorkspace) {
+          setWorkspaces(data[0].id);
+        }
+      }
+    };
+    fetchWorkspaces();
+  }, [session]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -71,6 +115,15 @@ const Sidebar = () => {
     }
   };
 
+  const handleWorkspaceChange = (value: string) => {
+    setSelectedWorkspace(value);
+    fetch("/api/preference(value", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ defaultWorkspaceId: value }),
+    });
+  };
+
   const sidebarVariants: Variants = {
     expanded: {
       width: isMobile ? 256 : window.innerWidth >= 1536 ? 288 : 256,
@@ -98,9 +151,11 @@ const Sidebar = () => {
     },
   };
 
+  const contextValue = { selectedWorkspace, setSelectedWorkspace, workspaces };
+
   if (isMobile) {
     return (
-      <>
+      <WorkspaceContext.Provider value={contextValue}>
         <motion.button
           onClick={handleToggleCollapse}
           className="
@@ -186,6 +241,23 @@ const Sidebar = () => {
                     <X className="w-5 h-5 text-gray-600" />
                   </motion.button>
                 </div>
+                <div>
+                  <EnhancedSelect
+                    options={workspaces.map((ws) => ({
+                      value: ws.id,
+                      label: ws.workspacename,
+                    }))}
+                    value={selectedWorkspace || ""}
+                    onChange={handleWorkspaceChange}
+                    placeholder="Select Workspace"
+                    theme={{
+                      bg: "bg-white",
+                      text: "text-gray-900",
+                      border: "border-gray-200",
+                      hover: "hover:bg-emerald-50",
+                    }}
+                  />
+                </div>
                 <nav className="flex-1 p-6 overflow-y-auto">
                   <motion.div
                     initial={{ opacity: 0 }}
@@ -223,21 +295,22 @@ const Sidebar = () => {
             </>
           )}
         </AnimatePresence>
-      </>
+      </WorkspaceContext.Provider>
     );
   }
 
   return (
-    <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="h-full relative hidden md:block"
-    >
-      <motion.div
-        initial="collapsed"
-        animate={collapsed && !isHovered ? "collapsed" : "expanded"}
-        variants={sidebarVariants}
-        className="
+    <WorkspaceContext.Provider value={contextValue}>
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="h-full relative hidden md:block"
+      >
+        <motion.div
+          initial="collapsed"
+          animate={collapsed && !isHovered ? "collapsed" : "expanded"}
+          variants={sidebarVariants}
+          className="
           h-full flex flex-col
           bg-gradient-to-b from-stone-50 to-gray-50
           backdrop-blur-sm
@@ -246,12 +319,12 @@ const Sidebar = () => {
           rounded-2xl mr-4 sm:mr-6 xl:mr-8
           overflow-hidden
         "
-        role="navigation"
-        aria-label="Main navigation"
-        aria-expanded={!collapsed || isHovered}
-      >
-        <motion.div
-          className={`
+          role="navigation"
+          aria-label="Main navigation"
+          aria-expanded={!collapsed || isHovered}
+        >
+          <motion.div
+            className={`
             flex items-center p-6 relative
             ${
               collapsed && !isHovered
@@ -259,160 +332,181 @@ const Sidebar = () => {
                 : "justify-start space-x-3"
             }
           `}
-          whileHover={{ scale: 1.02 }}
-          transition={{ type: "spring", stiffness: 400, damping: 20 }}
-        >
-          <motion.div
-            className="
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          >
+            <motion.div
+              className="
               w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600
               rounded-2xl flex items-center justify-center shrink-0
               shadow-lg shadow-emerald-500/25
             "
-            whileHover={{
-              scale: 1.1,
-              rotate: [0, -10, 10, 0],
-              transition: { duration: 0.5 },
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <CheckCircle2 className="w-6 h-6 text-white" />
-          </motion.div>
-          <AnimatePresence mode="wait">
-            {(!collapsed || isHovered) && (
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-col"
-              >
-                <span className="text-lg sm:text-xl font-bold text-gray-900">
-                  Taskito
-                </span>
-                <span className="text-xs sm:text-sm text-gray-500 font-medium">
-                  Project Management
-                </span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-blue-500/5 rounded-2xl opacity-0"
-            animate={{ opacity: isHovered ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-          />
-        </motion.div>
-        <motion.div
-          className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent mx-6"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        />
-        <nav className="flex-1 flex flex-col pt-6 overflow-y-auto">
-          <motion.div
-            className={`
-            flex items-center px-6 mb-6
-            ${collapsed && !isHovered ? "justify-center" : "justify-between"}
-          `}
-          >
+              whileHover={{
+                scale: 1.1,
+                rotate: [0, -10, 10, 0],
+                transition: { duration: 0.5 },
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <CheckCircle2 className="w-6 h-6 text-white" />
+            </motion.div>
             <AnimatePresence mode="wait">
               {(!collapsed || isHovered) && (
                 <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
-                  className="text-xs font-semibold text-gray-400 uppercase tracking-wider"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col"
                 >
-                  Navigation
+                  <span className="text-lg sm:text-xl font-bold text-gray-900">
+                    Taskito
+                  </span>
+                  <span className="text-xs sm:text-sm text-gray-500 font-medium">
+                    Project Management
+                  </span>
                 </motion.div>
               )}
             </AnimatePresence>
-            <motion.button
-              onClick={handleToggleCollapse}
-              className="
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-blue-500/5 rounded-2xl opacity-0"
+              animate={{ opacity: isHovered ? 1 : 0 }}
+              transition={{ duration: 0.3 }}
+            />
+          </motion.div>
+          <motion.div
+            className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent mx-6"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          />
+          <div className="px-6 py-4">
+            <EnhancedSelect
+              options={workspaces.map((ws) => ({
+                value: ws.id,
+                label: ws.workspacename,
+              }))}
+              value={selectedWorkspace || ""}
+              onChange={handleWorkspaceChange}
+              placeholder="SelectWorkspace"
+              theme={{
+                bg: "bg-white",
+                text: "text-gray-900",
+                border: "border-gray-200",
+                hover: "hover:bg-emerald-50",
+              }}
+            />
+          </div>
+          <nav className="flex-1 flex flex-col pt-6 overflow-y-auto">
+            <motion.div
+              className={`
+            flex items-center px-6 mb-6
+            ${collapsed && !isHovered ? "justify-center" : "justify-between"}
+          `}
+            >
+              <AnimatePresence mode="wait">
+                {(!collapsed || isHovered) && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="text-xs font-semibold text-gray-400 uppercase tracking-wider"
+                  >
+                    Navigation
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <motion.button
+                onClick={handleToggleCollapse}
+                className="
                 p-2 hover:bg-gray-100 rounded-xl
                 transition-all duration-200
                 hover:shadow-md active:scale-95
                 group
                 focus:outline-none focus:ring-2 focus:ring-emerald-500
               "
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            >
-              <motion.div
-                animate={{ rotate: collapsed && !isHovered ? 0 : 180 }}
-                transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
               >
-                <PanelRight className="w-5 h-5 text-gray-600 group-hover:text-emerald-600" />
-              </motion.div>
-            </motion.button>
-          </motion.div>
+                <motion.div
+                  animate={{ rotate: collapsed && !isHovered ? 0 : 180 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                >
+                  <PanelRight className="w-5 h-5 text-gray-600 group-hover:text-emerald-600" />
+                </motion.div>
+              </motion.button>
+            </motion.div>
+            <motion.div
+              className="flex flex-col space-y-2 px-3"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              {memoizedSidebarItems.map((item, index) => (
+                <motion.div
+                  key={item.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    delay: 0.1 * index,
+                    duration: 0.3,
+                    ease: "easeOut",
+                  }}
+                >
+                  <SidebarItem
+                    collapsed={collapsed && !isHovered}
+                    isActive={pathname === item.href}
+                    item={item}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          </nav>
           <motion.div
-            className="flex flex-col space-y-2 px-3"
+            className="p-6 mt-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
+            transition={{ delay: 0.5, duration: 0.3 }}
           >
-            {memoizedSidebarItems.map((item, index) => (
-              <motion.div
-                key={item.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.1 * index,
-                  duration: 0.3,
-                  ease: "easeOut",
-                }}
-              >
-                <SidebarItem
-                  collapsed={collapsed && !isHovered}
-                  isActive={pathname === item.href}
-                  item={item}
-                />
-              </motion.div>
-            ))}
+            <motion.div
+              className="w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent mb-4"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            />
+            <AnimatePresence mode="wait">
+              {(!collapsed || isHovered) && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-center"
+                >
+                  <p className="text-xs sm:text-sm text-gray-500 font-medium">
+                    Made with ❤️ by Team
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
-        </nav>
-        <motion.div
-          className="p-6 mt-auto"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.3 }}
-        >
           <motion.div
-            className="w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent mb-4"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-          />
-          <AnimatePresence mode="wait">
-            {(!collapsed || isHovered) && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.3 }}
-                className="text-center"
-              >
-                <p className="text-xs sm:text-sm text-gray-500 font-medium">
-                  Made with ❤️ by Team
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-        <motion.div
-          className="
+            className="
             absolute inset-0 bg-gradient-to-br
             from-emerald-500/5 via-transparent to-blue-500/5
             pointer-events-none rounded-2xl
           "
-          animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1 : 0.98 }}
-          transition={{ duration: 0.4 }}
-        />
-      </motion.div>
-    </div>
+            animate={{
+              opacity: isHovered ? 1 : 0,
+              scale: isHovered ? 1 : 0.98,
+            }}
+            transition={{ duration: 0.4 }}
+          />
+        </motion.div>
+      </div>
+    </WorkspaceContext.Provider>
   );
 };
 
