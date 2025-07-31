@@ -13,7 +13,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { ThemeToggle, useTheme } from "@/components/ui/custom/theme-component";
+import { ThemeToggle, useTheme } from "@/components/ui/custom/ThemeProvider";
 import { AnimatePresence, motion, Variants } from "motion/react";
 import { OAuthButton } from "@/components/ui/custom/enhanced-oauth";
 import { EnhancedInput } from "@/components/ui/custom/enhanced-input";
@@ -277,8 +277,8 @@ const SignUpPage: React.FC = () => {
                 className={`text-xl ${theme.textSecondary} max-w-lg`}
               >
                 Transform your productivity with our AI-powered task management
-                platform. Join thousands of users who've revolutionized their
-                workflow.
+                platform. Join thousands of users who&aposve revolutionized
+                their workflow.
               </motion.p>
               <div className="space-y-4">
                 <AnimatePresence mode="wait">

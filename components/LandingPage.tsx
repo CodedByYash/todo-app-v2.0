@@ -20,7 +20,7 @@ const LandingPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-slate-300 to-stone-300 flex flex-col items-center justify-center px-4 sm:px-6">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-slate-300 to-stone-300 flex flex-col items-center justify-center">
       <div className="text-center max-w-2xl">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
           Welcome to Taskito

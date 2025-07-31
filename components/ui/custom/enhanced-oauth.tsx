@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { ThemeType } from "./theme-component";
+import { ThemeType } from "./ThemeProvider";
 
 export const OAuthButton: React.FC<{
   provider: "google" | "github";

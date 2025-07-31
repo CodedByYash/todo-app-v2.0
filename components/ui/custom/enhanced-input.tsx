@@ -1,7 +1,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
-import { ThemeType } from "./theme-component";
+import { ThemeType } from "./ThemeProvider";
 export const EnhancedInput: React.FC<{
   icon: React.ReactNode;
   type: string;

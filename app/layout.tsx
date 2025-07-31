@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/lib/provider/provider";
+import Sidebar from "@/components/ui/custom/Sidebar/Sidebar";
+import { ThemeProvider } from "@/components/ui/custom/ThemeProvider";
+import { WorkspaceProvider } from "@/components/WorkspaceProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,7 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <ThemeProvider>
+            <WorkspaceProvider>
+              <main className="flex-1">{children}</main>
+            </WorkspaceProvider>
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

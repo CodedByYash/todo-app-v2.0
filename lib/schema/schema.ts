@@ -30,15 +30,27 @@ export const personalInfoSchema = z.object({
 });
 
 export const workspaceSchema = z.object({
-  workspacename: z.string().min(2, "Workspace name is required"),
-  description: z.string().max(400).optional(),
-  imageUrl: z.string().max(300).optional(),
-  type: z.enum(["PERSONAL", "PROFESSIONAL"]),
-  organizationName: z.string().min(3).max(30).optional(),
-
-  // Professional workspace fields
-  workspaceSize: z.number().optional(),
+  workspacename: z
+    .string()
+    .min(1, "Workspace name is required")
+    .max(255, "Workspace name must be 255 characters or less"),
+  description: z.string().optional(),
+  imageUrl: z.string().url("Invalid URL format").optional(),
+  type: z.enum(["PERSONAL", "PROFESSIONAL"]).default("PERSONAL"),
+  organizationName: z.string().optional(),
+  workspaceSize: z
+    .number()
+    .int()
+    .min(1, "Workspace size must be at least 1")
+    .default(1),
   organizationDomain: z.string().optional(),
+  isPro: z.boolean().default(false),
+  subscriptionEndsAt: z
+    .string()
+    .datetime({ message: "Invalid date-time format" })
+    .optional(),
+  ownerId: z.string().uuid("Invalid user ID"),
+  tagIds: z.array(z.string().uuid("Invalid tag ID")).optional(),
 });
 
 export const signupSchema = z.object({
@@ -48,12 +60,22 @@ export const signupSchema = z.object({
 });
 
 export const tasksSchema = z.object({
-  title: z.string().min(1, "Title is required").max(200),
-  completed: z.boolean(),
-  priority: z.enum(["low", "medium", "high", "no_priority"]),
-  dueDate: z.string().datetime(),
-  parentTaskId: z.string().optional(),
-  workspaceId: z.string(),
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(255, "Title must be 255 characters or less"),
+  completed: z.boolean().default(false),
+  priority: z.enum(["no_priority", "low", "medium", "high"]),
+  dueDate: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val : null))
+    .refine((val) => !val || !isNaN(Date.parse(val)), {
+      message: "Invalid date-time format",
+    }),
+  tagIds: z.array(z.string().uuid("Invalid tag ID")).optional(),
+  workspaceId: z.string().uuid("Invalid workspace ID"),
+  userId: z.string().uuid("Invalid user ID"),
 });
 
 export const createUserSchema = z.object({
@@ -150,3 +172,32 @@ export type WorkspaceContextType = {
   selectedWorkspaceId: string | null;
   setSelectedWorkspaceId: (id: string | null) => void;
 };
+
+export const reminderSchema = z.object({
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(255, "Title must be 255 characters or less"),
+  body: z.string().optional(),
+  reminderDate: z.string().datetime({ message: "Invalid date-time format" }),
+  taskId: z.string().uuid("Invalid task ID").optional(),
+  userId: z.string().uuid("Invalid user ID"),
+  workspaceId: z.string().uuid("Invalid workspace ID"),
+});
+
+export const tagSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Tag name is required")
+    .max(50, "Tag name must be 50 characters or less"),
+  workspaceId: z.string().uuid("Invalid workspace ID").optional().nullable(),
+  color: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/, "Color must be a valid hex code")
+    .default("#3b82f6"),
+});
+
+export const tagUpdateSchema = z.object({
+  tagId: z.string().uuid("Invalid tag ID"),
+  workspaceId: z.string().uuid("Invalid workspace ID").optional().nullable(),
+});

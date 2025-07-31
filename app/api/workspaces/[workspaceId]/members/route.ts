@@ -88,23 +88,11 @@ export async function GET(
 ) {
   try {
     const user = await getUser();
-    const { workspaceId } = await params;
-    if (!user || !user.id || !workspaceId) {
+    if (!user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const Member = await prisma.workspaceMember.findUnique({
-      where: {
-        userId_workspaceId: {
-          userId: user.id,
-          workspaceId,
-        },
-      },
-    });
-
-    if (!Member) {
-      return new NextResponse("Member not found", { status: 403 });
-    }
+    const { workspaceId } = await params;
 
     const members = await prisma.workspaceMember.findMany({
       where: {
@@ -126,8 +114,12 @@ export async function GET(
       },
     });
 
-    return NextResponse.json(members);
+    return NextResponse.json(members, { status: 200 });
   } catch (err) {
     console.error("[GET_WORKSPACE_MEMBERS]", err);
+    return NextResponse.json(
+      { error: "Failed to fetch members" },
+      { status: 500 }
+    );
   }
 }

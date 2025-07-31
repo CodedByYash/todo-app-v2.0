@@ -4,8 +4,6 @@ import { workspaceSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-type ErrorResponse = { error: string | z.ZodError["errors"] };
-
 export async function GET() {
   try {
     const user = await getUser();
@@ -33,7 +31,7 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json(workspaces, { status: 20 });
+    return NextResponse.json(workspaces, { status: 200 });
   } catch (error) {
     console.error("Error fetching workspaces:", error);
     return NextResponse.json(
@@ -45,64 +43,33 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const user = await getUser();
-
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const data = await request.json();
-    const parsedData = workspaceSchema.safeParse(data);
-
-    if (!parsedData.success) {
-      return NextResponse.json(
-        { error: parsedData.error.errors },
-        { status: 404 }
-      );
-    }
-
-    const {
-      description,
-      imageUrl,
-      workspacename,
-      type,
-      organizationName,
-      organizationDomain,
-      workspaceSize,
-    } = parsedData.data;
-
-    const existingWorkspace = await prisma.workspace.findFirst({
-      where: { workspacename, ownerId: user.id },
-    });
-
-    if (existingWorkspace) {
-      return NextResponse.json(
-        { error: "Workspace name already exists" },
-        { status: 409 }
-      );
-    }
+    const body = await request.json();
+    const parsedData = workspaceSchema.parse(body);
 
     const workspace = await prisma.workspace.create({
       data: {
-        description,
-        imageUrl,
-        workspacename,
-        type,
-        organizationName,
-        organizationDomain,
-        workspaceSize,
-        ownerId: user.id,
-        members: {
-          create: {
-            userId: user.id,
-            role: "OWNER",
-          },
+        workspacename: parsedData.workspacename,
+        description: parsedData.description,
+        imageUrl: parsedData.imageUrl,
+        type: parsedData.type,
+        organizationName: parsedData.organizationName,
+        workspaceSize: parsedData.workspaceSize,
+        organizationDomain: parsedData.organizationDomain,
+        isPro: parsedData.isPro,
+        subscriptionEndsAt: parsedData.subscriptionEndsAt
+          ? new Date(parsedData.subscriptionEndsAt)
+          : null,
+        ownerId: parsedData.ownerId,
+        tags: {
+          connect: parsedData.tagIds?.map((id: string) => ({ id })) || [],
         },
       },
     });
-
     return NextResponse.json(workspace, { status: 201 });
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: error.errors }, { status: 400 });
+    }
     console.error("Error creating workspace:", error);
     return NextResponse.json(
       { error: "Failed to create workspace" },

@@ -203,6 +203,17 @@ exports.Prisma.TagScalarFieldEnum = {
   workspaceId: 'workspaceId'
 };
 
+exports.Prisma.ReminderScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  body: 'body',
+  reminderDate: 'reminderDate',
+  userId: 'userId',
+  workspaceId: 'workspaceId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.AttachmentScalarFieldEnum = {
   id: 'id',
   url: 'url',
@@ -241,6 +252,7 @@ exports.Prisma.UserPreferenceScalarFieldEnum = {
   defaultWorkspaceView: 'defaultWorkspaceView',
   enableTaskAutoSave: 'enableTaskAutoSave',
   language: 'language',
+  defaultWorkspaceId: 'defaultWorkspaceId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -330,6 +342,7 @@ exports.Prisma.ModelName = {
   Workspace: 'Workspace',
   Task: 'Task',
   Tag: 'Tag',
+  Reminder: 'Reminder',
   Attachment: 'Attachment',
   TaskVersion: 'TaskVersion',
   WorkspaceMember: 'WorkspaceMember',

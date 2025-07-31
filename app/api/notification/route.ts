@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const user = await getUser();
-  if (!user || !user.email) {
+  if (!user?.email) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 

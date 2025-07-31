@@ -15,7 +15,7 @@ import {
 import { FloatingParticles } from "@/components/ui/custom/floatingParticle";
 import { OAuthButton } from "@/components/ui/custom/enhanced-oauth";
 import { EnhancedInput } from "@/components/ui/custom/enhanced-input";
-import { ThemeToggle, useTheme } from "@/components/ui/custom/theme-component";
+import { ThemeToggle, useTheme } from "@/components/ui/custom/ThemeProvider";
 import { EnhancedCheckbox } from "@/components/ui/custom/enhanced-checkbox";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";

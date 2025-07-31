@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ThemeType } from "./theme-component";
+import { ThemeType } from "./ThemeProvider";
 export const FloatingParticles: React.FC<{ theme: ThemeType }> = ({
   theme,
 }) => {

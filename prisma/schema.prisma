@@ -34,6 +34,7 @@ model User {
   notifications         Notification[]
   activityLogs          ActivityLog[]
   comments              Comment[]
+  reminders             Reminder[]
 }
 
 model Account{
@@ -90,6 +91,7 @@ model Workspace {
   owner                 User              @relation("WorkspaceOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   members               WorkspaceMember[]
   tags                  Tag[]             @relation("TagsOnWorkspace")
+  reminders             Reminder[]
 }
 
 model Task {
@@ -130,6 +132,19 @@ model Tag {
   updatedAt             DateTime        @updatedAt
   workspaceId           String
   workspace             Workspace       @relation("TagsOnWorkspace", fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model Reminder {
+  id            String    @id @default(uuid())
+  title         String
+  body          String?
+  reminderDate  DateTime
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  workspaceId   String
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 model Attachment {
@@ -188,6 +203,7 @@ model UserPreference {
   defaultWorkspaceView        ViewType @default(KANBAN)
   enableTaskAutoSave          Boolean  @default(true)
   language                    String   @default("en")
+  defaultWorkspaceId          String?
 
   createdAt                   DateTime @default(now())
   updatedAt                   DateTime @updatedAt
