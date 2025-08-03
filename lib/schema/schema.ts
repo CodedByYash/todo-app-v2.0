@@ -8,7 +8,7 @@ export const personalInfoSchema = z.object({
     .min(3, "Username must be at least 3 characters")
     .regex(
       /^[a-z0-9_-]+$/,
-      "Username can only contain lowercase letters, numbers, underscores and hyphens"
+      "Username can only contain lowercase letters, numbers, underscores and hyphens",
     ),
   firstname: z
     .string()

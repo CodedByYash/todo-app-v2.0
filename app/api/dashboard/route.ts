@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma/prisma";
 import { z } from "zod";
 import getUser from "@/lib/getUser";
+import { tasksSchema } from "@/lib/schema/schema";
 
 // Query schema for validation
 const dashboardQuerySchema = z.object({
@@ -161,24 +162,6 @@ export async function GET(request: Request) {
 }
 
 // POST: Create a task (unchanged)
-export const tasksSchema = z.object({
-  title: z
-    .string()
-    .min(1, "Title is required")
-    .max(255, "Title must be 255 characters or less"),
-  completed: z.boolean().default(false),
-  priority: z.enum(["no_priority", "low", "medium", "high"]),
-  dueDate: z
-    .string()
-    .optional()
-    .transform((val) => (val ? val : null))
-    .refine((val) => !val || !isNaN(Date.parse(val)), {
-      message: "Invalid date-time format",
-    }),
-  tagIds: z.array(z.string().uuid("Invalid tag ID")).optional(),
-  workspaceId: z.string().uuid("Invalid workspace ID"),
-  userId: z.string().uuid("Invalid user ID"),
-});
 
 export async function POST(request: Request) {
   try {
