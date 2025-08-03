@@ -19,7 +19,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence, Variants } from "motion/react";
 import SidebarItem from "./SidebarItem";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import EnhancedSelect from "../enhancedSelect";
 import { useWorkspace, Workspace } from "@/components/WorkspaceProvider";
 import { useTheme } from "@/components/ui/custom/ThemeProvider";
