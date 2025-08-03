@@ -147,7 +147,6 @@ const Sidebar = () => {
                 className="fixed top-0 left-0 z-50 flex h-full w-3/4 min-w-[240px] flex-col border-r border-gray-200 bg-gradient-to-b from-stone-50 to-gray-50 shadow-2xl sm:w-64"
                 role="navigation"
                 aria-label="Main navigation"
-                aria-expanded={mobileMenuOpen}
               >
                 <div className="flex items-center justify-between border-b border-gray-200 p-6">
                   <motion.div
@@ -262,7 +261,6 @@ const Sidebar = () => {
         className="mr-4 flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200/50 bg-gradient-to-b from-stone-50 to-gray-50 shadow-xl shadow-gray-200/50 backdrop-blur-sm sm:mr-6 xl:mr-8"
         role="navigation"
         aria-label="Main navigation"
-        aria-expanded={!collapsed || isHovered}
       >
         <motion.div
           className={`relative flex items-center p-6 ${
