@@ -48,9 +48,9 @@ const TodoDashboard = () => {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null,
   );
-  const [teamMembers, setTeamMembers] = useState<
-    { id: string; username: string; firstname: string; lastname: string }[]
-  >([]);
+  // const [teamMembers, setTeamMembers] = useState<
+  //   { id: string; username: string; firstname: string; lastname: string }[]
+  // >([]);
   const [isLoading, setIsLoading] = useState(true);
   const [taskModalOpen, setTaskModalOpen] = useState(false);
 
@@ -87,25 +87,25 @@ const TodoDashboard = () => {
       }
     };
 
-    const fetchMembers = async () => {
-      if (!selectedWorkspace) return;
-      try {
-        const response = await fetch(
-          `/api/workspaces/${selectedWorkspace}/members`,
-        );
-        if (response.ok) {
-          const members = await response.json();
-          setTeamMembers(members);
-          console.log("successfully fetched member");
-          console.log(members);
-        }
-      } catch (error) {
-        console.error("Error fetching team memebes:", error);
-      }
-    };
+    // const fetchMembers = async () => {
+    //   if (!selectedWorkspace) return;
+    //   try {
+    //     const response = await fetch(
+    //       `/api/workspaces/${selectedWorkspace}/members`,
+    //     );
+    //     if (response.ok) {
+    //       const members = await response.json();
+    //       setTeamMembers(members);
+    //       console.log("successfully fetched member");
+    //       console.log(members);
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching team memebes:", error);
+    //   }
+    // };
 
     fetchDashboardData();
-    fetchMembers();
+    // fetchMembers();
   }, [selectedWorkspace]);
 
   if (status === "loading" || isLoading) {
@@ -128,7 +128,7 @@ const TodoDashboard = () => {
     );
   }
 
-  const { taskCounts, analytics } = dashboardData;
+  const { taskCounts } = dashboardData;
 
   return (
     <div className="flex min-h-screen bg-[#FFFFFF]">

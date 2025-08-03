@@ -77,6 +77,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
         setError("Failed to create tag");
       }
     } catch (err) {
+      console.log(err);
       setError("Error creating tag");
     }
   };
@@ -116,23 +117,24 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
         setError(data.error || "Failed to create workspaces");
       }
     } catch (error) {
+      console.log(error);
       setError("An error occurred while creating the workspace");
     }
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose} ariaLabel="Create Workspace Modal">
-      <div className={`${cardBg} p-6 rounded-2xl`}>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className={`${textPrimary} text-2xl font-bold flex items-center`}>
-            <FolderKanban className="w-6 h-6 text-emerald-500 mr-2" /> Create
+      <div className={`${cardBg} rounded-2xl p-6`}>
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className={`${textPrimary} flex items-center text-2xl font-bold`}>
+            <FolderKanban className="mr-2 h-6 w-6 text-emerald-500" /> Create
             Workspace
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="rounded-2xl p-2 hover:bg-gray-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
             aria-label="Close modal"
           >
-            <X className="w-5 h-5 text-gray-600" />
+            <X className="h-5 w-5 text-gray-600" />
           </button>
         </div>
         <AnimatePresence>
@@ -141,7 +143,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="text-red-500 mb-4"
+              className="mb-4 text-red-500"
             >
               {error}
             </motion.p>
@@ -151,7 +153,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="text-green-500 mb-4"
+              className="mb-4 text-green-500"
             >
               {success}
             </motion.p>
@@ -161,7 +163,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
           <div>
             <label
               htmlFor="workspacename"
-              className={`${textSecondary} block text-sm font-medium mb-1`}
+              className={`${textSecondary} mb-1 block text-sm font-medium`}
             >
               Workspace Name
             </label>
@@ -180,7 +182,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
           <div>
             <label
               htmlFor="type"
-              className={`${textSecondary} block text-sm font-medium mb-1`}
+              className={`${textSecondary} mb-1 block text-sm font-medium`}
             >
               Type
             </label>
@@ -199,7 +201,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
           <div>
             <label
               htmlFor="description"
-              className={`${textSecondary} block text-sm font-medium mb-1`}
+              className={`${textSecondary} mb-1 block text-sm font-medium`}
             >
               Description
             </label>
@@ -217,7 +219,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
           <div>
             <label
               htmlFor="imageUrl"
-              className={`${textSecondary} block text-sm font-medium mb-1`}
+              className={`${textSecondary} mb-1 block text-sm font-medium`}
             >
               Image URL
             </label>
@@ -235,7 +237,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
           <div>
             <label
               htmlFor="organizationName"
-              className={`${textSecondary} block text-sm font-medium mb-1`}
+              className={`${textSecondary} mb-1 block text-sm font-medium`}
             >
               Organization Name
             </label>
@@ -253,7 +255,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
           <div>
             <label
               htmlFor="workspaceSize"
-              className={`${textSecondary} block text-sm font-medium mb-1`}
+              className={`${textSecondary} mb-1 block text-sm font-medium`}
             >
               Workspace Size
             </label>
@@ -275,7 +277,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
           <div>
             <label
               htmlFor="organizationDomain"
-              className={`${textSecondary} block text-sm font-medium mb-1`}
+              className={`${textSecondary} mb-1 block text-sm font-medium`}
             >
               Organization Domain
             </label>
@@ -293,7 +295,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
           <div>
             <label
               htmlFor="isPro"
-              className={`${textSecondary} block text-sm font-medium mb-1`}
+              className={`${textSecondary} mb-1 block text-sm font-medium`}
             >
               Pro Subscription
             </label>
@@ -310,7 +312,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
           <div>
             <label
               htmlFor="subscriptionEndsAt"
-              className={`${textSecondary} block text-sm font-medium mb-1`}
+              className={`${textSecondary} mb-1 block text-sm font-medium`}
             >
               Subscription Ends At
             </label>
@@ -327,7 +329,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
           <div>
             <label
               htmlFor="tags"
-              className={`${textSecondary} block text-sm font-medium mb-1`}
+              className={`${textSecondary} mb-1 block text-sm font-medium`}
             >
               Tags
             </label>
@@ -346,7 +348,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
                 hover: "hover:bg-emerald-50",
               }}
             />
-            <div className="flex mt-2">
+            <div className="mt-2 flex">
               <input
                 type="text"
                 value={newTag}
@@ -357,19 +359,19 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
               <motion.button
                 type="button"
                 onClick={handleAddTag}
-                className={`ml-2 p-3 bg-gradient-to-r ${buttonGradient} text-white rounded-2xl hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-500`}
+                className={`ml-2 bg-gradient-to-r p-3 ${buttonGradient} rounded-2xl text-white hover:shadow-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Add new tag"
               >
-                <PlusCircle className="w-5 h-5" />
+                <PlusCircle className="h-5 w-5" />
               </motion.button>
             </div>
           </div>
           <div className="flex space-x-4">
             <motion.button
               type="submit"
-              className={`flex-1 py-3 bg-gradient-to-r ${buttonGradient} text-white rounded-2xl hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500`}
+              className={`flex-1 bg-gradient-to-r py-3 ${buttonGradient} rounded-2xl text-white transition-all duration-200 hover:shadow-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-label="Create workspace"
@@ -379,7 +381,7 @@ const WorkspaceFormModal = ({ onClose, isOpen }: WorkspaceFormProps) => {
             <motion.button
               type="button"
               onClick={onClose}
-              className={`flex-1 py-3 bg-gray-200 text-gray-700 rounded-2xl hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500`}
+              className={`flex-1 rounded-2xl bg-gray-200 py-3 text-gray-700 transition-all duration-200 hover:shadow-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-label="Cancel"

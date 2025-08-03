@@ -37,7 +37,6 @@ const SidebarItems = [
 ];
 
 const Sidebar = () => {
-  const { data: session } = useSession();
   const { buttonGradient } = useTheme();
   const [collapsed, setCollapsed] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
@@ -113,7 +112,7 @@ const Sidebar = () => {
       <>
         <motion.button
           onClick={handleToggleCollapse}
-          className="fixed top-6 left-6 z-50 p-2 sm:p-3 bg-white shadow-lg border border-gray-200 rounded-2xl hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="fixed top-6 left-6 z-50 rounded-2xl border border-gray-200 bg-white p-2 shadow-lg transition-all duration-200 hover:shadow-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none sm:p-3"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           aria-label="Toggle navigation menu"
@@ -123,9 +122,9 @@ const Sidebar = () => {
             transition={{ duration: 0.2 }}
           >
             {mobileMenuOpen ? (
-              <X className="w-6 h-6 text-gray-700" />
+              <X className="h-6 w-6 text-gray-700" />
             ) : (
-              <Menu className="w-6 h-6 text-gray-700" />
+              <Menu className="h-6 w-6 text-gray-700" />
             )}
           </motion.div>
         </motion.button>
@@ -137,7 +136,7 @@ const Sidebar = () => {
                 animate="open"
                 exit="closed"
                 variants={mobileOverlayVariants}
-                className="fixed inset-0 bg-black/40 sm:bg-black/50 backdrop-blur-sm z-40"
+                className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm sm:bg-black/50"
                 onClick={() => setMobileMenuOpen(false)}
               />
               <motion.div
@@ -145,37 +144,37 @@ const Sidebar = () => {
                 animate="open"
                 exit="closed"
                 variants={mobileMenuVariants}
-                className="fixed top-0 left-0 h-full w-3/4 sm:w-64 min-w-[240px] z-50 bg-gradient-to-b from-stone-50 to-gray-50 shadow-2xl border-r border-gray-200 flex flex-col"
+                className="fixed top-0 left-0 z-50 flex h-full w-3/4 min-w-[240px] flex-col border-r border-gray-200 bg-gradient-to-b from-stone-50 to-gray-50 shadow-2xl sm:w-64"
                 role="navigation"
                 aria-label="Main navigation"
                 aria-expanded={mobileMenuOpen}
               >
-                <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                <div className="flex items-center justify-between border-b border-gray-200 p-6">
                   <motion.div
                     className="flex items-center space-x-3"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 }}
                   >
-                    <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
-                      <CheckCircle2 className="w-6 h-6 text-white" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-500/25">
+                      <CheckCircle2 className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                      <span className="text-lg sm:text-xl font-bold text-gray-900">
+                      <span className="text-lg font-bold text-gray-900 sm:text-xl">
                         Taskito
                       </span>
-                      <p className="text-xs sm:text-sm text-gray-500">
+                      <p className="text-xs text-gray-500 sm:text-sm">
                         Project Management
                       </p>
                     </div>
                   </motion.div>
                   <motion.button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="p-2 hover:bg-gray-100 rounded-2xl transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="rounded-2xl p-2 transition-colors hover:bg-gray-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <X className="w-5 h-5 text-gray-600" />
+                    <X className="h-5 w-5 text-gray-600" />
                   </motion.button>
                 </div>
                 <div className="p-6">
@@ -185,7 +184,11 @@ const Sidebar = () => {
                       label: ws.workspacename,
                     }))}
                     value={selectedWorkspace || ""}
-                    onChange={setSelectedWorkspace}
+                    onChange={(value) =>
+                      setSelectedWorkspace(
+                        Array.isArray(value) ? value[0] : value,
+                      )
+                    }
                     placeholder="Select Workspace"
                     theme={{
                       bg: "bg-white",
@@ -195,7 +198,7 @@ const Sidebar = () => {
                     }}
                   />
                 </div>
-                <nav className="flex-1 p-6 overflow-y-auto">
+                <nav className="flex-1 overflow-y-auto p-6">
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -219,22 +222,22 @@ const Sidebar = () => {
                   </motion.div>
                 </nav>
                 <motion.div
-                  className="p-6 border-t border-gray-200"
+                  className="border-t border-gray-200 p-6"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
                 >
                   <motion.button
                     onClick={handleSignOut}
-                    className={`w-full flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r ${buttonGradient} text-white rounded-2xl hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500`}
+                    className={`flex w-full items-center justify-center space-x-2 bg-gradient-to-r px-4 py-2 ${buttonGradient} rounded-2xl text-white transition-all duration-200 hover:shadow-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     aria-label="Sign out"
                   >
-                    <LogOut className="w-5 h-5" />
+                    <LogOut className="h-5 w-5" />
                     <span>Sign Out</span>
                   </motion.button>
-                  <p className="text-xs sm:text-sm text-gray-500 text-center mt-4">
+                  <p className="mt-4 text-center text-xs text-gray-500 sm:text-sm">
                     Made with ❤️ by Team
                   </p>
                 </motion.div>
@@ -250,19 +253,19 @@ const Sidebar = () => {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="h-full relative hidden md:block"
+      className="relative hidden h-full md:block"
     >
       <motion.div
         initial="collapsed"
         animate={collapsed && !isHovered ? "collapsed" : "expanded"}
         variants={sidebarVariants}
-        className="h-full flex flex-col bg-gradient-to-b from-stone-50 to-gray-50 backdrop-blur-sm shadow-xl shadow-gray-200/50 border border-gray-200/50 rounded-2xl mr-4 sm:mr-6 xl:mr-8 overflow-hidden"
+        className="mr-4 flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200/50 bg-gradient-to-b from-stone-50 to-gray-50 shadow-xl shadow-gray-200/50 backdrop-blur-sm sm:mr-6 xl:mr-8"
         role="navigation"
         aria-label="Main navigation"
         aria-expanded={!collapsed || isHovered}
       >
         <motion.div
-          className={`flex items-center p-6 relative ${
+          className={`relative flex items-center p-6 ${
             collapsed && !isHovered
               ? "justify-center"
               : "justify-start space-x-3"
@@ -271,7 +274,7 @@ const Sidebar = () => {
           transition={{ type: "spring", stiffness: 400, damping: 20 }}
         >
           <motion.div
-            className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/25"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-500/25"
             whileHover={{
               scale: 1.1,
               rotate: [0, -10, 10, 0],
@@ -279,7 +282,7 @@ const Sidebar = () => {
             }}
             whileTap={{ scale: 0.95 }}
           >
-            <CheckCircle2 className="w-6 h-6 text-white" />
+            <CheckCircle2 className="h-6 w-6 text-white" />
           </motion.div>
           <AnimatePresence mode="wait">
             {(!collapsed || isHovered) && (
@@ -290,23 +293,23 @@ const Sidebar = () => {
                 transition={{ duration: 0.3 }}
                 className="flex flex-col"
               >
-                <span className="text-lg sm:text-xl font-bold text-gray-900">
+                <span className="text-lg font-bold text-gray-900 sm:text-xl">
                   Taskito
                 </span>
-                <span className="text-xs sm:text-sm text-gray-500 font-medium">
+                <span className="text-xs font-medium text-gray-500 sm:text-sm">
                   Project Management
                 </span>
               </motion.div>
             )}
           </AnimatePresence>
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-blue-500/5 rounded-2xl opacity-0"
+            className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/5 to-blue-500/5 opacity-0"
             animate={{ opacity: isHovered ? 1 : 0 }}
             transition={{ duration: 0.3 }}
           />
         </motion.div>
         <motion.div
-          className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent mx-6"
+          className="mx-6 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
@@ -318,7 +321,9 @@ const Sidebar = () => {
               label: ws.workspacename,
             }))}
             value={selectedWorkspace || ""}
-            onChange={setSelectedWorkspace}
+            onChange={(value) =>
+              setSelectedWorkspace(Array.isArray(value) ? value[0] : value)
+            }
             placeholder="Select Workspace"
             theme={{
               bg: "bg-white",
@@ -328,9 +333,9 @@ const Sidebar = () => {
             }}
           />
         </div>
-        <nav className="flex-1 flex flex-col pt-2 overflow-y-auto">
+        <nav className="flex flex-1 flex-col overflow-y-auto pt-2">
           <motion.div
-            className={`flex items-center px-6 mb-6 ${
+            className={`mb-6 flex items-center px-6 ${
               collapsed && !isHovered ? "justify-center" : "justify-between"
             }`}
           >
@@ -341,7 +346,7 @@ const Sidebar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="text-xs font-semibold text-gray-400 uppercase tracking-wider"
+                  className="text-xs font-semibold tracking-wider text-gray-400 uppercase"
                 >
                   Navigation
                 </motion.div>
@@ -349,7 +354,7 @@ const Sidebar = () => {
             </AnimatePresence>
             <motion.button
               onClick={handleToggleCollapse}
-              className="p-2 hover:bg-gray-100 rounded-2xl transition-all duration-200 hover:shadow-md active:scale-95 group focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="group rounded-2xl p-2 transition-all duration-200 hover:bg-gray-100 hover:shadow-md focus:ring-2 focus:ring-emerald-500 focus:outline-none active:scale-95"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -358,7 +363,7 @@ const Sidebar = () => {
                 animate={{ rotate: collapsed && !isHovered ? 0 : 180 }}
                 transition={{ type: "spring", stiffness: 200, damping: 20 }}
               >
-                <PanelRight className="w-5 h-5 text-gray-600 group-hover:text-emerald-600" />
+                <PanelRight className="h-5 w-5 text-gray-600 group-hover:text-emerald-600" />
               </motion.div>
             </motion.button>
           </motion.div>
@@ -389,13 +394,13 @@ const Sidebar = () => {
           </motion.div>
         </nav>
         <motion.div
-          className="p-6 mt-auto"
+          className="mt-auto p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.3 }}
         >
           <motion.div
-            className="w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent mb-4"
+            className="mb-4 h-px w-full bg-gradient-to-r from-transparent via-gray-300 to-transparent"
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
@@ -410,15 +415,15 @@ const Sidebar = () => {
               >
                 <motion.button
                   onClick={handleSignOut}
-                  className={`w-full flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r ${buttonGradient} text-white rounded-2xl hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500`}
+                  className={`flex w-full items-center justify-center space-x-2 bg-gradient-to-r px-4 py-2 ${buttonGradient} rounded-2xl text-white transition-all duration-200 hover:shadow-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   aria-label="Sign out"
                 >
-                  <LogOut className="w-5 h-5" />
+                  <LogOut className="h-5 w-5" />
                   <span>Sign Out</span>
                 </motion.button>
-                <p className="text-xs sm:text-sm text-gray-500 font-medium text-center mt-4">
+                <p className="mt-4 text-center text-xs font-medium text-gray-500 sm:text-sm">
                   Made with ❤️ by Team
                 </p>
               </motion.div>
@@ -433,19 +438,19 @@ const Sidebar = () => {
               >
                 <motion.button
                   onClick={handleSignOut}
-                  className={`p-2 bg-gradient-to-r ${buttonGradient} text-white rounded-2xl hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500`}
+                  className={`bg-gradient-to-r p-2 ${buttonGradient} rounded-2xl text-white transition-all duration-200 hover:shadow-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   aria-label="Sign out"
                 >
-                  <LogOut className="w-5 h-5" />
+                  <LogOut className="h-5 w-5" />
                 </motion.button>
               </motion.div>
             )}
           </AnimatePresence>
         </motion.div>
         <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-blue-500/5 pointer-events-none rounded-2xl"
+          className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/5 via-transparent to-blue-500/5"
           animate={{
             opacity: isHovered ? 1 : 0,
             scale: isHovered ? 1 : 0.98,
