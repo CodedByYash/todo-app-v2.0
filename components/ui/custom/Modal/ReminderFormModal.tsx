@@ -104,7 +104,7 @@ const ReminderFormModal = ({ isOpen, onClose }: ReminderFormModalProps) => {
       } else {
         setError("Failed to create tag");
       }
-    } catch (err) {
+    } catch {
       setError("Error creating tag");
     }
   };
@@ -133,7 +133,7 @@ const ReminderFormModal = ({ isOpen, onClose }: ReminderFormModalProps) => {
         const data = await response.json();
         setError(data.error || "Failed to create reminder");
       }
-    } catch (err) {
+    } catch {
       setError("An error occurred while creating the reminder");
     }
   };

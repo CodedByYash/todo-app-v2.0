@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma/prisma";
 import getUser from "@/lib/getUser";
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const user = await getUser();
     if (!user?.id) {
@@ -42,7 +42,7 @@ export async function PATCH(request: Request) {
       },
     });
     return NextResponse.json({ message: "Preferences updated" });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to update preferences" },
       { status: 500 }

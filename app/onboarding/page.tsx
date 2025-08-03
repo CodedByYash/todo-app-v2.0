@@ -12,7 +12,6 @@ interface OnboardingFormProps {
 
 const OnboardingForm: React.FC<OnboardingFormProps> = ({
   userId,
-  userEmail,
   userName,
 }) => {
   const [workspaceName, setWorkspaceName] = useState(
@@ -129,8 +128,8 @@ const OnboardingPage = () => {
           Welcome to Taskito
         </h1>
         <p className="text-base sm:text-lg mb-6 sm:mb-8 text-gray-600">
-          Let's set up your account, {session.user.username || ""}. Create your
-          personal workspace to get started.
+          Let`&apos`s set up your account, {session.user.username || ""}. Create
+          your personal workspace to get started.
         </p>
         <OnboardingForm
           userId={session.user.id}

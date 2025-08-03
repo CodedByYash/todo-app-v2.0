@@ -8,6 +8,7 @@ import { useTheme } from "@/components/ui/custom/ThemeProvider";
 import { CheckCircle2, X, PlusCircle } from "lucide-react";
 import Modal from "@/components/Modal";
 import EnhancedSelect from "../enhancedSelect";
+import { z } from "zod";
 
 interface TagOption {
   value: string;
@@ -108,6 +109,7 @@ const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
         setError(data.error || "Failed to create tag");
       }
     } catch (err) {
+      console.log(err);
       setError("Error creating tag");
     }
   };
@@ -135,7 +137,7 @@ const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
       } else {
         const data = await response.json();
         setError(
-          data.error?.map((e: any) => e.message).join(", ") ||
+          data.error?.map((e: z.ZodIssue) => e.message).join(", ") ||
             "Failed to create task"
         );
       }

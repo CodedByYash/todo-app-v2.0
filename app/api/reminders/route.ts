@@ -10,8 +10,8 @@ export async function GET() {
   if (!user?.id)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const notifications = await prisma.notification.findMany({
-    where: { userId: user.id, read: false },
+  const notifications = await prisma.reminder.findMany({
+    where: { userId: user.id },
     orderBy: { createdAt: "desc" },
   });
   return NextResponse.json(notifications, { status: 200 });

@@ -26,17 +26,17 @@ const ProjectProgress = () => {
 
   return (
     <motion.div
-      className={`${cardBg} rounded-2xl p-6 shadow-lg border ${inputBorder}`}
+      className={`${cardBg} rounded-2xl border p-6 shadow-lg ${inputBorder} col-span-1`}
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 1.0, duration: 0.3 }}
     >
-      <h3 className={`${textPrimary} text-lg font-semibold mb-4`}>
+      <h3 className={`${textPrimary} mb-4 text-lg font-semibold`}>
         Today’s Progress
       </h3>
-      <div className="w-full bg-gray-200 rounded-full h-2.5">
+      <div className="h-2.5 w-full rounded-full bg-gray-200">
         <div
-          className="bg-emerald-500 h-2.5 rounded-full"
+          className="h-2.5 rounded-full bg-emerald-500"
           style={{ width: `${progress.progress}%` }}
         ></div>
       </div>

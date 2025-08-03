@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/lib/provider/provider";
-import Sidebar from "@/components/ui/custom/Sidebar/Sidebar";
 import { ThemeProvider } from "@/components/ui/custom/ThemeProvider";
 import { WorkspaceProvider } from "@/components/WorkspaceProvider";
 

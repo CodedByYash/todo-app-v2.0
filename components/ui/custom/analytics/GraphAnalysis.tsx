@@ -33,35 +33,35 @@ const GraphAnalysis: React.FC<GraphAnalyticsProps> = ({ data }) => {
   const barColors = useMemo(
     () =>
       data.map(({ completed, uncompleted }) =>
-        getBarColor(getCompletionRatio(completed, uncompleted))
+        getBarColor(getCompletionRatio(completed, uncompleted)),
       ),
-    [data]
+    [data],
   );
 
   return (
-    <div className="p-4 sm:p-6 rounded-[2rem] shadow w-full h-full min-h-[200px] sm:min-h-[250px] md:min-h-[300px] bg-gradient-to-br from-stone-50 via-slate-300 to-stone-300">
-      <h3 className="text-lg sm:text-xl md:text-2xl font-light text-stone-900 mb-4">
+    <div className="col-span-2 h-full min-h-[200px] w-full rounded-[2rem] bg-gradient-to-br from-stone-50 via-slate-300 to-stone-300 p-4 shadow sm:min-h-[250px] sm:p-6 md:min-h-[300px]">
+      <h3 className="mb-4 text-lg font-light text-stone-900 sm:text-xl md:text-2xl">
         Weekly Productivity Tracker
       </h3>
-      <div className="flex items-baseline justify-between space-x-1 sm:space-x-2 bg-white rounded-3xl p-3 sm:p-5 h-40 sm:h-48 md:h-3/4 overflow-x-auto scrollbar-hide">
+      <div className="scrollbar-hide flex h-40 items-baseline justify-between space-x-1 overflow-x-auto rounded-3xl bg-white p-3 sm:h-48 sm:space-x-2 sm:p-5 md:h-3/4">
         {data.map(({ day, completed, uncompleted }, index) => (
           <div
             key={day}
-            className="flex flex-col items-center group h-full w-6 sm:w-8 relative"
+            className="group relative flex h-full w-6 flex-col items-center sm:w-8"
             aria-label={`${day}: ${getCompletionRatio(
               completed,
-              uncompleted
+              uncompleted,
             )}% task completion`}
           >
             <div
-              className={`rounded-full w-full transition-all duration-300 ${barColors[index]}`}
+              className={`w-full rounded-full transition-all duration-300 ${barColors[index]}`}
               style={{
                 height: `${getCompletionRatio(completed, uncompleted)}%`,
               }}
             />
-            <span className="text-xs sm:text-sm text-gray-500 mt-2">{day}</span>
+            <span className="mt-2 text-xs text-gray-500 sm:text-sm">{day}</span>
             {getCompletionRatio(completed, uncompleted) > 0 && (
-              <div className="opacity-0 group-hover:opacity-100 transition text-xs sm:text-sm absolute bg-white border px-1 py-0.5 rounded shadow top-[-1.5rem] sm:top-[-2rem] z-10 pointer-events-none">
+              <div className="pointer-events-none absolute top-[-1.5rem] z-10 rounded border bg-white px-1 py-0.5 text-xs opacity-0 shadow transition group-hover:opacity-100 sm:top-[-2rem] sm:text-sm">
                 {getCompletionRatio(completed, uncompleted)}%
               </div>
             )}

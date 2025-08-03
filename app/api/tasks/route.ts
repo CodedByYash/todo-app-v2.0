@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma/prisma";
 import getUser from "@/lib/getUser";
 import { tasksSchema } from "@/lib/schema/schema";
-import { z } from "zod";
 
 export async function GET() {
   try {
