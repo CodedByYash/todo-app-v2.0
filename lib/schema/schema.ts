@@ -49,8 +49,21 @@ export const workspaceSchema = z.object({
     .string()
     .datetime({ message: "Invalid date-time format" })
     .optional(),
-  ownerId: z.string().uuid("Invalid user ID"),
+  ownerId: z.string().uuid("Invalid user ID").optional(),
   tagIds: z.array(z.string().uuid("Invalid tag ID")).optional(),
+});
+
+export const createWorkspaceSchema = workspaceSchema.omit({ ownerId: true });
+
+export const updateWorkspaceSchema = createWorkspaceSchema.partial();
+
+export const onboardingSchema = z.object({
+  workspacename: z
+    .string()
+    .min(1, "Workspace name is required")
+    .max(255, "Workspace name must be 255 characters or less"),
+  description: z.string().optional(),
+  type: z.enum(["PERSONAL", "PROFESSIONAL"]).default("PERSONAL"),
 });
 
 export const signupSchema = z.object({
@@ -59,7 +72,7 @@ export const signupSchema = z.object({
   name: z.string().min(3).max(30),
 });
 
-export const tasksSchema = z.object({
+export const taskFieldsSchema = z.object({
   title: z
     .string()
     .min(1, "Title is required")
@@ -75,7 +88,25 @@ export const tasksSchema = z.object({
     }),
   tagIds: z.array(z.string().uuid("Invalid tag ID")).optional(),
   workspaceId: z.string().uuid("Invalid workspace ID"),
-  userId: z.string().uuid("Invalid user ID"),
+});
+
+export const tasksSchema = taskFieldsSchema.extend({
+  userId: z.string().uuid("Invalid user ID").optional(),
+});
+
+export const taskUpdateSchema = z.object({
+  title: z.string().min(1).max(255).optional(),
+  completed: z.boolean().optional(),
+  priority: z.enum(["no_priority", "low", "medium", "high"]).optional(),
+  dueDate: z
+    .string()
+    .nullable()
+    .optional()
+    .refine((val) => val === null || val === undefined || !isNaN(Date.parse(val)), {
+      message: "Invalid date-time format",
+    }),
+  workspaceId: z.string().uuid().optional(),
+  tagIds: z.array(z.string().uuid()).optional(),
 });
 
 export const createUserSchema = z.object({
@@ -153,19 +184,16 @@ export const UserPreferenceSchema = z.object({
 export const NotificationSchema = z.object({
   title: z.string().min(1),
   body: z.string().min(1),
-  userId: z.string(),
 });
 
 export const ActivityLogSchema = z.object({
-  userId: z.string(),
-  taskId: z.string().optional(),
+  taskId: z.string().uuid().optional(),
   action: z.string().min(1),
 });
 
 export const CommentSchema = z.object({
   content: z.string().min(1, "Comment cannot be empty."),
-  userId: z.string(),
-  taskId: z.string(),
+  taskId: z.string().uuid(),
 });
 
 export type WorkspaceContextType = {
@@ -181,8 +209,8 @@ export const reminderSchema = z.object({
   body: z.string().optional(),
   reminderDate: z.string().datetime({ message: "Invalid date-time format" }),
   taskId: z.string().uuid("Invalid task ID").optional(),
-  userId: z.string().uuid("Invalid user ID"),
   workspaceId: z.string().uuid("Invalid workspace ID"),
+  completed: z.boolean().optional(),
 });
 
 export const tagSchema = z.object({

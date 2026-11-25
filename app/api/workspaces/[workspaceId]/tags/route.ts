@@ -14,7 +14,7 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const data = request.json();
+    const data = await request.json();
     const parsedBody = createTagSchema.safeParse(data);
 
     if (!parsedBody.success) {

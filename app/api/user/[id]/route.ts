@@ -5,88 +5,63 @@ import { NextResponse } from "next/server";
 
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ userId: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { userId } = await params;
+    const { id } = await params;
     const user = await getUser();
-    const data = request.json();
-    const parsedData = createUserSchema.safeParse(data);
 
-    if (!parsedData.success) {
-      return NextResponse.json({ error: "invalid data" }, { status: 401 });
-    }
-
-    if (!userId || !user || !user.id) {
+    if (!user?.id || id !== user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userProfile = await prisma.user.findUnique({
-      where: { id: userId, email: user.email! },
-    });
+    const data = await request.json();
+    const parsedData = createUserSchema.safeParse(data);
 
-    if (!userProfile) {
+    if (!parsedData.success) {
       return NextResponse.json(
-        { error: "unable to find profile" },
-        { status: 404 }
+        { error: parsedData.error.flatten() },
+        { status: 400 },
       );
     }
 
     const response = await prisma.user.update({
-      where: { id: userId, email: user.email! },
+      where: { id: user.id },
       data: parsedData.data,
     });
 
-    if (!response) {
-      return NextResponse.json(
-        { message: "Unable to update" },
-        { status: 500 }
-      );
-    }
-
     return NextResponse.json(response);
   } catch (error) {
-    console.log(error);
+    console.error("[PUT_USER]", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ userId: string }> }
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { userId } = await params;
+    const { id } = await params;
     const user = await getUser();
 
-    if (!userId || !user || !user.email) {
+    if (!user?.id || id !== user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const existingUser = await prisma.user.findUnique({
-      where: { id: userId, email: user.email },
+    await prisma.user.delete({
+      where: { id: user.id },
     });
 
-    if (existingUser) {
-      const response = await prisma.user.delete({
-        where: { id: userId, email: user.email },
-      });
-
-      return NextResponse.json(response);
-    }
-
-    return NextResponse.json(
-      { error: "User does not exists" },
-      { status: 404 }
-    );
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.log(error);
+    console.error("[DELETE_USER]", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

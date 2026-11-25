@@ -42,6 +42,8 @@ const Sidebar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSmUp, setIsSmUp] = useState(false);
+  const [is2xlUp, setIs2xlUp] = useState(false);
   const { selectedWorkspace, setSelectedWorkspace, workspaces } =
     useWorkspace();
   const pathname = usePathname();
@@ -49,11 +51,17 @@ const Sidebar = () => {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      if (typeof window !== "undefined") {
+        setIsMobile(window.innerWidth < 768);
+        setIsSmUp(window.innerWidth >= 640);
+        setIs2xlUp(window.innerWidth >= 1536);
+      }
     };
     checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", checkMobile);
+      return () => window.removeEventListener("resize", checkMobile);
+    }
   }, []);
 
   useEffect(() => {
@@ -61,14 +69,16 @@ const Sidebar = () => {
   }, [pathname]);
 
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
+    if (typeof document !== "undefined") {
+      if (mobileMenuOpen) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "unset";
+      }
+      return () => {
+        document.body.style.overflow = "unset";
+      };
     }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
   }, [mobileMenuOpen]);
 
   const handleToggleCollapse = () => {
@@ -85,11 +95,11 @@ const Sidebar = () => {
 
   const sidebarVariants: Variants = {
     expanded: {
-      width: isMobile ? 256 : window.innerWidth >= 1536 ? 288 : 256,
+      width: isMobile ? 256 : is2xlUp ? 288 : 256,
       transition: { type: "spring", damping: 25, stiffness: 200 },
     },
     collapsed: {
-      width: window.innerWidth >= 640 ? 80 : 64,
+      width: isSmUp ? 80 : 64,
       transition: { type: "spring", damping: 25, stiffness: 200 },
     },
   };

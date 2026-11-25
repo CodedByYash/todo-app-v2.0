@@ -1,4 +1,5 @@
 import getUser from "@/lib/getUser";
+import { assertWorkspaceMember } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma/prisma";
 import { tagSchema, tagUpdateSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
@@ -14,7 +15,18 @@ export async function POST(request: Request) {
     const body = await request.json();
     const parsedData = tagSchema.parse(body);
     if (!parsedData.workspaceId) {
-      return NextResponse.json("workspaceId is not provided", { status: 400 });
+      return NextResponse.json(
+        { error: "workspaceId is required" },
+        { status: 400 },
+      );
+    }
+
+    const member = await assertWorkspaceMember(
+      user.id,
+      parsedData.workspaceId,
+    );
+    if (!member) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     const tag = await prisma.tag.create({
@@ -32,7 +44,7 @@ export async function POST(request: Request) {
     console.error("Error creating tag:", error);
     return NextResponse.json(
       { error: "Failed to create tag" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -51,6 +63,11 @@ export async function GET(request: Request) {
   }
 
   try {
+    const member = await assertWorkspaceMember(user.id, workspaceId);
+    if (!member) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const tags = await prisma.tag.findMany({
       where: { workspaceId },
     });
@@ -59,7 +76,7 @@ export async function GET(request: Request) {
     console.error("Error fetching tags:", error);
     return NextResponse.json(
       { error: "Failed to fetch tags" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -73,13 +90,40 @@ export async function PATCH(request: Request) {
   try {
     const body = await request.json();
     const parsedData = tagUpdateSchema.parse(body);
-    if (!parsedData.workspaceId) {
-      return NextResponse.json("workspaceId not provided");
+
+    const existingTag = await prisma.tag.findUnique({
+      where: { id: parsedData.tagId },
+    });
+
+    if (!existingTag) {
+      return NextResponse.json({ error: "Tag not found" }, { status: 404 });
+    }
+
+    const member = await assertWorkspaceMember(
+      user.id,
+      existingTag.workspaceId,
+    );
+    if (!member) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    if (parsedData.workspaceId) {
+      const targetMember = await assertWorkspaceMember(
+        user.id,
+        parsedData.workspaceId,
+      );
+      if (!targetMember) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
     }
 
     const tag = await prisma.tag.update({
       where: { id: parsedData.tagId },
-      data: { workspaceId: parsedData.workspaceId },
+      data: {
+        ...(parsedData.workspaceId && {
+          workspaceId: parsedData.workspaceId,
+        }),
+      },
     });
     return NextResponse.json(tag);
   } catch (error) {
@@ -89,7 +133,7 @@ export async function PATCH(request: Request) {
     console.error("Error updating tag:", error);
     return NextResponse.json(
       { error: "Failed to update tag" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,4 +1,5 @@
 import getUser from "@/lib/getUser";
+import { getTaskWithAccess } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma/prisma";
 import { AttachmentSchemaforpost } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
@@ -6,17 +7,8 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const user = await getUser();
-
-    if (!user || !user.email) {
+    if (!user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const existingUser = await prisma.user.findUnique({
-      where: { email: user.email },
-    });
-
-    if (!existingUser) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const body = await req.json();
@@ -25,7 +17,7 @@ export async function POST(req: Request) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: parsed.error.flatten() },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -38,6 +30,13 @@ export async function POST(req: Request) {
       taskVersionId,
       attachmentType,
     } = parsed.data;
+
+    if (taskId) {
+      const task = await getTaskWithAccess(user.id, taskId);
+      if (!task) {
+        return NextResponse.json({ error: "Task not found" }, { status: 404 });
+      }
+    }
 
     const attachment = await prisma.attachment.create({
       data: {
@@ -52,12 +51,12 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({ success: true, attachment });
+    return NextResponse.json({ success: true, attachment }, { status: 201 });
   } catch (err) {
     console.error("Upload Error:", err);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

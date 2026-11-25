@@ -1,6 +1,6 @@
 import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
-import { workspaceSchema } from "@/lib/schema/schema";
+import { updateWorkspaceSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -12,7 +12,7 @@ export async function GET(
     const { workspaceId } = await params;
 
     if (!user || !workspaceId || !user.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const userId = user.id;
@@ -54,16 +54,19 @@ export async function PUT(
     const { workspaceId } = await params;
 
     if (!user || !workspaceId || !user.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const userId = user.id;
 
     const data = await request.json();
-    const parsedData = workspaceSchema.safeParse(data);
+    const parsedData = updateWorkspaceSchema.safeParse(data);
 
     if (!parsedData.success) {
-      return NextResponse.json({ error: "invalid data" }, { status: 401 });
+      return NextResponse.json(
+        { error: parsedData.error.flatten() },
+        { status: 400 },
+      );
     }
 
     const existingWorkspace = await prisma.workspace.findFirst({
@@ -71,8 +74,8 @@ export async function PUT(
     });
     if (!existingWorkspace || existingWorkspace.ownerId !== userId) {
       return NextResponse.json(
-        { error: "no workspace present" },
-        { status: 403 }
+        { error: "Forbidden" },
+        { status: 403 },
       );
     }
 
@@ -111,26 +114,19 @@ export async function DELETE(
 
     const userId = user.id;
 
-    const existingWorkspace = await prisma.workspace.delete({
-      where: { id: workspaceId },
+    const existingWorkspace = await prisma.workspace.findFirst({
+      where: { id: workspaceId, ownerId: userId },
     });
 
-    if (!existingWorkspace || existingWorkspace.ownerId !== userId) {
+    if (!existingWorkspace) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const response = await prisma.workspace.delete({
+    await prisma.workspace.delete({
       where: { id: workspaceId },
     });
 
-    if (!response) {
-      return NextResponse.json(
-        { message: "failed to delete task" },
-        { status: 403 }
-      );
-    }
-
-    return NextResponse.json(response);
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.log(error);
     return NextResponse.json(

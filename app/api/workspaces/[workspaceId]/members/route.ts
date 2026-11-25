@@ -14,7 +14,7 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = request.body;
+    const body = await request.json();
     const parsedBody = AddMemberSchema.safeParse(body);
 
     if (!parsedBody.success) {
@@ -46,7 +46,7 @@ export async function POST(
     }
 
     const userToAdd = await prisma.user.findUnique({
-      where: { id: user.id },
+      where: { id: userId },
     });
 
     if (!userToAdd) {
@@ -93,6 +93,16 @@ export async function GET(
     }
 
     const { workspaceId } = await params;
+
+    const membership = await prisma.workspaceMember.findUnique({
+      where: {
+        userId_workspaceId: { userId: user.id, workspaceId },
+      },
+    });
+
+    if (!membership) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
 
     const members = await prisma.workspaceMember.findMany({
       where: {

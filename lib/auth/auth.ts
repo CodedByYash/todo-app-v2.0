@@ -113,12 +113,26 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.username = (user as CustomUser).username;
         token.onboardingCompleted = (user as CustomUser).onboardingCompleted;
+      }
+      // Persist client-initiated session updates
+      if (trigger === "update" && session) {
+        const anySession = session as any;
+        if (typeof anySession.onboardingCompleted !== "undefined") {
+          token.onboardingCompleted = anySession.onboardingCompleted as boolean;
+        }
+        if (
+          anySession.user &&
+          typeof anySession.user.onboardingCompleted !== "undefined"
+        ) {
+          token.onboardingCompleted = anySession.user
+            .onboardingCompleted as boolean;
+        }
       }
       return token;
     },

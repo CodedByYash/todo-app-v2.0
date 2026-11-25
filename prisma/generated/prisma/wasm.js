@@ -211,7 +211,8 @@ exports.Prisma.ReminderScalarFieldEnum = {
   userId: 'userId',
   workspaceId: 'workspaceId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  completed: 'completed'
 };
 
 exports.Prisma.AttachmentScalarFieldEnum = {

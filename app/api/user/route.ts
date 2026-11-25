@@ -5,15 +5,21 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {
+    const user = await getUser();
+    if (!user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const query = searchParams.get("search");
 
     if (query) {
-      const user = await prisma.user.findMany({
+      const users = await prisma.user.findMany({
         where: {
           OR: [
             { firstname: { contains: query, mode: "insensitive" } },
             { lastname: { contains: query, mode: "insensitive" } },
+            { username: { contains: query, mode: "insensitive" } },
           ],
         },
         select: {
@@ -21,18 +27,17 @@ export async function GET(request: Request) {
           firstname: true,
           lastname: true,
           profilePicture: true,
-          email: true,
           username: true,
         },
       });
-      return NextResponse.json(user);
+      return NextResponse.json(users);
     }
-    return new NextResponse("Search query required", { status: 400 });
+    return NextResponse.json({ error: "Search query required" }, { status: 400 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -63,7 +68,32 @@ export async function POST(request: Request) {
     console.error(error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
+    );
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const user = await getUser();
+    if (!user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { theme } = await request.json();
+
+    // Update user in Prisma
+    await prisma.userPreference.update({
+      where: { userId: user.id },
+      data: { theme },
+    });
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Failed to update user" },
+      { status: 500 },
     );
   }
 }

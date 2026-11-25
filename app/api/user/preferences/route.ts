@@ -6,16 +6,8 @@ import { NextResponse } from "next/server";
 export async function POST() {
   try {
     const user = await getUser();
-    if (!user?.email) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    const existingUser = await prisma.user.findUnique({
-      where: { email: user.email },
-    });
-
-    if (!existingUser) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    if (!user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const existingPreferences = await prisma.userPreference.findUnique({
@@ -30,43 +22,33 @@ export async function POST() {
       data: { userId: user.id },
     });
 
-    return NextResponse.json(createdPreference);
+    return NextResponse.json(createdPreference, { status: 201 });
   } catch (error) {
-    console.log(error);
+    console.error("[POST_USER_PREFERENCES]", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
-// /app/api/user/preferences/route.ts (continue in same file)
-
 export async function GET() {
   try {
     const user = await getUser();
-    if (user?.email || !user) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    const existingUser = await prisma.user.findUnique({
-      where: { email: user.email! },
-    });
-
-    if (!existingUser) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    if (!user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const preferences = await prisma.userPreference.findUnique({
-      where: { userId: existingUser.id },
+      where: { userId: user.id },
     });
 
     return NextResponse.json(preferences);
   } catch (error) {
-    console.log(error);
+    console.error("[GET_USER_PREFERENCES]", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -74,16 +56,8 @@ export async function GET() {
 export async function PUT(req: Request) {
   try {
     const user = await getUser();
-    if (!user?.email || !user) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    const existingUser = await prisma.user.findUnique({
-      where: { email: user.email },
-    });
-
-    if (!existingUser) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    if (!user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await req.json();
@@ -91,8 +65,8 @@ export async function PUT(req: Request) {
 
     if (!parsed.success) {
       return NextResponse.json(
-        { message: "Invalid input", errors: parsed.error.format() },
-        { status: 400 }
+        { error: "Invalid input", details: parsed.error.flatten() },
+        { status: 400 },
       );
     }
 
@@ -103,10 +77,10 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updated);
   } catch (error) {
-    console.log(error);
+    console.error("[PUT_USER_PREFERENCES]", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

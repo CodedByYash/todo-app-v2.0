@@ -4,12 +4,10 @@ import { z } from "zod";
 import getUser from "@/lib/getUser";
 import { tasksSchema } from "@/lib/schema/schema";
 
-// Query schema for validation
 const dashboardQuerySchema = z.object({
   workspaceId: z.string().uuid().optional(),
 });
 
-// Response type
 type DashboardData = {
   taskCounts: {
     total: number;
@@ -28,11 +26,28 @@ type DashboardData = {
       uncompleted: number;
     }[];
   };
-  // projectProgress: {
-  //   completed: number;
-  //   uncompleted: number;
-  //   total: number;
-  // };
+  reminders: {
+    id: string;
+    title: string;
+    body: string | null;
+    reminderDate: string;
+    createdAt: string;
+  }[];
+  teamMembers: {
+    id: string;
+    name: string | null;
+    email: string;
+    username: string | null;
+  }[];
+  activeTasks: {
+    id: string;
+    title: string;
+    completed: boolean;
+    priority: "no_priority" | "low" | "medium" | "high";
+    dueDate: string | null;
+    createdAt: string;
+    updatedAt: string;
+  }[];
 };
 
 // GET: Fetch dashboard data
@@ -42,6 +57,7 @@ export async function GET(request: Request) {
     if (!user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    console.log("Authenticated user:", user);
 
     const { searchParams } = new URL(request.url);
     const query = dashboardQuerySchema.safeParse({
@@ -54,7 +70,7 @@ export async function GET(request: Request) {
 
     const { workspaceId } = query.data;
 
-    // Base where clause
+    // Base where clause for tasks (simplified, no 7-day limit initially)
     const whereClause = {
       userId: user.id,
       ...(workspaceId && {
@@ -68,26 +84,57 @@ export async function GET(request: Request) {
       }),
     };
 
-    // Fetch all tasks in the last 7 days
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
+    // Fetch tasks
     const tasks = await prisma.task.findMany({
-      where: {
-        ...whereClause,
-        OR: [
-          { createdAt: { gte: sevenDaysAgo } },
-          { updatedAt: { gte: sevenDaysAgo } },
-        ],
-      },
+      where: whereClause,
       select: {
-        createdAt: true,
-        updatedAt: true,
+        id: true,
+        title: true,
         completed: true,
         priority: true,
         dueDate: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
+    console.log("Fetched tasks:", tasks);
+
+    // Fetch reminders (removed completed filter due to schema mismatch)
+    const reminders = await prisma.reminder.findMany({
+      where: { userId: user.id },
+      orderBy: { reminderDate: "asc" },
+      select: {
+        id: true,
+        title: true,
+        body: true,
+        reminderDate: true,
+        createdAt: true,
+      },
+    });
+    console.log("Fetched reminders:", reminders); // Debug reminders
+
+    // Fetch workspace members
+    const workspaceMembers = await prisma.workspaceMember.findMany({
+      where: {
+        workspace: {
+          OR: [
+            { ownerId: user.id },
+            { members: { some: { userId: user.id } } },
+          ],
+        },
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            username: true,
+          },
+        },
+      },
+    });
+    console.log("Fetched workspaceMembers:", workspaceMembers); // Debug workspaceMembers
 
     // Task counts
     const total = tasks.length;
@@ -104,7 +151,7 @@ export async function GET(request: Request) {
       high: tasks.filter((t) => t.priority === "high").length,
     };
 
-    // Analytics: Tasks by status over time (last 7 days)
+    // Analytics: Tasks by status over time (last 7 days, optional re-add later)
     const byStatusOverTime = Array.from({ length: 7 }, (_, i) => {
       const date = new Date();
       date.setDate(date.getDate() - i);
@@ -145,10 +192,38 @@ export async function GET(request: Request) {
       };
     }).reverse();
 
+    // Format reminders with string dates
+    const formattedReminders = reminders.map((r) => ({
+      id: r.id,
+      title: r.title,
+      body: r.body,
+      reminderDate: r.reminderDate.toISOString(),
+      createdAt: r.createdAt.toISOString(),
+    }));
+
+    // Format team members
+    const teamMembers = workspaceMembers.map((wm) => wm.user);
+
+    // Filter active tasks (ongoing)
+    const activeTasks = tasks
+      .filter((t) => !t.completed)
+      .map((t) => ({
+        id: t.id,
+        title: t.title,
+        completed: t.completed,
+        priority: t.priority,
+        dueDate: t.dueDate?.toISOString() || null,
+        createdAt: t.createdAt.toISOString(),
+        updatedAt: t.updatedAt.toISOString(),
+      }));
+
     const data: DashboardData = {
       taskCounts: { total, completed, ongoing, overdue },
       analytics: { byPriority, byStatusOverTime },
       graphData: { data: graphData },
+      reminders: formattedReminders,
+      teamMembers,
+      activeTasks,
     };
 
     return NextResponse.json(data, { status: 200 });
@@ -162,7 +237,6 @@ export async function GET(request: Request) {
 }
 
 // POST: Create a task (unchanged)
-
 export async function POST(request: Request) {
   try {
     const user = await getUser();
@@ -182,15 +256,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const { title, completed, priority, dueDate, workspaceId, tagIds, userId } =
+    const { title, completed, priority, dueDate, workspaceId, tagIds } =
       parsedData.data;
-
-    if (userId !== user.id) {
-      return NextResponse.json(
-        { error: "Cannot create task for another user" },
-        { status: 403 },
-      );
-    }
 
     const workspace = await prisma.workspace.findFirst({
       where: {
@@ -212,7 +279,7 @@ export async function POST(request: Request) {
         completed,
         priority,
         dueDate: dueDate ? new Date(dueDate) : null,
-        userId,
+        userId: user.id,
         workspaceId,
         tags: {
           connect: tagIds?.map((id: string) => ({ id })) || [],

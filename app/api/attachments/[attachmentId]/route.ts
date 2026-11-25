@@ -4,22 +4,24 @@ import { deleteFromS3 } from "@/lib/s3/deleteFromS3";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ attachmentId: string }> }
+  _request: Request,
+  { params }: { params: Promise<{ attachmentId: string }> },
 ) {
   try {
     const { attachmentId } = await params;
     const user = await getUser();
 
-    if (!user || !user.id || !attachmentId) {
+    if (!user?.id || !attachmentId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const existingAttachment = await prisma.attachment.findUnique({
-      where: { id: attachmentId },
+    const existingAttachment = await prisma.attachment.findFirst({
+      where: { id: attachmentId, userId: user.id },
     });
-    if (!existingAttachment)
-      return new NextResponse("Not found", { status: 404 });
+
+    if (!existingAttachment) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
 
     const url = new URL(existingAttachment.url);
     const fileKey = decodeURIComponent(url.pathname.slice(1));
@@ -30,9 +32,9 @@ export async function DELETE(
       where: { id: attachmentId },
     });
 
-    return new NextResponse("Attachment deleted", { status: 200 });
+    return NextResponse.json({ success: true });
   } catch (err) {
     console.error("[DELETE_ATTACHMENT]", err);
-    return new NextResponse("Server error", { status: 500 });
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

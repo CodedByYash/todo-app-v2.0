@@ -3,22 +3,25 @@ import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import { Plus } from "lucide-react";
+import { Plus, Loader2 } from "lucide-react";
 import { motion } from "motion/react";
+
+import { useTheme } from "@/components/ui/custom/ThemeProvider";
+import { useWorkspace } from "@/components/WorkspaceProvider";
 
 import StatCard from "@/components/ui/custom/stat-card";
 import Sidebar from "@/components/ui/custom/Sidebar/Sidebar";
 import DashboardHeader from "@/components/ui/custom/header";
 import GraphAnalysis from "@/components/ui/custom/analytics/GraphAnalysis";
-import Reminders from "@/components/ui/custom/reminders/Reminders";
+import Reminders, {
+  Reminder,
+} from "@/components/ui/custom/reminders/Reminders";
 // import TaskCard from "@/components/ui/custom/tasks/TasksCard";
 import TimeTracker from "@/components/ui/custom/Time Tracker/TimeTracker";
-// import TeamCollaboration from "@/components/ui/custom/team collab/TeamCollaboration";
-import ProjectProgress from "@/components/ui/custom/Project Progress/ProjectProgress";
-
-import { useTheme } from "@/components/ui/custom/ThemeProvider";
-import { useWorkspace } from "@/components/WorkspaceProvider";
+import TeamCollaboration from "@/components/ui/custom/team collab/TeamCollaboration";
+// import ProjectProgress from "@/components/ui/custom/Project Progress/ProjectProgress";
 import TaskFormModal from "@/components/ui/custom/Modal/TasksModal";
+import TaskPriority from "@/components/ui/custom/TaskPriority/TaskPriority";
 
 interface DashboardData {
   taskCounts: {
@@ -38,6 +41,28 @@ interface DashboardData {
       uncompleted: number;
     }[];
   };
+  reminders: {
+    id: string;
+    title: string;
+    body: string | null;
+    reminderDate: string;
+    createdAt: string;
+  }[];
+  teamMembers: {
+    id: string;
+    name: string | null;
+    email: string;
+    username: string | null;
+  }[];
+  activeTasks: {
+    id: string;
+    title: string;
+    completed: boolean;
+    priority: "no_priority" | "low" | "medium" | "high";
+    dueDate: string | null;
+    createdAt: string;
+    updatedAt: string;
+  }[];
 }
 
 const TodoDashboard = () => {
@@ -48,9 +73,7 @@ const TodoDashboard = () => {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null,
   );
-  // const [teamMembers, setTeamMembers] = useState<
-  //   { id: string; username: string; firstname: string; lastname: string }[]
-  // >([]);
+  const [reminderData, setReminderData] = useState<Reminder[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [taskModalOpen, setTaskModalOpen] = useState(false);
 
@@ -78,7 +101,6 @@ const TodoDashboard = () => {
         if (response.ok) {
           const data = await response.json();
           setDashboardData(data);
-          console.log(data);
         }
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
@@ -87,33 +109,38 @@ const TodoDashboard = () => {
       }
     };
 
-    // const fetchMembers = async () => {
-    //   if (!selectedWorkspace) return;
-    //   try {
-    //     const response = await fetch(
-    //       `/api/workspaces/${selectedWorkspace}/members`,
-    //     );
-    //     if (response.ok) {
-    //       const members = await response.json();
-    //       setTeamMembers(members);
-    //       console.log("successfully fetched member");
-    //       console.log(members);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching team memebes:", error);
-    //   }
-    // };
-
     fetchDashboardData();
-    // fetchMembers();
   }, [selectedWorkspace]);
+
+  useEffect(() => {
+    if (dashboardData?.reminders) {
+      setReminderData(dashboardData.reminders);
+    }
+  }, [dashboardData]);
+
+  const markAsCompleted = async (id: string) => {
+    await fetch(`/api/reminders?id=${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    setDashboardData((prev) =>
+      prev
+        ? {
+            ...prev,
+            reminders: prev.reminders.filter((rem: Reminder) => rem.id !== id),
+          }
+        : null,
+    );
+  };
 
   if (status === "loading" || isLoading) {
     return (
       <div
-        className={`flex h-screen items-center justify-center ${textSecondary}`}
+        className={`flex h-screen flex-col items-center justify-center gap-3 ${textSecondary}`}
       >
-        Loading...
+        <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+        <span className="text-sm">Loading dashboard...</span>
       </div>
     );
   }
@@ -131,7 +158,7 @@ const TodoDashboard = () => {
   const { taskCounts } = dashboardData;
 
   return (
-    <div className="flex min-h-screen bg-[#FFFFFF]">
+    <div className="flex min-h-screen bg-[#FFFFFF] p-3">
       {/* Main Content */}
       <div>
         <Sidebar />
@@ -155,7 +182,7 @@ const TodoDashboard = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Open create task modal"
-                className="flex items-center space-x-2 rounded-full bg-gradient-to-r from-green-800 to-green-500 px-4 py-2 text-white transition hover:from-green-700 hover:to-green-400"
+                className="flex items-center space-x-2 rounded-full bg-gradient-to-r from-emerald-600 to-emerald-500 px-4 py-2 text-white shadow-sm shadow-emerald-500/25 transition hover:from-emerald-700 hover:to-emerald-600"
               >
                 <Plus className="h-4 w-4" />
                 Add Task
@@ -164,7 +191,7 @@ const TodoDashboard = () => {
                 isOpen={taskModalOpen}
                 onClose={() => setTaskModalOpen(false)}
               />
-              <button className="rounded-full border border-green-700 px-4 py-2 text-green-700 transition-all hover:bg-gradient-to-r hover:from-green-800 hover:via-emerald-700 hover:to-green-500 hover:text-white">
+              <button className="rounded-full border border-emerald-600 px-4 py-2 text-emerald-600 transition-all hover:bg-emerald-600 hover:text-white hover:shadow-sm">
                 Import Data
               </button>
             </div>
@@ -201,23 +228,22 @@ const TodoDashboard = () => {
           </div>
 
           {/* Main Content Grid */}
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
             {/* Project Analytics */}
             <GraphAnalysis data={dashboardData.graphData.data} />
-
-            {/* Reminders */}
-            <Reminders />
-
-            {/* Project Progress */}
-            <ProjectProgress />
-            {/*<TaskCard />*/}
+            <TeamCollaboration members={dashboardData.teamMembers} />
+            {/* <TaskCard /> */}
           </div>
 
           {/* Bottom Section */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             {/* Team Collaboration */}
-            {/*<TeamCollaboration members={members} />*/}
 
+            <Reminders
+              Reminder={dashboardData.reminders}
+              onComplete={markAsCompleted}
+            />
+            <TaskPriority Tasks={dashboardData.activeTasks} />
             {/* Time Tracker */}
             <TimeTracker />
           </div>

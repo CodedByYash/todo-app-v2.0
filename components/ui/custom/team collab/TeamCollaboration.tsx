@@ -1,130 +1,114 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { ChangeEvent, useState } from "react";
-import { Search } from "lucide-react";
+"use client";
+
+import { motion } from "motion/react";
+import { Users, UserPlus } from "lucide-react";
 
 interface TeamMember {
-  id: number;
-  name: string;
-  initials: string;
-  status: "Completed" | "In Progress" | "Idle";
-  currentTask: string;
-  completionPercentage: number;
+  id: string;
+  name: string | null;
+  email: string;
+  username: string | null;
 }
 
 interface TeamCollaborationProps {
   members: TeamMember[];
 }
 
+const avatarColors = [
+  "from-emerald-400 to-emerald-600",
+  "from-blue-400 to-blue-600",
+  "from-purple-400 to-purple-600",
+  "from-amber-400 to-amber-600",
+  "from-rose-400 to-rose-600",
+  "from-cyan-400 to-cyan-600",
+];
+
+const getInitials = (name: string | null, email: string) => {
+  if (name) {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  }
+  return email[0].toUpperCase();
+};
+
 const TeamCollaboration: React.FC<TeamCollaborationProps> = ({ members }) => {
-  const [filter, setFilter] = useState<
-    "All" | "Completed" | "In Progress" | "Idle"
-  >("All");
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const filteredMembers = members.filter((member) => {
-    const matchesFilter = filter === "All" || member.status === filter;
-    const matchesSearch = member.name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    return matchesFilter && matchesSearch;
-  });
-
   return (
-    <div className="h-full w-full rounded-2xl bg-gradient-to-br from-stone-50 via-slate-300 to-stone-300 p-4 sm:p-6 lg:col-span-2">
-      <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-lg font-medium text-stone-900 sm:text-xl md:text-2xl">
-          Team Collaboration
-        </h1>
-        <div className="flex items-center space-x-2 sm:space-x-3">
-          <div className="relative">
-            <Search className="absolute top-1/2 left-2 h-4 h-5 w-4 -translate-y-1/2 transform text-gray-500 sm:w-5" />
-            <input
-              type="text"
-              placeholder="Search members"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full max-w-[120px] rounded-2xl py-1.5 pr-3 pl-8 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none sm:max-w-[150px] sm:py-2 sm:pr-4 sm:pl-10 sm:text-sm"
-              aria-label="Search team members"
-            />
-          </div>
-          <select
-            value={filter}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-              setFilter(
-                e.target.value as "All" | "Completed" | "In Progress" | "Idle",
-              )
-            }
-            className="rounded-2xl border border-gray-200 bg-white px-2 py-1.5 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none sm:px-3 sm:py-2 sm:text-sm"
-            aria-label="Filter by status"
-          >
-            <option value="All">All</option>
-            <option value="Completed">Completed</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Idle">Idle</option>
-          </select>
-        </div>
+    <div className="col-span-2 flex h-full min-h-[200px] w-full flex-col rounded-[2rem] bg-gradient-to-br from-stone-50 via-slate-300 to-stone-300 p-4 shadow sm:min-h-[250px] sm:p-5 md:min-h-[300px]">
+      <div className="mb-3 flex items-center justify-between">
+        <h3 className="text-lg font-medium text-stone-900 sm:text-xl">
+          Team
+        </h3>
+        <span className="rounded-full bg-white/60 px-2.5 py-0.5 text-xs font-medium text-stone-600">
+          {members.length} {members.length === 1 ? "member" : "members"}
+        </span>
       </div>
-      <div
-        className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3"
-        role="list"
-      >
-        <AnimatePresence>
-          {filteredMembers.map((member) => (
-            <motion.div
-              key={member.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.2 }}
-              className="rounded-2xl bg-white p-3 shadow-sm transition-all duration-300 hover:shadow-md sm:p-4"
-              role="listitem"
-            >
-              <div className="flex items-center space-x-3 sm:space-x-4">
-                <div
-                  className="flex h-8 h-10 w-8 items-center justify-center rounded-full bg-emerald-500 sm:w-10"
-                  aria-label={`Avatar for ${member.name}`}
+
+      <div className="scrollbar-hide flex-1 overflow-y-auto rounded-3xl bg-white p-4 shadow-sm">
+        {members.length === 0 ? (
+          <div className="flex h-full flex-col items-center justify-center py-8 text-center">
+            <UserPlus className="mb-2 h-8 w-8 text-gray-300" />
+            <p className="text-sm text-gray-400">No team members yet</p>
+          </div>
+        ) : (
+          <>
+            {/* Stacked avatar row */}
+            <div className="mb-4 flex items-center">
+              <div className="flex -space-x-2">
+                {members.slice(0, 5).map((member, i) => (
+                  <motion.div
+                    key={member.id}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.08 }}
+                    className={`flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br ${avatarColors[i % avatarColors.length]} ring-2 ring-white`}
+                  >
+                    <span className="text-[10px] font-semibold text-white">
+                      {getInitials(member.name, member.email)}
+                    </span>
+                  </motion.div>
+                ))}
+                {members.length > 5 && (
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-xs font-medium text-gray-600 ring-2 ring-white">
+                    +{members.length - 5}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Member list */}
+            <div className="space-y-2">
+              {members.map((member, index) => (
+                <motion.div
+                  key={member.id}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.06 }}
+                  className="flex items-center gap-3 rounded-xl px-2 py-2 transition-colors hover:bg-gray-50"
                 >
-                  <span className="text-sm font-medium text-white sm:text-base">
-                    {member.initials}
-                  </span>
-                </div>
-                <div className="flex-1 space-y-1">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-base text-gray-800 sm:text-lg">
-                      {member.name}
-                    </h2>
-                    <span
-                      className={`rounded-full px-2 py-1 text-xs sm:text-sm ${
-                        member.status === "Completed"
-                          ? "bg-green-100 text-green-600"
-                          : member.status === "In Progress"
-                            ? "bg-blue-100 text-blue-600"
-                            : "bg-gray-100 text-gray-600"
-                      }`}
-                    >
-                      {member.status}
+                  <div
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${avatarColors[index % avatarColors.length]}`}
+                  >
+                    <span className="text-[10px] font-semibold text-white">
+                      {getInitials(member.name, member.email)}
                     </span>
                   </div>
-                  <div className="text-xs text-gray-500 sm:text-sm">
-                    Working on: {member.currentTask}
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium text-gray-800">
+                      {member.name || member.username || "Unnamed"}
+                    </p>
+                    <p className="truncate text-xs text-gray-400">
+                      {member.email}
+                    </p>
                   </div>
-                  <div className="h-1.5 w-full rounded-full bg-gray-200 sm:h-2">
-                    <motion.div
-                      className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${member.completionPercentage}%` }}
-                      transition={{ duration: 0.5 }}
-                      aria-label={`Task completion: ${member.completionPercentage}%`}
-                    />
-                  </div>
-                  <p className="text-xs text-gray-500">
-                    {member.completionPercentage}% Complete
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+                </motion.div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

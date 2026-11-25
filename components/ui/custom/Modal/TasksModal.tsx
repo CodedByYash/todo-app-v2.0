@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSession } from "next-auth/react";
-import { useWorkspace, Workspace } from "@/components/WorkspaceProvider";
+import { useWorkspace } from "@/components/WorkspaceProvider";
 import { useTheme } from "@/components/ui/custom/ThemeProvider";
 import { CheckCircle2, X, PlusCircle } from "lucide-react";
 import Modal from "@/components/Modal";
@@ -18,9 +18,29 @@ interface TagOption {
 interface TaskFormModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialData?: Task;
+  onSubmit?: (task: Task) => void;
 }
 
-const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
+type Task = {
+  id: string;
+  title: string;
+  completed: boolean;
+  priority: "no_priority" | "low" | "medium" | "high";
+  dueDate: string | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+  tagIds?: string[];
+  workspaceId: string;
+  userId: string;
+};
+
+const TaskFormModal = ({
+  isOpen,
+  onClose,
+  initialData,
+  onSubmit,
+}: TaskFormModalProps) => {
   const { data: session, status } = useSession();
   const { selectedWorkspace, workspaces } = useWorkspace();
   const {
@@ -31,14 +51,15 @@ const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
     inputBorder,
     cardBg,
   } = useTheme();
-  const [formData, setFormData] = useState({
-    title: "",
-    completed: false,
-    priority: "no_priority",
-    dueDate: "",
-    tagIds: [] as string[],
-    workspaceId: selectedWorkspace || "",
-    userId: session?.user?.id || "",
+  const [formData, setFormData] = useState<Task>({
+    id: initialData?.id || "",
+    title: initialData?.title || "",
+    completed: initialData?.completed || false,
+    priority: initialData?.priority || "no_priority",
+    dueDate: initialData?.dueDate || "",
+    tagIds: initialData?.tagIds || [],
+    workspaceId: initialData?.workspaceId || selectedWorkspace || "",
+    userId: initialData?.userId || session?.user?.id || "",
   });
   const [tags, setTags] = useState<TagOption[]>([]);
   const [newTag, setNewTag] = useState("");
@@ -56,6 +77,16 @@ const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
       ...prev,
       userId: session.user.id,
       workspaceId: selectedWorkspace || prev.workspaceId,
+      ...(initialData && {
+        id: initialData.id,
+        title: initialData.title,
+        completed: initialData.completed,
+        priority: initialData.priority,
+        dueDate: initialData.dueDate
+          ? new Date(initialData.dueDate).toISOString().slice(0, 16)
+          : "",
+        tagIds: initialData.tagIds || [],
+      }),
     }));
 
     const fetchTags = async () => {
@@ -79,7 +110,7 @@ const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
       }
     };
     fetchTags();
-  }, [session, status, selectedWorkspace, isOpen, onClose]);
+  }, [session, status, selectedWorkspace, isOpen, initialData, onClose]);
 
   const handleAddTag = async () => {
     if (!newTag.trim() || !selectedWorkspace) {
@@ -101,7 +132,7 @@ const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
         setTags([...tags, { value: newTagData.id, label: newTagData.name }]);
         setFormData({
           ...formData,
-          tagIds: [...formData.tagIds, newTagData.id],
+          tagIds: [...(formData.tagIds || []), newTagData.id],
         });
         setNewTag("");
       } else {
@@ -125,35 +156,52 @@ const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
         dueDate: formData.dueDate || undefined, // Convert empty string to undefined
       };
 
-      const response = await fetch("/api/tasks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      let response;
+      if (initialData && onSubmit) {
+        // Update mode
+        response = await fetch(`/api/tasks/${formData.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      } else {
+        // Create mode
+        response = await fetch("/api/tasks", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      }
 
       if (response.ok) {
-        setSuccess("Task created successfully!");
+        const data = await response.json();
+        setSuccess(
+          initialData
+            ? "Task updated successfully!"
+            : "Task created successfully!",
+        );
+        if (onSubmit) onSubmit(data); // Callback for update
         setTimeout(onClose, 1000);
       } else {
         const data = await response.json();
         setError(
           data.error?.map((e: z.ZodIssue) => e.message).join(", ") ||
-            "Failed to create task",
+            "Failed to save task",
         );
       }
     } catch (err) {
       console.log(err);
-      setError("An error occurred while creating the task");
+      setError("An error occurred while saving the task");
     }
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} ariaLabel="Create Task Modal">
+    <Modal isOpen={isOpen} onClose={onClose} ariaLabel="Task Modal">
       <div className={`${cardBg} rounded-2xl p-6`}>
         <div className="mb-6 flex items-center justify-between">
           <h2 className={`${textPrimary} flex items-center text-2xl font-bold`}>
-            <CheckCircle2 className="mr-2 h-6 w-6 text-emerald-500" /> Create
-            Task
+            <CheckCircle2 className="mr-2 h-6 w-6 text-emerald-500" />{" "}
+            {initialData ? "Edit Task" : "Create Task"}
           </h2>
           <button
             onClick={onClose}
@@ -233,7 +281,14 @@ const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
               id="priority"
               value={formData.priority}
               onChange={(e) =>
-                setFormData({ ...formData, priority: e.target.value })
+                setFormData({
+                  ...formData,
+                  priority: e.target.value as
+                    | "no_priority"
+                    | "low"
+                    | "medium"
+                    | "high",
+                })
               }
               className={`${inputBg} ${inputBorder} w-full rounded-2xl p-3 focus:ring-2 focus:ring-emerald-500`}
             >
@@ -253,7 +308,7 @@ const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
             <input
               id="dueDate"
               type="datetime-local"
-              value={formData.dueDate}
+              value={formData.dueDate || ""}
               onChange={(e) =>
                 setFormData({ ...formData, dueDate: e.target.value })
               }
@@ -269,7 +324,7 @@ const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
             </label>
             <EnhancedSelect
               options={tags}
-              value={formData.tagIds}
+              value={formData.tagIds || []}
               onChange={(value) =>
                 setFormData({ ...formData, tagIds: value as string[] })
               }
@@ -310,10 +365,12 @@ const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
               Workspace
             </label>
             <EnhancedSelect
-              options={workspaces.map((ws: Workspace) => ({
-                value: ws.id,
-                label: ws.workspacename,
-              }))}
+              options={workspaces.map(
+                (ws: { id: string; workspacename: string }) => ({
+                  value: ws.id,
+                  label: ws.workspacename,
+                }),
+              )}
               value={formData.workspaceId}
               onChange={(value) =>
                 setFormData({ ...formData, workspaceId: value as string })
@@ -333,9 +390,9 @@ const TaskFormModal = ({ isOpen, onClose }: TaskFormModalProps) => {
               className={`flex-1 bg-gradient-to-r py-3 ${buttonGradient} rounded-2xl text-white transition-all duration-200 hover:shadow-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              aria-label="Create task"
+              aria-label={initialData ? "Save task" : "Create task"}
             >
-              Create Task
+              {initialData ? "Save" : "Create Task"}
             </motion.button>
             <motion.button
               type="button"

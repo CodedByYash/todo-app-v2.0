@@ -1,5 +1,8 @@
-import { PauseCircle, PlayCircle, Square, RotateCcw } from "lucide-react";
+"use client";
+
+import { PauseCircle, PlayCircle, Square, RotateCcw, Timer } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
+import { motion } from "motion/react";
 
 interface TimeTrackerProps {
   selectedTask?: { id: number; title: string };
@@ -13,7 +16,6 @@ const TimeTracker: React.FC<TimeTrackerProps> = ({
   const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
 
-  // Timer logic
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (isRunning) {
@@ -26,22 +28,19 @@ const TimeTracker: React.FC<TimeTrackerProps> = ({
     };
   }, [isRunning]);
 
-  // Format time as HH:MM:SS
   const formatTime = useCallback((totalSeconds: number) => {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
+    const secs = totalSeconds % 60;
     return `${hours.toString().padStart(2, "0")}:${minutes
       .toString()
-      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+      .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   }, []);
 
-  // Start or pause timer
   const handlePlayPause = useCallback(() => {
     setIsRunning((prev) => !prev);
   }, []);
 
-  // Stop and reset timer
   const handleStop = useCallback(() => {
     setIsRunning(false);
     if (selectedTask && updateTaskTime && seconds > 0) {
@@ -50,7 +49,6 @@ const TimeTracker: React.FC<TimeTrackerProps> = ({
     setSeconds(0);
   }, [selectedTask, updateTaskTime, seconds]);
 
-  // Reset timer without stopping
   const handleReset = useCallback(() => {
     if (selectedTask && updateTaskTime && seconds > 0) {
       updateTaskTime(selectedTask.id, seconds);
@@ -58,55 +56,114 @@ const TimeTracker: React.FC<TimeTrackerProps> = ({
     setSeconds(0);
   }, [selectedTask, updateTaskTime, seconds]);
 
+  const progress = seconds > 0 ? Math.min((seconds % 3600) / 3600, 1) : 0;
+
   return (
-    <div className="bg-gradient-to-br from-stone-50 via-slate-300 to-stone-300 p-4 sm:p-6 rounded-2xl h-full">
-      <div>
-        <h1 className="text-lg sm:text-xl md:text-2xl font-medium text-stone-900 mb-4">
-          Time Tracker
-        </h1>
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, delay: 0.1 }}
+      className="rounded-2xl bg-gradient-to-br from-stone-50 via-slate-200 to-stone-200 p-5 h-full"
+    >
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-stone-900">Time Tracker</h2>
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/60">
+          <Timer className="h-4 w-4 text-stone-600" />
+        </div>
       </div>
-      <div className="bg-white p-3 sm:p-4 rounded-2xl flex flex-col items-center m-2 sm:m-4 shadow-sm">
+
+      <div className="rounded-2xl bg-white p-5 shadow-sm">
         {selectedTask && (
-          <div className="text-sm sm:text-base text-gray-600 mb-2">
-            Tracking: {selectedTask.title}
-          </div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mb-3 text-center text-sm text-gray-500"
+          >
+            Tracking: <span className="font-medium text-gray-700">{selectedTask.title}</span>
+          </motion.p>
         )}
-        <span
-          className="text-3xl sm:text-4xl md:text-5xl font-medium text-gray-800"
-          role="timer"
-          aria-live="polite"
-        >
-          {formatTime(seconds)}
-        </span>
-        <div className="flex mt-3 sm:mt-4 space-x-3 sm:space-x-4">
-          <button
-            className="bg-gradient-to-br from-emerald-500 to-emerald-600 p-0.5 sm:p-1 rounded-full hover:from-emerald-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+
+        {/* Timer ring */}
+        <div className="relative mx-auto mb-4 flex h-36 w-36 items-center justify-center">
+          <svg className="absolute h-full w-full -rotate-90" viewBox="0 0 120 120">
+            <circle
+              cx="60"
+              cy="60"
+              r="52"
+              fill="none"
+              stroke="#e5e7eb"
+              strokeWidth="6"
+            />
+            <motion.circle
+              cx="60"
+              cy="60"
+              r="52"
+              fill="none"
+              stroke="#10b981"
+              strokeWidth="6"
+              strokeLinecap="round"
+              strokeDasharray={2 * Math.PI * 52}
+              animate={{ strokeDashoffset: 2 * Math.PI * 52 * (1 - progress) }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            />
+          </svg>
+          <span
+            className="text-3xl font-semibold tabular-nums text-gray-800"
+            role="timer"
+            aria-live="polite"
+          >
+            {formatTime(seconds)}
+          </span>
+        </div>
+
+        {/* Controls */}
+        <div className="flex items-center justify-center gap-3">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-white shadow-md shadow-emerald-500/25 transition hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
             onClick={handlePlayPause}
             aria-label={isRunning ? "Pause timer" : "Start timer"}
           >
             {isRunning ? (
-              <PauseCircle className="w-6 h-6 sm:w-8 h-8 text-white" />
+              <PauseCircle className="h-5 w-5" />
             ) : (
-              <PlayCircle className="w-6 h-6 sm:w-8 h-8 text-white" />
+              <PlayCircle className="h-5 w-5" />
             )}
-          </button>
-          <button
-            className="bg-gradient-to-br from-emerald-500 to-emerald-600 p-0.5 sm:p-1 rounded-full hover:from-emerald-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-600 transition hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
             onClick={handleStop}
             aria-label="Stop and reset timer"
           >
-            <Square className="w-6 h-6 sm:w-8 h-8 text-white" />
-          </button>
-          <button
-            className="bg-gradient-to-br from-emerald-500 to-emerald-600 p-0.5 sm:p-1 rounded-full hover:from-emerald-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            <Square className="h-4 w-4" />
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-600 transition hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
             onClick={handleReset}
             aria-label="Reset timer"
           >
-            <RotateCcw className="w-6 h-6 sm:w-8 h-8 text-white" />
-          </button>
+            <RotateCcw className="h-4 w-4" />
+          </motion.button>
+        </div>
+
+        {/* Status indicator */}
+        <div className="mt-4 flex items-center justify-center gap-2">
+          <span
+            className={`inline-block h-2 w-2 rounded-full ${
+              isRunning ? "animate-pulse bg-emerald-500" : "bg-gray-300"
+            }`}
+          />
+          <span className="text-xs text-gray-400">
+            {isRunning ? "Running" : seconds > 0 ? "Paused" : "Ready"}
+          </span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

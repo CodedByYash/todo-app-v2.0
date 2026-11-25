@@ -70,6 +70,7 @@ export async function DELETE(
     return NextResponse.json({ message: "Member removed successfully" });
   } catch (err) {
     console.error("[DELETE_WORKSPACE_MEMBER]", err);
+    return NextResponse.json({ error: "Internal Error" }, { status: 500 });
   }
 }
 
@@ -162,5 +163,6 @@ export async function PATCH(
     return NextResponse.json({ message: "Role updated successfully" });
   } catch (err) {
     console.error("[UPDATE_WORKSPACE_MEMBER_ROLE]", err);
+    return NextResponse.json({ error: "Internal Error" }, { status: 500 });
   }
 }

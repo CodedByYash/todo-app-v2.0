@@ -1,46 +1,60 @@
-// /app/api/notifications/route.ts
-
 import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
 import { NotificationSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const user = await getUser();
-  if (!user?.email) {
-    return new NextResponse("Unauthorized", { status: 401 });
+  try {
+    const user = await getUser();
+    if (!user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const notifications = await prisma.notification.findMany({
+      where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return NextResponse.json(notifications);
+  } catch (error) {
+    console.error("[GET_NOTIFICATIONS]", error);
+    return NextResponse.json(
+      { error: "Failed to fetch notifications" },
+      { status: 500 },
+    );
   }
-
-  const existingUser = await prisma.user.findUnique({
-    where: { email: user.email },
-  });
-
-  if (!existingUser) {
-    return new NextResponse("unable to find user", { status: 404 });
-  }
-
-  const notifications = await prisma.notification.findMany({
-    where: { userId: user?.id },
-    orderBy: { createdAt: "desc" },
-  });
-
-  return NextResponse.json(notifications);
 }
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const parsed = NotificationSchema.safeParse(body);
+  try {
+    const user = await getUser();
+    if (!user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  if (!parsed.success) {
+    const body = await req.json();
+    const parsed = NotificationSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid data", details: parsed.error.flatten() },
+        { status: 400 },
+      );
+    }
+
+    const notification = await prisma.notification.create({
+      data: {
+        ...parsed.data,
+        userId: user.id,
+      },
+    });
+
+    return NextResponse.json(notification, { status: 201 });
+  } catch (error) {
+    console.error("[POST_NOTIFICATION]", error);
     return NextResponse.json(
-      { message: "Invalid data", error: parsed.error.format() },
-      { status: 400 }
+      { error: "Failed to create notification" },
+      { status: 500 },
     );
   }
-
-  const notification = await prisma.notification.create({
-    data: parsed.data,
-  });
-
-  return NextResponse.json(notification);
 }

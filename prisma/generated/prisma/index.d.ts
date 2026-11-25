@@ -11040,6 +11040,7 @@ export namespace Prisma {
     workspaceId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    completed: boolean | null
   }
 
   export type ReminderMaxAggregateOutputType = {
@@ -11051,6 +11052,7 @@ export namespace Prisma {
     workspaceId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    completed: boolean | null
   }
 
   export type ReminderCountAggregateOutputType = {
@@ -11062,6 +11064,7 @@ export namespace Prisma {
     workspaceId: number
     createdAt: number
     updatedAt: number
+    completed: number
     _all: number
   }
 
@@ -11075,6 +11078,7 @@ export namespace Prisma {
     workspaceId?: true
     createdAt?: true
     updatedAt?: true
+    completed?: true
   }
 
   export type ReminderMaxAggregateInputType = {
@@ -11086,6 +11090,7 @@ export namespace Prisma {
     workspaceId?: true
     createdAt?: true
     updatedAt?: true
+    completed?: true
   }
 
   export type ReminderCountAggregateInputType = {
@@ -11097,6 +11102,7 @@ export namespace Prisma {
     workspaceId?: true
     createdAt?: true
     updatedAt?: true
+    completed?: true
     _all?: true
   }
 
@@ -11181,6 +11187,7 @@ export namespace Prisma {
     workspaceId: string
     createdAt: Date
     updatedAt: Date
+    completed: boolean
     _count: ReminderCountAggregateOutputType | null
     _min: ReminderMinAggregateOutputType | null
     _max: ReminderMaxAggregateOutputType | null
@@ -11209,6 +11216,7 @@ export namespace Prisma {
     workspaceId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    completed?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["reminder"]>
@@ -11222,6 +11230,7 @@ export namespace Prisma {
     workspaceId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    completed?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["reminder"]>
@@ -11235,6 +11244,7 @@ export namespace Prisma {
     workspaceId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    completed?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["reminder"]>
@@ -11248,9 +11258,10 @@ export namespace Prisma {
     workspaceId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    completed?: boolean
   }
 
-  export type ReminderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "body" | "reminderDate" | "userId" | "workspaceId" | "createdAt" | "updatedAt", ExtArgs["result"]["reminder"]>
+  export type ReminderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "body" | "reminderDate" | "userId" | "workspaceId" | "createdAt" | "updatedAt" | "completed", ExtArgs["result"]["reminder"]>
   export type ReminderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
@@ -11279,6 +11290,7 @@ export namespace Prisma {
       workspaceId: string
       createdAt: Date
       updatedAt: Date
+      completed: boolean
     }, ExtArgs["result"]["reminder"]>
     composites: {}
   }
@@ -11712,6 +11724,7 @@ export namespace Prisma {
     readonly workspaceId: FieldRef<"Reminder", 'String'>
     readonly createdAt: FieldRef<"Reminder", 'DateTime'>
     readonly updatedAt: FieldRef<"Reminder", 'DateTime'>
+    readonly completed: FieldRef<"Reminder", 'Boolean'>
   }
     
 
@@ -20009,7 +20022,8 @@ export namespace Prisma {
     userId: 'userId',
     workspaceId: 'workspaceId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    completed: 'completed'
   };
 
   export type ReminderScalarFieldEnum = (typeof ReminderScalarFieldEnum)[keyof typeof ReminderScalarFieldEnum]
@@ -20893,6 +20907,7 @@ export namespace Prisma {
     workspaceId?: StringFilter<"Reminder"> | string
     createdAt?: DateTimeFilter<"Reminder"> | Date | string
     updatedAt?: DateTimeFilter<"Reminder"> | Date | string
+    completed?: BoolFilter<"Reminder"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
   }
@@ -20906,6 +20921,7 @@ export namespace Prisma {
     workspaceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    completed?: SortOrder
     user?: UserOrderByWithRelationInput
     workspace?: WorkspaceOrderByWithRelationInput
   }
@@ -20922,6 +20938,7 @@ export namespace Prisma {
     workspaceId?: StringFilter<"Reminder"> | string
     createdAt?: DateTimeFilter<"Reminder"> | Date | string
     updatedAt?: DateTimeFilter<"Reminder"> | Date | string
+    completed?: BoolFilter<"Reminder"> | boolean
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
   }, "id">
@@ -20935,6 +20952,7 @@ export namespace Prisma {
     workspaceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    completed?: SortOrder
     _count?: ReminderCountOrderByAggregateInput
     _max?: ReminderMaxOrderByAggregateInput
     _min?: ReminderMinOrderByAggregateInput
@@ -20952,6 +20970,7 @@ export namespace Prisma {
     workspaceId?: StringWithAggregatesFilter<"Reminder"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Reminder"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Reminder"> | Date | string
+    completed?: BoolWithAggregatesFilter<"Reminder"> | boolean
   }
 
   export type AttachmentWhereInput = {
@@ -22100,6 +22119,7 @@ export namespace Prisma {
     reminderDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    completed?: boolean
     user: UserCreateNestedOneWithoutRemindersInput
     workspace: WorkspaceCreateNestedOneWithoutRemindersInput
   }
@@ -22113,6 +22133,7 @@ export namespace Prisma {
     workspaceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    completed?: boolean
   }
 
   export type ReminderUpdateInput = {
@@ -22122,6 +22143,7 @@ export namespace Prisma {
     reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completed?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutRemindersNestedInput
     workspace?: WorkspaceUpdateOneRequiredWithoutRemindersNestedInput
   }
@@ -22135,6 +22157,7 @@ export namespace Prisma {
     workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ReminderCreateManyInput = {
@@ -22146,6 +22169,7 @@ export namespace Prisma {
     workspaceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    completed?: boolean
   }
 
   export type ReminderUpdateManyMutationInput = {
@@ -22155,6 +22179,7 @@ export namespace Prisma {
     reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ReminderUncheckedUpdateManyInput = {
@@ -22166,6 +22191,7 @@ export namespace Prisma {
     workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type AttachmentCreateInput = {
@@ -23297,6 +23323,7 @@ export namespace Prisma {
     workspaceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    completed?: SortOrder
   }
 
   export type ReminderMaxOrderByAggregateInput = {
@@ -23308,6 +23335,7 @@ export namespace Prisma {
     workspaceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    completed?: SortOrder
   }
 
   export type ReminderMinOrderByAggregateInput = {
@@ -23319,6 +23347,7 @@ export namespace Prisma {
     workspaceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    completed?: SortOrder
   }
 
   export type EnumAttachmentTypeEnumFilter<$PrismaModel = never> = {
@@ -25704,6 +25733,7 @@ export namespace Prisma {
     reminderDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    completed?: boolean
     workspace: WorkspaceCreateNestedOneWithoutRemindersInput
   }
 
@@ -25715,6 +25745,7 @@ export namespace Prisma {
     workspaceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    completed?: boolean
   }
 
   export type ReminderCreateOrConnectWithoutUserInput = {
@@ -26072,6 +26103,7 @@ export namespace Prisma {
     workspaceId?: StringFilter<"Reminder"> | string
     createdAt?: DateTimeFilter<"Reminder"> | Date | string
     updatedAt?: DateTimeFilter<"Reminder"> | Date | string
+    completed?: BoolFilter<"Reminder"> | boolean
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -26559,6 +26591,7 @@ export namespace Prisma {
     reminderDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    completed?: boolean
     user: UserCreateNestedOneWithoutRemindersInput
   }
 
@@ -26570,6 +26603,7 @@ export namespace Prisma {
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    completed?: boolean
   }
 
   export type ReminderCreateOrConnectWithoutWorkspaceInput = {
@@ -29157,6 +29191,7 @@ export namespace Prisma {
     workspaceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    completed?: boolean
   }
 
   export type TaskUpdateWithoutUserInput = {
@@ -29547,6 +29582,7 @@ export namespace Prisma {
     reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completed?: BoolFieldUpdateOperationsInput | boolean
     workspace?: WorkspaceUpdateOneRequiredWithoutRemindersNestedInput
   }
 
@@ -29558,6 +29594,7 @@ export namespace Prisma {
     workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ReminderUncheckedUpdateManyWithoutUserInput = {
@@ -29568,6 +29605,7 @@ export namespace Prisma {
     workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type TaskCreateManyWorkspaceInput = {
@@ -29606,6 +29644,7 @@ export namespace Prisma {
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    completed?: boolean
   }
 
   export type UserUpdateWithoutWorkspacesInput = {
@@ -29786,6 +29825,7 @@ export namespace Prisma {
     reminderDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completed?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutRemindersNestedInput
   }
 
@@ -29797,6 +29837,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ReminderUncheckedUpdateManyWithoutWorkspaceInput = {
@@ -29807,6 +29848,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type TaskCreateManyParentTaskInput = {

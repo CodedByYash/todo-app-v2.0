@@ -15,7 +15,7 @@ const ProjectProgress = () => {
 
   useEffect(() => {
     const fetchProgress = async () => {
-      const response = await fetch("/api/today-progress");
+      const response = await fetch("/api/todays-progress");
       if (response.ok) {
         const data = await response.json();
         setProgress(data);
