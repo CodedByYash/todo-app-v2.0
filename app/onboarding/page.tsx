@@ -1,142 +1,146 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { Loader2, User, Users } from "lucide-react";
+import { Logo } from "@/components/auth/Logo";
 
-interface OnboardingFormProps {
-  userName: string;
-}
+type WorkspaceType = "PERSONAL" | "PROFESSIONAL";
 
-const OnboardingForm: React.FC<OnboardingFormProps> = ({ userName }) => {
-  const { data: session, update: sessionUpdate } = useSession();
-  const [workspaceName, setWorkspaceName] = useState(
-    `${userName}'s Personal Workspace`,
-  );
-  const [description, setDescription] = useState("");
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const options: { value: WorkspaceType; title: string; body: string; icon: typeof User }[] = [
+  { value: "PERSONAL", title: "Just me", body: "Your own tasks, tags and reminders.", icon: User },
+  { value: "PROFESSIONAL", title: "With a team", body: "Share tasks and invite teammates later.", icon: Users },
+];
+
+export default function OnboardingPage() {
+  const { data: session, update } = useSession();
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError("");
+  const firstName = session?.user?.name?.split(" ")[0];
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [type, setType] = useState<WorkspaceType>("PERSONAL");
+  const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
+  const workspaceName =
+    name || (firstName ? `${firstName}'s workspace` : "My workspace");
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSubmitting(true);
+    setError("");
     try {
-      const response = await fetch("/api/onboarding", {
+      const res = await fetch("/api/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          workspacename: workspaceName,
-          description,
-          type: "PERSONAL",
+          workspacename: workspaceName.trim(),
+          description: description.trim() || undefined,
+          type,
         }),
       });
-
-      console.log(response);
-      if (!response.ok) {
+      if (!res.ok) {
+        const body = (await res.json().catch(() => null)) as { error?: string } | null;
         throw new Error(
-          (await response.json()).error || "Failed to create workspace",
+          typeof body?.error === "string" ? body.error : "Couldn't create your workspace.",
         );
       }
-      await sessionUpdate({ onboardingCompleted: true });
-      router.push("/dashboard");
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to create workspace",
-      );
-      setIsSubmitting(false);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-      <div>
-        <label
-          htmlFor="workspaceName"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Personal Workspace Name
-        </label>
-        <input
-          id="workspaceName"
-          type="text"
-          value={workspaceName}
-          onChange={(e) => setWorkspaceName(e.target.value)}
-          className="mt-1 block w-full rounded-2xl border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-          placeholder="Enter your workspace name"
-          aria-required="true"
-        />
-      </div>
-      <div>
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Description (Optional)
-        </label>
-        <textarea
-          id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="mt-1 block w-full rounded-2xl border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-          placeholder="Describe your workspace"
-          rows={4}
-        />
-      </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      <button
-        type="submit"
-        disabled={isSubmitting || !workspaceName}
-        className="w-full rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-2 text-white hover:from-emerald-600 hover:to-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:outline-none disabled:opacity-50 sm:py-3"
-        aria-label="Complete onboarding"
-      >
-        {isSubmitting ? "Creating..." : "Create Workspace"}
-      </button>
-    </form>
-  );
-};
-
-const OnboardingPage = () => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  console.log(session?.user);
-  console.log(session?.user.onboardingCompleted);
-
-  useEffect(() => {
-    if (status !== "authenticated") return;
-    if (!session?.user?.email || !session?.user?.username) {
-      router.replace("/auth/signin");
-      return;
-    }
-    if (session.user.onboardingCompleted) {
+      // Refresh the session token so the proxy knows onboarding is done.
+      await update();
       router.replace("/dashboard");
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Couldn't create your workspace.");
+      setSubmitting(false);
     }
-  }, [status, session, router]);
-
-  if (status !== "authenticated") {
-    return (
-      <div className="flex h-screen items-center justify-center text-gray-600">
-        Loading...
-      </div>
-    );
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-stone-50 via-slate-300 to-stone-300 px-4 sm:px-6">
-      <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-lg sm:p-8">
-        <h1 className="mb-4 text-2xl font-bold text-gray-900 sm:mb-6 sm:text-3xl">
-          Welcome to Taskito
+    <div className="flex min-h-screen flex-col px-6 py-8 sm:px-12">
+      <Logo />
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-10">
+        <h1 className="text-3xl font-semibold tracking-tight">
+          {firstName ? `Welcome, ${firstName}` : "Welcome to Taskito"}
         </h1>
-        <p className="mb-6 text-base text-gray-600 sm:mb-8 sm:text-lg">
-          Let&aposs set up your account, {session.user.username || ""}. Create
-          your personal workspace to get started.
+        <p className="mt-2 text-stone-600 dark:text-stone-300">
+          Create your first workspace. Tasks and tags live inside it.
         </p>
-        <OnboardingForm userName={session.user.username || ""} />
+
+        <form onSubmit={onSubmit} className="mt-8 space-y-5">
+          <fieldset>
+            <legend className="mb-2 text-sm font-medium">How will you use it?</legend>
+            <div className="grid grid-cols-2 gap-3">
+              {options.map(({ value, title, body, icon: Icon }) => (
+                <label
+                  key={value}
+                  className={`cursor-pointer rounded-xl border p-3.5 transition has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-brand ${
+                    type === value
+                      ? "border-brand bg-emerald-50 dark:bg-emerald-400/10"
+                      : "border-line bg-white hover:bg-stone-50 dark:border-white/15 dark:bg-white/5"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="type"
+                    value={value}
+                    checked={type === value}
+                    onChange={() => setType(value)}
+                    className="sr-only"
+                  />
+                  <Icon className="mb-2 size-5 text-brand-strong dark:text-emerald-300" aria-hidden />
+                  <div className="text-sm font-semibold">{title}</div>
+                  <div className="mt-0.5 text-xs text-stone-500 dark:text-stone-400">{body}</div>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <div>
+            <label htmlFor="ws-name" className="mb-1.5 block text-sm font-medium">
+              Workspace name
+            </label>
+            <input
+              id="ws-name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={workspaceName}
+              maxLength={255}
+              className="h-11 w-full rounded-xl border border-line bg-white px-3.5 text-sm placeholder:text-stone-400 focus:border-brand focus:outline-none focus:ring-3 focus:ring-brand/20 dark:border-white/15 dark:bg-white/5"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="ws-desc" className="mb-1.5 block text-sm font-medium">
+              Description <span className="font-normal text-stone-500">(optional)</span>
+            </label>
+            <textarea
+              id="ws-desc"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={3}
+              maxLength={1000}
+              className="w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm placeholder:text-stone-400 focus:border-brand focus:outline-none focus:ring-3 focus:ring-brand/20 dark:border-white/15 dark:bg-white/5"
+            />
+          </div>
+
+          {error && (
+            <p role="alert" className="text-sm text-red-600 dark:text-red-400">
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            disabled={submitting}
+            className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 text-sm font-semibold text-white transition hover:bg-brand-strong disabled:opacity-70"
+          >
+            {submitting && <Loader2 className="size-4 animate-spin" aria-hidden />}
+            {submitting ? "Creating…" : "Create workspace"}
+          </button>
+        </form>
       </div>
     </div>
   );
-};
-
-export default OnboardingPage;
+}

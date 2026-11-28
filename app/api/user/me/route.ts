@@ -1,23 +1,19 @@
+import { NextResponse } from "next/server";
 import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
-import { NextResponse } from "next/server";
+import { notFound, serverError, unauthorized } from "@/lib/api";
 
 export async function GET() {
   try {
     const user = await getUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    if (!user) return unauthorized();
 
-    const userProfile = await prisma.user.findUnique({
+    const profile = await prisma.user.findUnique({
       where: { id: user.id },
       select: {
         id: true,
         name: true,
         email: true,
-        username: true,
-        firstname: true,
-        lastname: true,
         profilePicture: true,
         bio: true,
         onboardingCompleted: true,
@@ -26,20 +22,10 @@ export async function GET() {
         updatedAt: true,
       },
     });
+    if (!profile) return notFound("Unable to find profile");
 
-    if (!userProfile) {
-      return NextResponse.json(
-        { error: "Unable to find profile" },
-        { status: 404 },
-      );
-    }
-
-    return NextResponse.json(userProfile);
+    return NextResponse.json(profile);
   } catch (error) {
-    console.error("[GET_USER_ME]", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
-    );
+    return serverError("GET_USER_ME", error);
   }
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { CheckCircle2Icon, Plus, Clock } from "lucide-react";
-import { useTheme } from "../ThemeProvider";
 import { useState } from "react";
 import { motion } from "motion/react";
 import ReminderFormModal from "../Modal/ReminderFormModal";
@@ -36,7 +35,6 @@ const formatDate = (dateStr: string) => {
 };
 
 const Reminders: React.FC<ReminderProps> = ({ Reminder, onComplete }) => {
-  const { textSecondary } = useTheme();
   const [reminderModalOpen, setReminderModalOpen] = useState(false);
 
   return (

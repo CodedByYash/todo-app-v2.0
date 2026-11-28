@@ -55,6 +55,19 @@ export async function getTaskWithAccess(userId: string, taskId: string) {
   return hasAccess ? task : null;
 }
 
+/** True when every tag id exists and belongs to the given workspace. */
+export async function tagsBelongToWorkspace(
+  tagIds: string[] | undefined,
+  workspaceId: string,
+): Promise<boolean> {
+  const unique = [...new Set(tagIds ?? [])];
+  if (unique.length === 0) return true;
+  const count = await prisma.tag.count({
+    where: { id: { in: unique }, workspaceId },
+  });
+  return count === unique.length;
+}
+
 export const ALLOWED_UPLOAD_MIME_TYPES = [
   "image/jpeg",
   "image/png",

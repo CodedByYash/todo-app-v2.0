@@ -60,7 +60,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await req.json();
+    const body = await req.json().catch(() => null);
     const parsed = UserPreferenceSchema.safeParse(body);
 
     if (!parsed.success) {
@@ -70,9 +70,10 @@ export async function PUT(req: Request) {
       );
     }
 
-    const updated = await prisma.userPreference.update({
+    const updated = await prisma.userPreference.upsert({
       where: { userId: user.id },
-      data: parsed.data,
+      update: parsed.data,
+      create: { userId: user.id, ...parsed.data },
     });
 
     return NextResponse.json(updated);

@@ -1,67 +1,48 @@
+import { NextResponse } from "next/server";
 import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
-import { createUserSchema } from "@/lib/schema/schema";
-import { NextResponse } from "next/server";
+import { updateProfileSchema } from "@/lib/schema/schema";
+import {
+  badRequest,
+  forbidden,
+  readJson,
+  serverError,
+  unauthorized,
+} from "@/lib/api";
 
-export async function PUT(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+type Params = { params: Promise<{ id: string }> };
+
+export async function PUT(request: Request, { params }: Params) {
   try {
     const { id } = await params;
     const user = await getUser();
+    if (!user) return unauthorized();
+    if (id !== user.id) return forbidden();
 
-    if (!user?.id || id !== user.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const parsed = updateProfileSchema.safeParse(await readJson(request));
+    if (!parsed.success) return badRequest(parsed.error);
 
-    const data = await request.json();
-    const parsedData = createUserSchema.safeParse(data);
-
-    if (!parsedData.success) {
-      return NextResponse.json(
-        { error: parsedData.error.flatten() },
-        { status: 400 },
-      );
-    }
-
-    const response = await prisma.user.update({
+    const updated = await prisma.user.update({
       where: { id: user.id },
-      data: parsedData.data,
+      data: parsed.data,
+      select: { id: true, name: true, email: true, bio: true, profilePicture: true },
     });
-
-    return NextResponse.json(response);
+    return NextResponse.json(updated);
   } catch (error) {
-    console.error("[PUT_USER]", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return serverError("PUT_USER", error);
   }
 }
 
-export async function DELETE(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function DELETE(_request: Request, { params }: Params) {
   try {
     const { id } = await params;
     const user = await getUser();
+    if (!user) return unauthorized();
+    if (id !== user.id) return forbidden();
 
-    if (!user?.id || id !== user.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    await prisma.user.delete({
-      where: { id: user.id },
-    });
-
+    await prisma.user.delete({ where: { id: user.id } });
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("[DELETE_USER]", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return serverError("DELETE_USER", error);
   }
 }

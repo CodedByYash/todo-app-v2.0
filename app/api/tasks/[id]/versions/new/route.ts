@@ -3,6 +3,7 @@ import { getTaskWithAccess } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma/prisma";
 import { RequestBodySchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
+import { s3PublicBase } from "@/lib/s3/client";
 
 export async function POST(
   request: Request,
@@ -32,6 +33,18 @@ export async function POST(
     }
 
     const { description, attachments } = parsed.data;
+
+    // Attachments must live in our own bucket under the user's folder.
+    if (
+      attachments?.some(
+        (a) => !a.url.startsWith(`${s3PublicBase()}/uploads/${user.id}/`),
+      )
+    ) {
+      return NextResponse.json(
+        { error: "Invalid attachment URL" },
+        { status: 400 },
+      );
+    }
 
     const newVersion = await prisma.$transaction(async (tx) => {
       const latestVersion = await tx.taskVersion.findFirst({

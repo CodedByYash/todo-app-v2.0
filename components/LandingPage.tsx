@@ -1,231 +1,102 @@
-"use client";
-
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 import Link from "next/link";
-import { motion } from "motion/react";
-import {
-  CheckCircle2,
-  ArrowRight,
-  BarChart3,
-  Users,
-  Calendar,
-  Zap,
-} from "lucide-react";
+import { BarChart3, CalendarDays, Tags, Users } from "lucide-react";
+import { Logo } from "@/components/auth/Logo";
+import { TaskPreview } from "@/components/auth/TaskPreview";
 
 const features = [
   {
-    icon: Zap,
-    title: "Lightning Fast",
-    desc: "Create, organize, and complete tasks in seconds",
-  },
-  {
     icon: Users,
-    title: "Team Workspaces",
-    desc: "Collaborate with your team in shared workspaces",
+    title: "Workspaces for every context",
+    body: "Keep personal errands and team projects apart, and invite teammates when you need to.",
   },
   {
-    icon: Calendar,
-    title: "Smart Calendar",
-    desc: "Visualize deadlines and plan your week",
+    icon: Tags,
+    title: "Priorities and tags",
+    body: "Mark what matters, label the rest, and filter down to the work in front of you.",
+  },
+  {
+    icon: CalendarDays,
+    title: "Due dates and reminders",
+    body: "See the week on a calendar and get a nudge before something slips.",
   },
   {
     icon: BarChart3,
-    title: "Analytics",
-    desc: "Track your productivity with real-time insights",
+    title: "Progress you can see",
+    body: "Daily progress and a weekly chart show how much you actually finished.",
   },
 ];
 
-const LandingPage = () => {
-  const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
-      </div>
-    );
-  }
-
-  if (session) {
-    redirect(session.user.onboardingCompleted ? "/dashboard" : "/onboarding");
-  }
-
+export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white">
-      {/* Navbar */}
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600">
-            <CheckCircle2 className="h-4 w-4 text-white" />
-          </div>
-          <span className="text-lg font-bold text-gray-900">Taskito</span>
-        </div>
-        <div className="flex items-center gap-3">
+    <div className="min-h-screen bg-paper text-ink dark:bg-[#0e1512] dark:text-white">
+      <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+        <Logo />
+        <nav className="flex items-center gap-2 text-sm font-medium">
           <Link
             href="/auth/signin"
-            className="rounded-xl px-4 py-2 text-sm font-medium text-gray-600 transition hover:text-gray-900"
+            className="rounded-lg px-3 py-2 text-stone-600 transition hover:text-ink dark:text-stone-300 dark:hover:text-white"
           >
-            Sign In
+            Sign in
           </Link>
           <Link
             href="/auth/signup"
-            className="rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800"
+            className="rounded-lg bg-ink px-4 py-2 text-white transition hover:bg-black dark:bg-white dark:text-ink dark:hover:bg-stone-200"
           >
-            Get Started
+            Get started
           </Link>
-        </div>
-      </nav>
+        </nav>
+      </header>
 
-      {/* Hero */}
-      <section className="mx-auto max-w-6xl px-6 pb-20 pt-16 text-center sm:pt-24">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <span className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
-            <Zap className="h-3 w-3" />
-            Built for productive teams
-          </span>
-
-          <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-bold leading-tight text-gray-900 sm:text-5xl md:text-6xl">
-            Organize your work,{" "}
-            <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-              ship faster
-            </span>
+      <section className="mx-auto grid max-w-6xl items-center gap-12 px-6 pb-20 pt-10 lg:grid-cols-[1fr_1.1fr] lg:pt-20">
+        <div>
+          <h1 className="max-w-xl text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+            A task list that stays out of your way.
           </h1>
-
-          <p className="mx-auto mt-6 max-w-xl text-lg text-gray-500">
-            Taskito helps you manage tasks, collaborate with your team, and track
-            progress — all in one clean, fast workspace.
+          <p className="mt-6 max-w-md text-lg text-stone-600 dark:text-stone-300">
+            Taskito keeps your tasks, due dates and reminders in one calm place,
+            for you or your whole team.
           </p>
-
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               href="/auth/signup"
-              className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 transition hover:shadow-xl hover:shadow-emerald-500/30"
+              className="inline-flex h-12 items-center rounded-xl bg-brand px-6 text-sm font-semibold text-white transition hover:bg-brand-strong"
             >
-              Start for free
-              <ArrowRight className="h-4 w-4" />
+              Create a free account
             </Link>
             <Link
               href="/auth/signin"
-              className="inline-flex items-center gap-2 rounded-2xl border border-gray-200 bg-white px-6 py-3 text-sm font-medium text-gray-700 transition hover:border-gray-300 hover:bg-gray-50"
+              className="inline-flex h-12 items-center rounded-xl border border-line px-6 text-sm font-medium transition hover:bg-white dark:border-white/15 dark:hover:bg-white/5"
             >
-              I already have an account
+              Sign in
             </Link>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Mock dashboard preview */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative mx-auto mt-16 max-w-4xl"
-        >
-          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl shadow-gray-200/50">
-            <div className="mb-4 flex items-center gap-2">
-              <div className="h-3 w-3 rounded-full bg-red-400" />
-              <div className="h-3 w-3 rounded-full bg-amber-400" />
-              <div className="h-3 w-3 rounded-full bg-emerald-400" />
-              <div className="ml-4 h-5 w-48 rounded bg-gray-100" />
-            </div>
-            <div className="grid grid-cols-4 gap-3">
-              {["12 Total", "8 Done", "3 Active", "1 Overdue"].map(
-                (label, i) => (
-                  <div
-                    key={label}
-                    className={`rounded-xl p-4 ${
-                      i === 0
-                        ? "bg-gradient-to-br from-emerald-500 to-emerald-600 text-white"
-                        : "bg-gray-50 text-gray-700"
-                    }`}
-                  >
-                    <div className="text-2xl font-bold">
-                      {label.split(" ")[0]}
-                    </div>
-                    <div
-                      className={`text-xs ${i === 0 ? "text-emerald-100" : "text-gray-400"}`}
-                    >
-                      {label.split(" ")[1]} Tasks
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
-            <div className="mt-4 space-y-2">
-              {[
-                { w: "w-3/4", done: true },
-                { w: "w-full", done: false },
-                { w: "w-5/6", done: false },
-              ].map((row, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 rounded-xl bg-gray-50 p-3"
-                >
-                  <div
-                    className={`h-4 w-4 rounded-full border-2 ${row.done ? "border-emerald-500 bg-emerald-500" : "border-gray-300"}`}
-                  />
-                  <div className={`h-3 ${row.w} rounded bg-gray-200`} />
-                  <div className="ml-auto h-5 w-12 rounded-full bg-gray-200" />
-                </div>
-              ))}
-            </div>
-          </div>
-          {/* Gradient glow behind */}
-          <div className="absolute -inset-4 -z-10 rounded-3xl bg-gradient-to-r from-emerald-100 via-teal-50 to-cyan-100 opacity-60 blur-2xl" />
-        </motion.div>
+        <div className="relative h-[26rem] overflow-hidden rounded-3xl bg-[#e9efe8] dark:bg-[#0a100d]">
+          <TaskPreview />
+        </div>
       </section>
 
-      {/* Features */}
-      <section className="mx-auto max-w-6xl px-6 py-20">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-            Everything you need to stay on track
-          </h2>
-          <p className="mt-3 text-gray-500">
-            Simple tools, powerful results
-          </p>
-        </motion.div>
-
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((feat, i) => (
-            <motion.div
-              key={feat.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="rounded-2xl border border-gray-100 bg-white p-6 transition hover:border-emerald-100 hover:shadow-lg hover:shadow-emerald-50"
-            >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50">
-                <feat.icon className="h-5 w-5 text-emerald-600" />
+      <section className="mx-auto max-w-6xl px-6 pb-24">
+        <h2 className="max-w-md text-2xl font-semibold tracking-tight sm:text-3xl">
+          Everything you need to get through the week
+        </h2>
+        <dl className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+          {features.map(({ icon: Icon, title, body }) => (
+            <div key={title} className="flex gap-4">
+              <Icon className="mt-0.5 size-5 shrink-0 text-brand-strong dark:text-emerald-300" aria-hidden />
+              <div>
+                <dt className="font-semibold">{title}</dt>
+                <dd className="mt-1 max-w-sm text-stone-600 dark:text-stone-300">{body}</dd>
               </div>
-              <h3 className="text-sm font-semibold text-gray-900">
-                {feat.title}
-              </h3>
-              <p className="mt-1 text-sm text-gray-500">{feat.desc}</p>
-            </motion.div>
+            </div>
           ))}
-        </div>
+        </dl>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-100 py-8 text-center text-sm text-gray-400">
-        <div className="flex items-center justify-center gap-2">
-          <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-          <span>Taskito — Made with ❤️</span>
-        </div>
+      <footer className="border-t border-line py-8 text-center text-sm text-stone-500 dark:border-white/10 dark:text-stone-400">
+        Taskito
       </footer>
     </div>
   );
-};
-
-export default LandingPage;
+}

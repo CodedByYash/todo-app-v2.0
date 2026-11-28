@@ -1,168 +1,104 @@
+import { NextResponse } from "next/server";
 import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
 import { UpdateMemberRoleSchema } from "@/lib/schema/schema";
-import { NextResponse } from "next/server";
+import {
+  badRequest,
+  forbidden,
+  notFound,
+  readJson,
+  serverError,
+  unauthorized,
+} from "@/lib/api";
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ workspaceId: string; memberId: string }> }
-) {
+type Params = {
+  params: Promise<{ workspaceId: string; memberId: string }>;
+};
+
+const membershipKey = (userId: string, workspaceId: string) => ({
+  userId_workspaceId: { userId, workspaceId },
+});
+
+/** DELETE — remove a member (or leave the workspace when memberId is yourself). */
+export async function DELETE(_request: Request, { params }: Params) {
   try {
     const user = await getUser();
+    if (!user) return unauthorized();
     const { workspaceId, memberId } = await params;
-    if (!user || !user.id || !workspaceId || !memberId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
 
-    // Check if the user is the owner of the workspace
-    const currentMembership = await prisma.workspaceMember.findUnique({
-      where: {
-        userId_workspaceId: {
-          userId: user.id,
-          workspaceId,
-        },
-      },
+    const current = await prisma.workspaceMember.findUnique({
+      where: membershipKey(user.id, workspaceId),
     });
+    if (!current) return forbidden("You are not a member of this workspace");
 
-    if (!currentMembership) {
-      return new NextResponse("Member not found", { status: 403 });
-    }
-
-    const targetMembership = await prisma.workspaceMember.findUnique({
-      where: {
-        userId_workspaceId: {
-          userId: memberId,
-          workspaceId,
-        },
-      },
+    const target = await prisma.workspaceMember.findUnique({
+      where: membershipKey(memberId, workspaceId),
     });
+    if (!target) return notFound("Member not found");
 
-    if (!targetMembership) {
-      return new NextResponse("Member not found", { status: 403 });
+    if (target.role === "OWNER") {
+      return forbidden("The owner cannot be removed from the workspace");
     }
 
-    if (targetMembership.role === "OWNER" && user.id === memberId) {
-      return new NextResponse("Cannot remove the owner of the workspace", {
-        status: 403,
-      });
-    }
-
+    const isSelf = user.id === memberId;
     const canRemove =
-      currentMembership.role === "OWNER" ||
-      (currentMembership.role === "ADMIN" &&
-        targetMembership.role === "MEMBER");
-
+      isSelf ||
+      current.role === "OWNER" ||
+      (current.role === "ADMIN" && target.role !== "ADMIN");
     if (!canRemove) {
-      return new NextResponse("You are not authorized to remove this member", {
-        status: 403,
-      });
+      return forbidden("You are not authorized to remove this member");
     }
 
     await prisma.workspaceMember.delete({
-      where: {
-        userId_workspaceId: {
-          userId: memberId,
-          workspaceId,
-        },
-      },
+      where: membershipKey(memberId, workspaceId),
     });
-
     return NextResponse.json({ message: "Member removed successfully" });
-  } catch (err) {
-    console.error("[DELETE_WORKSPACE_MEMBER]", err);
-    return NextResponse.json({ error: "Internal Error" }, { status: 500 });
+  } catch (error) {
+    return serverError("DELETE_WORKSPACE_MEMBER", error);
   }
 }
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ workspaceId: string; memberId: string }> }
-) {
+export async function PATCH(request: Request, { params }: Params) {
   try {
     const user = await getUser();
+    if (!user) return unauthorized();
     const { workspaceId, memberId } = await params;
-    const body = await request.json();
-    const parsedBody = UpdateMemberRoleSchema.safeParse(body);
-    if (!parsedBody.success || !user || !workspaceId || !memberId) {
-      return NextResponse.json(
-        { error: "Invalid request body" },
-        { status: 400 }
-      );
-    }
 
-    const newRole = parsedBody.data.role;
+    const parsed = UpdateMemberRoleSchema.safeParse(await readJson(request));
+    if (!parsed.success) return badRequest(parsed.error);
+    const newRole = parsed.data.role;
 
-    if (!user || !user.id || !workspaceId || !memberId || !newRole) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    if (user.id === memberId) return badRequest("You can't change your own role");
 
-    const currentMembership = await prisma.workspaceMember.findUnique({
-      where: {
-        userId_workspaceId: {
-          userId: user.id,
-          workspaceId,
-        },
-      },
+    const current = await prisma.workspaceMember.findUnique({
+      where: membershipKey(user.id, workspaceId),
     });
+    if (!current) return forbidden("You are not a member of this workspace");
 
-    if (!currentMembership) {
-      return new NextResponse("Member not found", { status: 403 });
-    }
-
-    const targetMembership = await prisma.workspaceMember.findUnique({
-      where: {
-        userId_workspaceId: {
-          userId: memberId,
-          workspaceId,
-        },
-      },
+    const target = await prisma.workspaceMember.findUnique({
+      where: membershipKey(memberId, workspaceId),
     });
-
-    if (!targetMembership) {
-      return new NextResponse("Member not found", { status: 403 });
-    }
-
-    const currentRole = currentMembership.role;
-    const targetRole = targetMembership.role;
-
-    if (targetRole === "OWNER" || newRole === "OWNER") {
-      if (currentRole !== "OWNER") {
-        return new NextResponse("Only owner can assign or update owner role", {
-          status: 403,
-        });
-      }
-    }
+    if (!target) return notFound("Member not found");
 
     if (
-      currentRole === "ADMIN" &&
-      (targetRole === "ADMIN" || newRole === "ADMIN")
+      (target.role === "OWNER" || newRole === "OWNER") &&
+      current.role !== "OWNER"
     ) {
-      return new NextResponse("Admins can't modify other admins", {
-        status: 403,
-      });
+      return forbidden("Only the owner can assign or update the owner role");
     }
-
-    if (user.id === memberId) {
-      return new NextResponse("You can't change your own role", {
-        status: 400,
-      });
+    if (current.role === "ADMIN" && (target.role === "ADMIN" || newRole === "ADMIN")) {
+      return forbidden("Admins can't modify other admins");
+    }
+    if (current.role !== "OWNER" && current.role !== "ADMIN") {
+      return forbidden();
     }
 
     await prisma.workspaceMember.update({
-      where: {
-        userId_workspaceId: {
-          userId: memberId,
-          workspaceId,
-        },
-      },
-      data: {
-        role: newRole,
-      },
+      where: membershipKey(memberId, workspaceId),
+      data: { role: newRole },
     });
-
     return NextResponse.json({ message: "Role updated successfully" });
-  } catch (err) {
-    console.error("[UPDATE_WORKSPACE_MEMBER_ROLE]", err);
-    return NextResponse.json({ error: "Internal Error" }, { status: 500 });
+  } catch (error) {
+    return serverError("UPDATE_WORKSPACE_MEMBER_ROLE", error);
   }
 }

@@ -28,7 +28,7 @@ const DashboardHeader = () => {
     fetchNotifications();
   }, []);
 
-  const userName = session?.user?.name || session?.user?.username || "User";
+  const userName = session?.user?.name || session?.user?.email?.split("@")[0] || "User";
   const userEmail = session?.user?.email || "";
   const initials = userName
     .split(" ")

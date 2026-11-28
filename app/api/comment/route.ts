@@ -3,6 +3,7 @@ import { getTaskWithAccess } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma/prisma";
 import { CommentSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
+import { publicUserSelect } from "@/lib/api";
 
 export async function POST(request: Request) {
   try {
@@ -32,7 +33,7 @@ export async function POST(request: Request) {
         taskId: parsed.data.taskId,
         userId: user.id,
       },
-      include: { user: true },
+      include: { user: { select: publicUserSelect } },
     });
 
     return NextResponse.json(comment, { status: 201 });
@@ -66,7 +67,7 @@ export async function GET(request: Request) {
 
     const comments = await prisma.comment.findMany({
       where: { taskId },
-      include: { user: true },
+      include: { user: { select: publicUserSelect } },
       orderBy: { createdAt: "desc" },
     });
 

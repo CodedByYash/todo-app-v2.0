@@ -73,7 +73,7 @@ const TodoDashboard = () => {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null,
   );
-  const [reminderData, setReminderData] = useState<Reminder[]>([]);
+  const [, setReminderData] = useState<Reminder[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [taskModalOpen, setTaskModalOpen] = useState(false);
 

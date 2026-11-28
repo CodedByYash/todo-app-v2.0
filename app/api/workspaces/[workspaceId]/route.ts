@@ -1,137 +1,98 @@
+import { NextResponse } from "next/server";
 import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
 import { updateWorkspaceSchema } from "@/lib/schema/schema";
-import { NextResponse } from "next/server";
+import {
+  badRequest,
+  forbidden,
+  notFound,
+  publicUserSelect,
+  readJson,
+  serverError,
+  unauthorized,
+} from "@/lib/api";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ workspaceId: string }> }
-) {
+type Params = { params: Promise<{ workspaceId: string }> };
+
+export async function GET(_request: Request, { params }: Params) {
   try {
     const user = await getUser();
+    if (!user) return unauthorized();
     const { workspaceId } = await params;
-
-    if (!user || !workspaceId || !user.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const userId = user.id;
 
     const workspace = await prisma.workspace.findFirst({
       where: {
         id: workspaceId,
-        OR: [{ ownerId: userId }, { members: { some: { userId } } }],
+        OR: [{ ownerId: user.id }, { members: { some: { userId: user.id } } }],
       },
       include: {
-        owner: true,
-        members: { include: { user: true } },
+        owner: { select: publicUserSelect },
+        members: { include: { user: { select: publicUserSelect } } },
       },
     });
-
-    if (!workspace) {
-      return NextResponse.json(
-        { message: "workspace creation failed" },
-        { status: 404 }
-      );
-    }
+    if (!workspace) return notFound("Workspace not found");
 
     return NextResponse.json(workspace);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return serverError("GET_WORKSPACE", error);
   }
 }
 
-export async function PUT(
-  request: Request,
-  { params }: { params: Promise<{ workspaceId: string }> }
-) {
+export async function PUT(request: Request, { params }: Params) {
   try {
     const user = await getUser();
+    if (!user) return unauthorized();
     const { workspaceId } = await params;
 
-    if (!user || !workspaceId || !user.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const parsed = updateWorkspaceSchema.safeParse(await readJson(request));
+    if (!parsed.success) return badRequest(parsed.error);
+    const data = parsed.data;
 
-    const userId = user.id;
-
-    const data = await request.json();
-    const parsedData = updateWorkspaceSchema.safeParse(data);
-
-    if (!parsedData.success) {
-      return NextResponse.json(
-        { error: parsedData.error.flatten() },
-        { status: 400 },
-      );
-    }
-
-    const existingWorkspace = await prisma.workspace.findFirst({
+    const existing = await prisma.workspace.findUnique({
       where: { id: workspaceId },
+      select: { ownerId: true },
     });
-    if (!existingWorkspace || existingWorkspace.ownerId !== userId) {
-      return NextResponse.json(
-        { error: "Forbidden" },
-        { status: 403 },
-      );
-    }
+    if (!existing) return notFound("Workspace not found");
+    if (existing.ownerId !== user.id) return forbidden();
 
     const updated = await prisma.workspace.update({
       where: { id: workspaceId },
-      data: parsedData.data,
+      data: {
+        ...(data.workspacename !== undefined && {
+          workspacename: data.workspacename,
+        }),
+        ...(data.description !== undefined && { description: data.description }),
+        ...(data.imageUrl !== undefined && { imageUrl: data.imageUrl || null }),
+        ...(data.type !== undefined && { type: data.type }),
+        ...(data.organizationName !== undefined && {
+          organizationName: data.organizationName,
+        }),
+        ...(data.organizationDomain !== undefined && {
+          organizationDomain: data.organizationDomain,
+        }),
+      },
     });
-
-    if (!updated) {
-      return NextResponse.json(
-        { message: "unable to update workspace" },
-        { status: 404 }
-      );
-    }
     return NextResponse.json(updated);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return serverError("UPDATE_WORKSPACE", error);
   }
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ workspaceId: string }> }
-) {
+export async function DELETE(_request: Request, { params }: Params) {
   try {
     const user = await getUser();
+    if (!user) return unauthorized();
     const { workspaceId } = await params;
 
-    if (!user || !workspaceId || !user.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const userId = user.id;
-
-    const existingWorkspace = await prisma.workspace.findFirst({
-      where: { id: workspaceId, ownerId: userId },
+    const existing = await prisma.workspace.findFirst({
+      where: { id: workspaceId, ownerId: user.id },
+      select: { id: true },
     });
+    if (!existing) return forbidden();
 
-    if (!existingWorkspace) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
-    await prisma.workspace.delete({
-      where: { id: workspaceId },
-    });
-
+    await prisma.workspace.delete({ where: { id: workspaceId } });
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return serverError("DELETE_WORKSPACE", error);
   }
 }

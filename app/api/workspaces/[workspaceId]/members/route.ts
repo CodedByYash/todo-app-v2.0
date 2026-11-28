@@ -1,135 +1,83 @@
+import { NextResponse } from "next/server";
 import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
 import { AddMemberSchema } from "@/lib/schema/schema";
-import { NextResponse } from "next/server";
+import { assertWorkspaceMember } from "@/lib/auth-guards";
+import {
+  badRequest,
+  forbidden,
+  notFound,
+  publicUserSelect,
+  readJson,
+  serverError,
+  unauthorized,
+} from "@/lib/api";
 
-export async function POST(
-  request: Request,
-  { params }: { params: Promise<{ workspaceId: string }> }
-) {
+type Params = { params: Promise<{ workspaceId: string }> };
+
+export async function POST(request: Request, { params }: Params) {
   try {
     const user = await getUser();
+    if (!user) return unauthorized();
     const { workspaceId } = await params;
-    if (!user || !user.id || !workspaceId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
 
-    const body = await request.json();
-    const parsedBody = AddMemberSchema.safeParse(body);
+    const parsed = AddMemberSchema.safeParse(await readJson(request));
+    if (!parsed.success) return badRequest(parsed.error);
+    const { userId, role } = parsed.data;
 
-    if (!parsedBody.success) {
-      return NextResponse.json({ error: "invalid body" }, { status: 401 });
-    }
-
-    const { userId, role } = parsedBody.data;
-
-    const existingWorkspace = await prisma.workspace.findUnique({
+    const workspace = await prisma.workspace.findUnique({
       where: { id: workspaceId },
-      include: { members: true },
+      select: { id: true },
     });
+    if (!workspace) return notFound("Workspace not found");
 
-    if (!existingWorkspace) {
-      return new NextResponse("Workspace not found", { status: 404 });
+    const current = await assertWorkspaceMember(user.id, workspaceId);
+    if (!current || !["OWNER", "ADMIN"].includes(current.role)) {
+      return forbidden();
     }
-
-    const currentMember = await prisma.workspaceMember.findUnique({
-      where: {
-        userId_workspaceId: {
-          userId: user.id,
-          workspaceId,
-        },
-      },
-    });
-
-    if (!currentMember || !["OWNER", "ADMIN"].includes(currentMember.role)) {
-      return new NextResponse("Forbidden", { status: 403 });
+    // Admins may only add regular members / guests; only the owner adds admins.
+    if (role === "ADMIN" && current.role !== "OWNER") {
+      return forbidden("Only the owner can add admins");
     }
 
     const userToAdd = await prisma.user.findUnique({
       where: { id: userId },
+      select: { id: true },
     });
-
-    if (!userToAdd) {
-      return new NextResponse("User not found", { status: 404 });
-    }
+    if (!userToAdd) return notFound("User not found");
 
     const existingMember = await prisma.workspaceMember.findUnique({
-      where: {
-        userId_workspaceId: {
-          userId,
-          workspaceId,
-        },
-      },
+      where: { userId_workspaceId: { userId, workspaceId } },
     });
-
-    if (existingMember) {
-      return new NextResponse("User already a member", { status: 400 });
-    }
+    if (existingMember) return badRequest("User is already a member");
 
     const newMember = await prisma.workspaceMember.create({
-      data: {
-        userId,
-        workspaceId,
-        role,
-      },
-      include: { user: true },
+      data: { userId, workspaceId, role },
+      include: { user: { select: publicUserSelect } },
     });
-
-    return NextResponse.json(newMember);
-  } catch (err) {
-    console.error("[ADD_WORKSPACE_MEMBER]", err);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json(newMember, { status: 201 });
+  } catch (error) {
+    return serverError("ADD_WORKSPACE_MEMBER", error);
   }
 }
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ workspaceId: string }> }
-) {
+export async function GET(_request: Request, { params }: Params) {
   try {
     const user = await getUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
+    if (!user) return unauthorized();
     const { workspaceId } = await params;
 
-    const membership = await prisma.workspaceMember.findUnique({
-      where: {
-        userId_workspaceId: { userId: user.id, workspaceId },
-      },
-    });
-
-    if (!membership) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    if (!(await assertWorkspaceMember(user.id, workspaceId))) {
+      return forbidden();
     }
 
     const members = await prisma.workspaceMember.findMany({
-      where: {
-        workspaceId,
-      },
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            profilePicture: true,
-            username: true,
-          },
-        },
-      },
-      orderBy: {
-        role: "asc",
-      },
+      where: { workspaceId },
+      include: { user: { select: publicUserSelect } },
+      orderBy: { createdAt: "asc" },
     });
-
-    return NextResponse.json(members, { status: 200 });
-  } catch (err) {
-    console.error("[GET_WORKSPACE_MEMBERS]", err);
-    return NextResponse.json(
-      { error: "Failed to fetch members" },
-      { status: 500 }
-    );
+    return NextResponse.json(members);
+  } catch (error) {
+    return serverError("GET_WORKSPACE_MEMBERS", error);
   }
 }

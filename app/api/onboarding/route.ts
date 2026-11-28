@@ -2,7 +2,6 @@ import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
 import { onboardingSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
-import { z } from "zod";
 
 export async function POST(req: Request) {
   try {
@@ -11,12 +10,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await req.json();
+    const body = await req.json().catch(() => null);
     const parsed = onboardingSchema.safeParse(body);
 
     if (!parsed.success) {
       return NextResponse.json(
-        { error: parsed.error.flatten() },
+        { error: parsed.error.issues[0]?.message ?? "Invalid input" },
         { status: 400 },
       );
     }
@@ -65,9 +64,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, workspace });
   } catch (error) {
     console.error("Onboarding error:", error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 });
-    }
     return NextResponse.json(
       { error: "Failed to complete onboarding" },
       { status: 500 },

@@ -1,88 +1,53 @@
+import { NextResponse } from "next/server";
 import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
-import { NextResponse } from "next/server";
+import { badRequest, publicUserSelect, serverError, unauthorized } from "@/lib/api";
+import { z } from "zod";
+
+const querySchema = z.object({
+  query: z.string().trim().min(1).max(100),
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(10),
+});
 
 export async function GET(request: Request) {
   try {
     const user = await getUser();
+    if (!user) return unauthorized();
 
     const { searchParams } = new URL(request.url);
-    const query = searchParams.get("query") || "";
-    const page = parseInt(searchParams.get("page") || "1", 10);
-    const limit = parseInt(searchParams.get("limit") || "10", 10);
-    if (!user || !user.email || !query || !page || !limit) {
-      return NextResponse.json(
-        { error: "Invalid data or params" },
-        { status: 401 }
-      );
-    }
-
-    const skip = (page - 1) * limit;
-
-    const existingUser = await prisma.user.findMany({
-      where: {
-        AND: [
-          {
-            OR: [
-              { firstname: { contains: query, mode: "insensitive" } },
-              { lastname: { contains: query, mode: "insensitive" } },
-              { email: { contains: query, mode: "insensitive" } },
-            ],
-          },
-          {
-            email: { not: user.email },
-          },
-        ],
-      },
-      skip,
-      orderBy: { firstname: "desc" },
-      select: {
-        id: true,
-        firstname: true,
-        lastname: true,
-        profilePicture: true,
-        email: true,
-        username: true,
-      },
+    const parsed = querySchema.safeParse({
+      query: searchParams.get("query") ?? "",
+      page: searchParams.get("page") ?? undefined,
+      limit: searchParams.get("limit") ?? undefined,
     });
+    if (!parsed.success) return badRequest(parsed.error);
+    const { query, page, limit } = parsed.data;
 
-    if (!existingUser) {
-      return NextResponse.json(
-        { error: "User does not exists" },
-        { status: 404 }
-      );
-    }
+    const where = {
+      id: { not: user.id },
+      OR: [
+        { name: { contains: query, mode: "insensitive" as const } },
+        { email: { contains: query, mode: "insensitive" as const } },
+      ],
+    };
 
-    const total = await prisma.user.count({
-      where: {
-        AND: [
-          {
-            OR: [
-              { firstname: { contains: query, mode: "insensitive" } },
-              { lastname: { contains: query, mode: "insensitive" } },
-              { email: { contains: query, mode: "insensitive" } },
-            ],
-          },
-          {
-            email: { not: user.email },
-          },
-        ],
-      },
-    });
+    const [existingUser, total] = await Promise.all([
+      prisma.user.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { name: "asc" },
+        select: publicUserSelect,
+      }),
+      prisma.user.count({ where }),
+    ]);
+
     return NextResponse.json({
       existingUser,
-      meta: {
-        total,
-        page,
-        limit,
-        totlaPages: Math.ceil(total / limit),
-      },
+      meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
     });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return serverError("USER_SEARCH", error);
   }
 }

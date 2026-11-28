@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Users, UserPlus } from "lucide-react";
+import { UserPlus } from "lucide-react";
 
 interface TeamMember {
   id: string;

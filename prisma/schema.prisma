@@ -1,22 +1,18 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "./generated/prisma"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
   id                    String            @id @default(uuid())
   name                  String?
   email                 String            @unique
-  username              String?           @unique
   password              String?
   emailVerified         DateTime?
-  firstname             String?
-  lastname              String?
   profilePicture        String?
   createdAt             DateTime          @default(now())
   updatedAt             DateTime          @updatedAt
@@ -29,7 +25,6 @@ model User {
   ownedWorkspaces       Workspace[]       @relation("WorkspaceOwner")
   workspaceMemberships  WorkspaceMember[]
   accounts              Account[]
-  sessions              Session[]
   userPreferences       UserPreference[]
   notifications         Notification[]
   activityLogs          ActivityLog[]
@@ -54,22 +49,6 @@ model Account{
   user                  User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id                    String            @id @default(cuid())
-  sessionToken          String            @unique
-  userId                String
-  expires               DateTime
-  user                  User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model VerificationToken {
-  identifier            String
-  token                 String            @unique
-  expires               DateTime
-
-  @@unique([identifier, token])
 }
 
 model Workspace {
@@ -98,14 +77,14 @@ model Task {
   id                    String            @id @default(uuid())
   title                 String
   completed             Boolean           @default(false)
-  priority              priorityEnum
+  priority              priorityEnum      @default(no_priority)
   dueDate               DateTime?       // Optional; use @db.Date if only date needed
 
   userId                String
-  user                  User              @relation(fields: [userId], references: [id])
+  user                  User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   workspaceId           String
-  workspace             Workspace         @relation(fields: [workspaceId], references: [id])
+  workspace             Workspace         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 
   parentTaskId          String?
   parentTask            Task?            @relation("TaskSubtasks", fields: [parentTaskId], references: [id])
@@ -121,17 +100,21 @@ model Task {
   updatedAt             DateTime        @updatedAt
 
   @@index([title])
+  @@index([workspaceId, completed])
+  @@index([userId])
 }
 
 model Tag {
   id                    String          @id @default(uuid())
-  name                  String          @unique
+  name                  String
   tasks                 Task[]         @relation("TaskTags")
   color                 String          @default("#3b82f6")
   createdAt             DateTime        @default(now())
   updatedAt             DateTime        @updatedAt
   workspaceId           String
   workspace             Workspace       @relation("TagsOnWorkspace", fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, name])
 }
 
 model Reminder {
@@ -140,7 +123,7 @@ model Reminder {
   body          String?
   reminderDate  DateTime
   userId        String
-  user          User      @relation(fields: [userId], references: [id])
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   workspaceId   String
   workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   createdAt     DateTime  @default(now())
@@ -157,13 +140,13 @@ model Attachment {
   fileSize              Int
 
   taskId                String?
-  task                  Task?          @relation(fields: [taskId], references: [id])
+  task                  Task?          @relation(fields: [taskId], references: [id], onDelete: Cascade)
 
   userId                String
-  user                  User            @relation(fields: [userId], references: [id])
+  user                  User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   taskVersionId         String?
-  taskVersion           TaskVersion?    @relation(fields: [taskVersionId], references: [id])
+  taskVersion           TaskVersion?    @relation(fields: [taskVersionId], references: [id], onDelete: Cascade)
 
   createdAt             DateTime        @default(now())
 }
@@ -171,7 +154,7 @@ model Attachment {
 model TaskVersion {
   id                    String          @id @default(uuid())
   taskId                String
-  task                  Task           @relation(fields: [taskId], references: [id])
+  task                  Task           @relation(fields: [taskId], references: [id], onDelete: Cascade)
   version               Int             @default(1)
   description           String
   attachments           Attachment[]
@@ -212,19 +195,21 @@ model UserPreference {
 
 model Notification {
   id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   title     String
   body      String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
+
+  @@index([userId, read])
 }
 
 model ActivityLog {
   id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  tasks     Task?    @relation(fields: [taskId], references: [id])
+  tasks     Task?    @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId    String?
   action    String
   createdAt DateTime @default(now())
@@ -233,9 +218,9 @@ model ActivityLog {
 model Comment {
   id        String   @id @default(cuid())
   content   String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  task      Task     @relation(fields: [taskId], references: [id])
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId    String
   createdAt DateTime @default(now())
 }
