@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useWorkspace } from "@/components/WorkspaceProvider";
 import { motion, AnimatePresence } from "motion/react";
-import { Bell, AlertTriangle, Clock, CheckCircle2, Inbox } from "lucide-react";
+import { AlertTriangle, Clock, CheckCircle2 } from "lucide-react";
 
 type Task = {
   id: string;

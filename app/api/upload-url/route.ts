@@ -1,79 +1,62 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { NextResponse } from "next/server";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import getUser from "@/lib/getUser";
 import {
   ALLOWED_UPLOAD_MIME_TYPES,
   MAX_UPLOAD_FILE_SIZE,
 } from "@/lib/auth-guards";
-import { NextResponse } from "next/server";
+import { getS3Client, isS3Configured, s3PublicBase } from "@/lib/s3/client";
+import { badRequest, serverError, unauthorized } from "@/lib/api";
+import { z } from "zod";
 
-const s3 = new S3Client({
-  region: process.env.AWS_REGION!,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
+const querySchema = z.object({
+  filename: z.string().min(1).max(255),
+  fileType: z.enum(ALLOWED_UPLOAD_MIME_TYPES),
+  fileSize: z.coerce.number().int().min(1).max(MAX_UPLOAD_FILE_SIZE),
 });
 
-export async function GET(req: Request) {
+export async function GET(request: Request) {
   try {
     const user = await getUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    if (!user) return unauthorized();
 
-    const { searchParams } = new URL(req.url);
-    const filename = searchParams.get("filename");
-    const fileType = searchParams.get("fileType");
-    const fileSizeParam = searchParams.get("fileSize");
-    const fileSize = fileSizeParam ? parseInt(fileSizeParam, 10) : null;
-
-    if (!filename || !fileType) {
+    if (!isS3Configured()) {
       return NextResponse.json(
-        { error: "Missing filename or fileType" },
-        { status: 400 },
+        { error: "File uploads are not configured" },
+        { status: 503 },
       );
     }
 
-    if (
-      !ALLOWED_UPLOAD_MIME_TYPES.includes(
-        fileType as (typeof ALLOWED_UPLOAD_MIME_TYPES)[number],
-      )
-    ) {
-      return NextResponse.json(
-        { error: "File type not allowed" },
-        { status: 400 },
-      );
-    }
-
-    if (fileSize !== null && (isNaN(fileSize) || fileSize > MAX_UPLOAD_FILE_SIZE)) {
-      return NextResponse.json(
-        { error: `File size must not exceed ${MAX_UPLOAD_FILE_SIZE / (1024 * 1024)}MB` },
-        { status: 400 },
-      );
-    }
-
-    const sanitizedFilename = filename.replace(/[^a-zA-Z0-9._-]/g, "_");
-    const key = `uploads/${user.id}/${Date.now()}-${sanitizedFilename}`;
-
-    const command = new PutObjectCommand({
-      Bucket: process.env.AWS_S3_BUCKET!,
-      Key: key,
-      ContentType: fileType,
+    const { searchParams } = new URL(request.url);
+    const parsed = querySchema.safeParse({
+      filename: searchParams.get("filename"),
+      fileType: searchParams.get("fileType"),
+      fileSize: searchParams.get("fileSize"),
     });
+    if (!parsed.success) {
+      return badRequest(
+        `Invalid upload request (max ${MAX_UPLOAD_FILE_SIZE / (1024 * 1024)}MB, allowed types only)`,
+      );
+    }
+    const { filename, fileType, fileSize } = parsed.data;
 
-    const url = await getSignedUrl(s3, command, { expiresIn: 60 });
+    const safeName = filename.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const key = `uploads/${user.id}/${Date.now()}-${safeName}`;
 
-    return NextResponse.json({
-      url,
-      key,
-      fileUrl: `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`,
-    });
-  } catch (error) {
-    console.error("[UPLOAD_URL]", error);
-    return NextResponse.json(
-      { error: "Failed to generate upload URL" },
-      { status: 500 },
+    const url = await getSignedUrl(
+      getS3Client(),
+      new PutObjectCommand({
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: key,
+        ContentType: fileType,
+        ContentLength: fileSize,
+      }),
+      { expiresIn: 60 },
     );
+
+    return NextResponse.json({ url, key, fileUrl: `${s3PublicBase()}/${key}` });
+  } catch (error) {
+    return serverError("UPLOAD_URL", error);
   }
 }

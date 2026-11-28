@@ -1,37 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Taskito
 
-## Getting Started
+A task manager with workspaces, tags, reminders, comments, attachments and team roles.
+Next.js 16 · React 19 · TypeScript · Tailwind v4 · Prisma 7 + Postgres · NextAuth v4.
 
-First, run the development server:
+## Run locally
 
 ```bash
+cp .env.example .env        # fill in DATABASE_URL and NEXTAUTH_SECRET at minimum
+npm install
+npm run db:migrate          # prisma migrate deploy
+npm run db:seed             # demo data
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Demo logins (after seeding), password `Password123!`:
+`alex@taskito.dev`, `sam@taskito.dev`, `jordan@taskito.dev`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Sign-in
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Email + password, Google and GitHub. Google/GitHub buttons appear only when their env vars are set.
+Create the OAuth apps and use these callback URLs:
 
-## Learn More
+- Google: `{NEXTAUTH_URL}/api/auth/callback/google`
+- GitHub: `{NEXTAUTH_URL}/api/auth/callback/github`
 
-To learn more about Next.js, take a look at the following resources:
+Add one for `http://localhost:3000` and one for your Vercel domain.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy to Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Create a hosted Postgres (Neon, Supabase, Vercel Postgres).
+2. Import the repo in Vercel and set the env vars from `.env.example`:
+   `DATABASE_URL`, `DIRECT_URL` (non-pooled, used for migrations), `NEXTAUTH_SECRET`
+   (`openssl rand -base64 32`), `NEXTAUTH_URL` (your production URL), `GOOGLE_CLIENT_ID/SECRET`,
+   `GITHUB_CLIENT_ID/SECRET`, `CRON_SECRET`, and the `AWS_*` S3 vars if you use attachments.
+3. Deploy. `vercel.json` runs `prisma generate && prisma migrate deploy && next build`
+   and schedules `/api/cron/reminders` (protected by `CRON_SECRET`).
 
-## Deploy on Vercel
+## Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-"# todo-app-v2.0" 
+| Command | What it does |
+| --- | --- |
+| `npm run dev` / `build` / `start` | Next.js |
+| `npm run typecheck` / `lint` | `tsc --noEmit` / ESLint |
+| `npm test` | Unit tests, plus integration tests when `DATABASE_URL` points at a throwaway Postgres |
+| `npm run db:migrate:dev` | Create a new migration in development |
+| `npm run db:seed` | Idempotent demo data |

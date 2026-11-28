@@ -3,6 +3,7 @@ import { getTaskWithAccess } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma/prisma";
 import { ActivityLogSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
+import { publicUserSelect } from "@/lib/api";
 
 export async function POST(request: Request) {
   try {
@@ -68,7 +69,7 @@ export async function GET(request: Request) {
     const logs = await prisma.activityLog.findMany({
       where: { taskId },
       orderBy: { createdAt: "desc" },
-      include: { user: true },
+      include: { user: { select: publicUserSelect } },
     });
 
     return NextResponse.json(logs);

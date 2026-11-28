@@ -11,7 +11,6 @@ import {
   CheckCircle2,
   Calendar,
   Inbox,
-  ChevronDown,
 } from "lucide-react";
 import TaskFormModal from "@/components/ui/custom/Modal/TasksModal";
 import Link from "next/link";
@@ -74,8 +73,13 @@ const Tasks = () => {
         : "/api/tasks";
       try {
         const res = await fetch(url);
-        const data = await res.json();
-        const normalized: Task[] = (data ?? []).map((t: any) => ({
+        const data: unknown = await res.json();
+        type RawTask = Omit<Task, "dueDate" | "createdAt" | "updatedAt"> & {
+          dueDate: string | null;
+          createdAt: string;
+          updatedAt: string;
+        };
+        const normalized: Task[] = (res.ok && Array.isArray(data) ? (data as RawTask[]) : []).map((t) => ({
           ...t,
           dueDate: t?.dueDate ? new Date(t.dueDate) : null,
           createdAt: new Date(t.createdAt),

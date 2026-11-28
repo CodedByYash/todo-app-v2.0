@@ -1,21 +1,33 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useSession } from "next-auth/react";
 
 export interface Workspace {
   id: string;
   workspacename: string;
+  description?: string | null;
+  type?: "PERSONAL" | "PROFESSIONAL";
+  ownerId?: string;
+  members?: { id: string; role: string; userId: string }[];
 }
 
 interface WorkspaceContextType {
   selectedWorkspace: string | null;
   setSelectedWorkspace: (id: string) => Promise<void>;
   workspaces: Workspace[];
+  /** Re-fetch the workspace list (and optionally select one). */
+  refreshWorkspaces: (selectId?: string) => Promise<void>;
 }
 
 const WorkspaceContext = createContext<WorkspaceContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export const useWorkspace = () => {
@@ -26,81 +38,83 @@ export const useWorkspace = () => {
   return context;
 };
 
+const patchPreferences = (defaultWorkspaceId: string) =>
+  fetch("/api/preferences", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ defaultWorkspaceId }),
+  });
+
 export const WorkspaceProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { data: session } = useSession();
+  const userId = session?.user?.id;
+  const onboarded = session?.user?.onboardingCompleted;
+
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
-  const [selectedWorkspace, setSelectedWorkspace] = useState<string | null>(
-    null
-  );
+  const [selectedWorkspace, setSelected] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!session?.user?.id) return;
-
+  const load = useCallback(
+    async (selectId?: string) => {
+      if (!userId || !onboarded) return;
       try {
-        // Fetch workspaces
         const wsResponse = await fetch("/api/workspaces");
         if (!wsResponse.ok) throw new Error("Failed to fetch workspaces");
-        const wsData = await wsResponse.json();
+        const wsData: Workspace[] = await wsResponse.json();
         setWorkspaces(wsData);
+        if (wsData.length === 0) {
+          setSelected(null);
+          return;
+        }
 
-        // Fetch user preferences
-        const prefResponse = await fetch("/api/preferences");
-
-        if (!prefResponse.ok) throw new Error("Failed to fetch preferences");
-        const prefData = await prefResponse.json();
-
-        if (wsData.length > 0) {
-          const defaultWsId =
+        let next = selectId;
+        if (!next || !wsData.some((ws) => ws.id === next)) {
+          const prefResponse = await fetch("/api/preferences");
+          const prefData = prefResponse.ok ? await prefResponse.json() : {};
+          next =
             prefData?.defaultWorkspaceId &&
-            wsData.some(
-              (ws: Workspace) => ws.id === prefData.defaultWorkspaceId
-            )
+            wsData.some((ws) => ws.id === prefData.defaultWorkspaceId)
               ? prefData.defaultWorkspaceId
               : wsData[0].id;
-          setSelectedWorkspace(defaultWsId);
-          console.log("we reached here");
-          // Update preferences if necessary
-          if (prefData?.defaultWorkspaceId !== defaultWsId) {
-            await fetch("/api/preferences", {
-              method: "PATCH",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ defaultWorkspaceId: defaultWsId }),
-            });
+          if (prefData?.defaultWorkspaceId !== next) {
+            await patchPreferences(next as string);
           }
+        } else {
+          await patchPreferences(next);
         }
+        setSelected(next as string);
       } catch (error) {
         console.error("Error fetching workspace data:", error);
       }
-    };
-    fetchData();
-  }, [session]);
+    },
+    [userId, onboarded],
+  );
+
+  useEffect(() => {
+    void load();
+  }, [load]);
 
   const handleWorkspaceChange = async (value: string) => {
-    setSelectedWorkspace(value);
-    if (session?.user?.id) {
+    setSelected(value);
+    if (userId) {
       try {
-        await fetch("/api/preferences", {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ defaultWorkspaceId: value }),
-        });
+        await patchPreferences(value);
       } catch (error) {
         console.error("Error updating preferences:", error);
       }
     }
   };
 
-  const contextValue = {
-    selectedWorkspace,
-    setSelectedWorkspace: handleWorkspaceChange,
-    workspaces,
-  };
-
   return (
-    <WorkspaceContext.Provider value={contextValue}>
+    <WorkspaceContext.Provider
+      value={{
+        selectedWorkspace,
+        setSelectedWorkspace: handleWorkspaceChange,
+        workspaces,
+        refreshWorkspaces: load,
+      }}
+    >
       {children}
     </WorkspaceContext.Provider>
   );

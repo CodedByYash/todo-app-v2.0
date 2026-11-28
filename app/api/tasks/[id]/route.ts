@@ -1,26 +1,31 @@
+import { NextResponse } from "next/server";
 import getUser from "@/lib/getUser";
-import { getTaskWithAccess } from "@/lib/auth-guards";
+import {
+  canAccessWorkspace,
+  getTaskWithAccess,
+  tagsBelongToWorkspace,
+} from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma/prisma";
 import { taskUpdateSchema } from "@/lib/schema/schema";
-import { NextResponse } from "next/server";
-import { z } from "zod";
+import {
+  badRequest,
+  forbidden,
+  notFound,
+  readJson,
+  serverError,
+  unauthorized,
+} from "@/lib/api";
 
-export async function GET(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+type Params = { params: Promise<{ id: string }> };
+
+export async function GET(_request: Request, { params }: Params) {
   try {
     const user = await getUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    if (!user) return unauthorized();
 
     const { id } = await params;
     const task = await getTaskWithAccess(user.id, id);
-
-    if (!task) {
-      return NextResponse.json({ error: "Task not found" }, { status: 404 });
-    }
+    if (!task) return notFound("Task not found");
 
     return NextResponse.json({
       id: task.id,
@@ -33,48 +38,41 @@ export async function GET(
       workspaceId: task.workspaceId,
     });
   } catch (error) {
-    console.error("Error fetching task:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch task" },
-      { status: 500 },
-    );
+    return serverError("GET_TASK", error);
   }
 }
 
-export async function PUT(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function PUT(request: Request, { params }: Params) {
   try {
     const user = await getUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    if (!user) return unauthorized();
 
     const { id } = await params;
     const task = await getTaskWithAccess(user.id, id);
+    if (!task) return notFound("Task not found or unauthorized");
 
-    if (!task) {
-      return NextResponse.json(
-        { error: "Task not found or unauthorized" },
-        { status: 404 },
-      );
-    }
-
-    const body = await request.json();
-    const parsed = taskUpdateSchema.safeParse(body);
-
-    if (!parsed.success) {
-      return NextResponse.json(
-        { error: parsed.error.flatten() },
-        { status: 400 },
-      );
-    }
-
+    const parsed = taskUpdateSchema.safeParse(await readJson(request));
+    if (!parsed.success) return badRequest(parsed.error);
     const { title, priority, dueDate, workspaceId, tagIds, completed } =
       parsed.data;
 
-    const updatedTask = await prisma.task.update({
+    // Moving a task requires access to the destination workspace.
+    if (
+      workspaceId !== undefined &&
+      workspaceId !== task.workspaceId &&
+      !(await canAccessWorkspace(user.id, workspaceId))
+    ) {
+      return forbidden("Invalid or inaccessible workspace");
+    }
+
+    const targetWorkspaceId = workspaceId ?? task.workspaceId;
+    if (tagIds !== undefined) {
+      if (!(await tagsBelongToWorkspace(tagIds, targetWorkspaceId))) {
+        return badRequest("One or more tags do not belong to this workspace");
+      }
+    }
+
+    const updated = await prisma.task.update({
       where: { id },
       data: {
         ...(title !== undefined && { title }),
@@ -85,52 +83,34 @@ export async function PUT(
         }),
         ...(workspaceId !== undefined && { workspaceId }),
         ...(tagIds !== undefined && {
-          tags: { set: tagIds.map((tagId) => ({ id: tagId })) },
+          tags: { set: [...new Set(tagIds)].map((tagId) => ({ id: tagId })) },
         }),
       },
     });
 
-    return NextResponse.json(updatedTask, { status: 200 });
+    return NextResponse.json(updated);
   } catch (error) {
-    console.error("Error updating task:", error);
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 });
-    }
-    return NextResponse.json(
-      { error: "Failed to update task" },
-      { status: 500 },
-    );
+    return serverError("UPDATE_TASK", error);
   }
 }
 
-export async function DELETE(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function DELETE(_request: Request, { params }: Params) {
   try {
     const user = await getUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    if (!user) return unauthorized();
 
     const { id } = await params;
     const task = await getTaskWithAccess(user.id, id);
+    if (!task) return notFound("Task not found or unauthorized");
 
-    if (!task) {
-      return NextResponse.json(
-        { error: "Task not found or unauthorized" },
-        { status: 404 },
-      );
+    // Only the creator or the workspace owner may delete a task.
+    if (task.userId !== user.id && task.workspace.ownerId !== user.id) {
+      return forbidden("Only the task creator or workspace owner can delete it");
     }
 
     await prisma.task.delete({ where: { id } });
-
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting task:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
-    );
+    return serverError("DELETE_TASK", error);
   }
 }

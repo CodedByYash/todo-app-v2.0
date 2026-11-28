@@ -1,135 +1,87 @@
+import { NextResponse } from "next/server";
 import getUser from "@/lib/getUser";
 import { canAccessWorkspace } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma/prisma";
 import { reminderSchema } from "@/lib/schema/schema";
-import { NextResponse } from "next/server";
-import { z } from "zod";
+import {
+  badRequest,
+  forbidden,
+  notFound,
+  readJson,
+  serverError,
+  unauthorized,
+} from "@/lib/api";
 
 export async function GET() {
   try {
     const user = await getUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    if (!user) return unauthorized();
 
     const reminders = await prisma.reminder.findMany({
       where: { userId: user.id },
-      orderBy: { createdAt: "desc" },
+      orderBy: { reminderDate: "asc" },
     });
-    return NextResponse.json(reminders, { status: 200 });
+    return NextResponse.json(reminders);
   } catch (error) {
-    console.error("[GET_REMINDERS]", error);
-    return NextResponse.json(
-      { error: "Failed to fetch reminders" },
-      { status: 500 },
-    );
+    return serverError("GET_REMINDERS", error);
   }
 }
 
-async function markReminderComplete(request: Request, userId: string) {
-  const url = new URL(request.url);
-  const idFromQuery = url.searchParams.get("id");
-  let id = idFromQuery;
-
+/** Marks a reminder complete. The id comes from ?id= or the JSON body. */
+async function markComplete(request: Request, userId: string) {
+  let id = new URL(request.url).searchParams.get("id");
   if (!id) {
-    try {
-      const body = await request.json();
-      id = body?.id;
-    } catch {
-      // no body
-    }
+    const body = (await readJson(request)) as { id?: unknown } | null;
+    id = typeof body?.id === "string" ? body.id : null;
   }
-
-  if (!id) {
-    return NextResponse.json({ error: "Missing reminder id" }, { status: 400 });
-  }
+  if (!id) return badRequest("Missing reminder id");
 
   const result = await prisma.reminder.updateMany({
     where: { id, userId },
     data: { completed: true },
   });
-
-  if (result.count === 0) {
-    return NextResponse.json({ error: "Reminder not found" }, { status: 404 });
-  }
-
-  return NextResponse.json({ success: true }, { status: 200 });
+  if (result.count === 0) return notFound("Reminder not found");
+  return NextResponse.json({ success: true });
 }
 
-export async function PATCH(request: Request) {
-  const user = await getUser();
-  if (!user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
+async function complete(request: Request) {
   try {
-    return await markReminderComplete(request, user.id);
+    const user = await getUser();
+    if (!user) return unauthorized();
+    return await markComplete(request, user.id);
   } catch (error) {
-    console.error("Error updating reminder:", error);
-    return NextResponse.json(
-      { error: "Failed to update reminder" },
-      { status: 500 },
-    );
+    return serverError("UPDATE_REMINDER", error);
   }
 }
 
-export async function PUT(request: Request) {
-  const user = await getUser();
-  if (!user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  try {
-    return await markReminderComplete(request, user.id);
-  } catch (error) {
-    console.error("Error updating reminder:", error);
-    return NextResponse.json(
-      { error: "Failed to update reminder" },
-      { status: 500 },
-    );
-  }
-}
+export const PATCH = complete;
+export const PUT = complete;
 
 export async function POST(request: Request) {
-  const user = await getUser();
-  if (!user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-    const body = await request.json();
-    const parsedData = reminderSchema.parse(body);
+    const user = await getUser();
+    if (!user) return unauthorized();
 
-    const hasAccess = await canAccessWorkspace(
-      user.id,
-      parsedData.workspaceId,
-    );
-    if (!hasAccess) {
-      return NextResponse.json(
-        { error: "Invalid or inaccessible workspace" },
-        { status: 403 },
-      );
+    const parsed = reminderSchema.safeParse(await readJson(request));
+    if (!parsed.success) return badRequest(parsed.error);
+    const data = parsed.data;
+
+    if (!(await canAccessWorkspace(user.id, data.workspaceId))) {
+      return forbidden("Invalid or inaccessible workspace");
     }
 
     const reminder = await prisma.reminder.create({
       data: {
-        title: parsedData.title,
-        body: parsedData.body,
-        reminderDate: new Date(parsedData.reminderDate),
+        title: data.title,
+        body: data.body ?? null,
+        reminderDate: new Date(data.reminderDate),
         userId: user.id,
-        workspaceId: parsedData.workspaceId,
-        completed: parsedData.completed ?? false,
+        workspaceId: data.workspaceId,
+        completed: data.completed ?? false,
       },
     });
     return NextResponse.json(reminder, { status: 201 });
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.errors }, { status: 400 });
-    }
-    console.error("Error creating reminder:", error);
-    return NextResponse.json(
-      { error: "Failed to create reminder" },
-      { status: 500 },
-    );
+    return serverError("CREATE_REMINDER", error);
   }
 }

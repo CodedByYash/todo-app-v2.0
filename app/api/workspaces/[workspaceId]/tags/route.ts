@@ -2,6 +2,7 @@ import getUser from "@/lib/getUser";
 import { prisma } from "@/lib/prisma/prisma";
 import { createTagSchema } from "@/lib/schema/schema";
 import { NextResponse } from "next/server";
+import { Prisma } from "@/generated/prisma/client";
 
 export async function POST(
   request: Request,
@@ -14,7 +15,7 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const data = await request.json();
+    const data = await request.json().catch(() => null);
     const parsedBody = createTagSchema.safeParse(data);
 
     if (!parsedBody.success) {
@@ -45,6 +46,15 @@ export async function POST(
 
     return NextResponse.json(tag, { status: 201 });
   } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return NextResponse.json(
+        { error: "A tag with this name already exists in the workspace" },
+        { status: 409 },
+      );
+    }
     console.error("[TAG_CREATE_ERROR]", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }

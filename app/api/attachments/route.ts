@@ -1,40 +1,45 @@
+import { NextResponse } from "next/server";
 import getUser from "@/lib/getUser";
 import { getTaskWithAccess } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma/prisma";
 import { AttachmentSchemaforpost } from "@/lib/schema/schema";
-import { NextResponse } from "next/server";
+import { isS3Configured, s3PublicBase } from "@/lib/s3/client";
+import {
+  badRequest,
+  notFound,
+  readJson,
+  serverError,
+  unauthorized,
+} from "@/lib/api";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
     const user = await getUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user) return unauthorized();
+
+    const parsed = AttachmentSchemaforpost.safeParse(await readJson(request));
+    if (!parsed.success) return badRequest(parsed.error);
+    const { url, filename, mimeType, fileSize, taskId, taskVersionId, attachmentType } =
+      parsed.data;
+
+    // Only accept files that live in our own bucket under the user's folder.
+    if (
+      !isS3Configured() ||
+      !url.startsWith(`${s3PublicBase()}/uploads/${user.id}/`)
+    ) {
+      return badRequest("Invalid attachment URL");
     }
 
-    const body = await req.json();
-    const parsed = AttachmentSchemaforpost.safeParse(body);
-
-    if (!parsed.success) {
-      return NextResponse.json(
-        { error: parsed.error.flatten() },
-        { status: 400 },
-      );
+    if (taskId && !(await getTaskWithAccess(user.id, taskId))) {
+      return notFound("Task not found");
     }
-
-    const {
-      url,
-      filename,
-      mimeType,
-      fileSize,
-      taskId,
-      taskVersionId,
-      attachmentType,
-    } = parsed.data;
-
-    if (taskId) {
-      const task = await getTaskWithAccess(user.id, taskId);
-      if (!task) {
-        return NextResponse.json({ error: "Task not found" }, { status: 404 });
+    if (taskVersionId) {
+      const version = await prisma.taskVersion.findUnique({
+        where: { id: taskVersionId },
+        select: { taskId: true },
+      });
+      if (!version || !(await getTaskWithAccess(user.id, version.taskId))) {
+        return notFound("Task version not found");
       }
     }
 
@@ -50,13 +55,8 @@ export async function POST(req: Request) {
         taskVersionId,
       },
     });
-
     return NextResponse.json({ success: true, attachment }, { status: 201 });
-  } catch (err) {
-    console.error("Upload Error:", err);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+  } catch (error) {
+    return serverError("CREATE_ATTACHMENT", error);
   }
 }

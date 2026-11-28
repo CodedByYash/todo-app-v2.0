@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import {
   CheckCircle2,
-  Circle,
-  TrendingUp,
   BarChart3,
   Clock,
   Target,

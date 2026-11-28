@@ -1,28 +1,27 @@
-// app/api/today-progress/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma/prisma";
 import getUser from "@/lib/getUser";
+import { serverError, unauthorized } from "@/lib/api";
 
 export async function GET() {
-  const user = await getUser();
-  if (!user?.id)
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+    const user = await getUser();
+    if (!user) return unauthorized();
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 1);
 
-  const tasks = await prisma.task.findMany({
-    where: {
-      userId: user.id,
-      dueDate: { gte: today, lt: tomorrow },
-    },
-  });
+    const where = { userId: user.id, dueDate: { gte: start, lt: end } };
+    const [total, completed] = await Promise.all([
+      prisma.task.count({ where }),
+      prisma.task.count({ where: { ...where, completed: true } }),
+    ]);
+    const progress = total > 0 ? (completed / total) * 100 : 0;
 
-  const total = tasks.length;
-  const completed = tasks.filter((t) => t.completed).length;
-  const progress = total > 0 ? (completed / total) * 100 : 0;
-
-  return NextResponse.json({ total, completed, progress }, { status: 200 });
+    return NextResponse.json({ total, completed, progress });
+  } catch (error) {
+    return serverError("TODAYS_PROGRESS", error);
+  }
 }

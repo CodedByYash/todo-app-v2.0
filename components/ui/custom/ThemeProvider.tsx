@@ -56,7 +56,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     };
     fetchTheme();
-  }, [session]);
+  }, [session?.user?.id]);
 
   useEffect(() => {
     const updateTheme = () => {
@@ -72,6 +72,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     mediaQuery.addEventListener("change", updateTheme);
     return () => mediaQuery.removeEventListener("change", updateTheme);
   }, [themeMode]);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDark);
+  }, [isDark]);
 
   const toggleTheme = async () => {
     const newMode = themeMode === "DARK" ? "LIGHT" : "DARK";
@@ -93,28 +97,28 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     isDark,
     toggleTheme,
     bg: isDark
-      ? "bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
-      : "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50",
+      ? "bg-[#0e1512]"
+      : "bg-[#f7f8f5]",
     cardBg: isDark
-      ? "bg-white/10 backdrop-blur-2xl border-white/20"
-      : "bg-white/80 backdrop-blur-2xl border-gray-200/50",
+      ? "bg-[#17211c] border border-white/10"
+      : "bg-white border border-[#dde3dc]",
     textPrimary: isDark ? "text-white" : "text-gray-900",
     textSecondary: isDark ? "text-gray-300" : "text-gray-600",
     textTertiary: isDark ? "text-gray-400" : "text-gray-500",
     inputBg: isDark ? "bg-white/5" : "bg-gray-50/50",
     inputBorder: isDark ? "border-white/20" : "border-gray-200",
-    inputFocusBorder: isDark ? "border-blue-400" : "border-blue-500",
+    inputFocusBorder: isDark ? "border-emerald-400" : "border-emerald-600",
     buttonGradient: isDark
-      ? "from-blue-600 to-purple-600"
-      : "from-emerald-500 to-emerald-600", // Updated to emerald
+      ? "from-emerald-600 to-emerald-700"
+      : "from-emerald-600 to-emerald-700",
     oauthBg: isDark
       ? "bg-white/10 border-white/20"
       : "bg-white border-gray-200",
     oauthText: isDark ? "text-white" : "text-gray-700",
-    particleColor: isDark ? "bg-blue-300" : "bg-emerald-400", // Updated to emerald
+    particleColor: isDark ? "bg-emerald-300" : "bg-emerald-400",
     glowEffect: isDark
-      ? "from-blue-500/20 to-purple-500/20"
-      : "from-emerald-500/10 to-emerald-600/10", // Updated to emerald
+      ? "from-emerald-500/20 to-emerald-600/20"
+      : "from-emerald-500/10 to-emerald-600/10",
   };
 
   return (

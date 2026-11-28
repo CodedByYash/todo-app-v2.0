@@ -3,7 +3,7 @@
 import { useWorkspace } from "@/components/WorkspaceProvider";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ChevronLeft, ChevronRight, Circle } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Task = {
   id: string;

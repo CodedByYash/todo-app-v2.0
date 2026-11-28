@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma/prisma";
 import { z } from "zod";
 import getUser from "@/lib/getUser";
-import { tasksSchema } from "@/lib/schema/schema";
+import { canAccessWorkspace } from "@/lib/auth-guards";
+import { forbidden, serverError, unauthorized, badRequest } from "@/lib/api";
 
 const dashboardQuerySchema = z.object({
-  workspaceId: z.string().uuid().optional(),
+  workspaceId: z.uuid().optional(),
 });
 
 type DashboardData = {
@@ -37,7 +38,6 @@ type DashboardData = {
     id: string;
     name: string | null;
     email: string;
-    username: string | null;
   }[];
   activeTasks: {
     id: string;
@@ -54,21 +54,19 @@ type DashboardData = {
 export async function GET(request: Request) {
   try {
     const user = await getUser();
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-    console.log("Authenticated user:", user);
+    if (!user) return unauthorized();
 
     const { searchParams } = new URL(request.url);
     const query = dashboardQuerySchema.safeParse({
-      workspaceId: searchParams.get("workspaceId"),
+      workspaceId: searchParams.get("workspaceId") ?? undefined,
     });
 
-    if (!query.success) {
-      return NextResponse.json({ error: query.error.errors }, { status: 400 });
-    }
+    if (!query.success) return badRequest(query.error);
 
     const { workspaceId } = query.data;
+    if (workspaceId && !(await canAccessWorkspace(user.id, workspaceId))) {
+      return forbidden("Invalid or inaccessible workspace");
+    }
 
     // Base where clause for tasks (simplified, no 7-day limit initially)
     const whereClause = {
@@ -97,11 +95,14 @@ export async function GET(request: Request) {
         updatedAt: true,
       },
     });
-    console.log("Fetched tasks:", tasks);
 
     // Fetch reminders (removed completed filter due to schema mismatch)
     const reminders = await prisma.reminder.findMany({
-      where: { userId: user.id },
+      where: {
+        userId: user.id,
+        completed: false,
+        ...(workspaceId && { workspaceId }),
+      },
       orderBy: { reminderDate: "asc" },
       select: {
         id: true,
@@ -111,12 +112,12 @@ export async function GET(request: Request) {
         createdAt: true,
       },
     });
-    console.log("Fetched reminders:", reminders); // Debug reminders
 
     // Fetch workspace members
     const workspaceMembers = await prisma.workspaceMember.findMany({
       where: {
         workspace: {
+          ...(workspaceId && { id: workspaceId }),
           OR: [
             { ownerId: user.id },
             { members: { some: { userId: user.id } } },
@@ -129,12 +130,10 @@ export async function GET(request: Request) {
             id: true,
             name: true,
             email: true,
-            username: true,
           },
         },
       },
     });
-    console.log("Fetched workspaceMembers:", workspaceMembers); // Debug workspaceMembers
 
     // Task counts
     const total = tasks.length;
@@ -202,7 +201,9 @@ export async function GET(request: Request) {
     }));
 
     // Format team members
-    const teamMembers = workspaceMembers.map((wm) => wm.user);
+    const teamMembers = [
+      ...new Map(workspaceMembers.map((wm) => [wm.user.id, wm.user])).values(),
+    ];
 
     // Filter active tasks (ongoing)
     const activeTasks = tasks
@@ -228,71 +229,6 @@ export async function GET(request: Request) {
 
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    console.error("Error fetching dashboard data:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch dashboard data" },
-      { status: 500 },
-    );
-  }
-}
-
-// POST: Create a task (unchanged)
-export async function POST(request: Request) {
-  try {
-    const user = await getUser();
-
-    if (!user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const data = await request.json();
-    const parsedData = tasksSchema.safeParse(data);
-
-    if (!parsedData.success) {
-      console.error("Validation error:", parsedData.error.errors);
-      return NextResponse.json(
-        { error: parsedData.error.errors },
-        { status: 400 },
-      );
-    }
-
-    const { title, completed, priority, dueDate, workspaceId, tagIds } =
-      parsedData.data;
-
-    const workspace = await prisma.workspace.findFirst({
-      where: {
-        id: workspaceId,
-        OR: [{ ownerId: user.id }, { members: { some: { userId: user.id } } }],
-      },
-    });
-
-    if (!workspace) {
-      return NextResponse.json(
-        { error: "Invalid or inaccessible workspace" },
-        { status: 403 },
-      );
-    }
-
-    const task = await prisma.task.create({
-      data: {
-        title,
-        completed,
-        priority,
-        dueDate: dueDate ? new Date(dueDate) : null,
-        userId: user.id,
-        workspaceId,
-        tags: {
-          connect: tagIds?.map((id: string) => ({ id })) || [],
-        },
-      },
-    });
-
-    return NextResponse.json(task, { status: 201 });
-  } catch (error) {
-    console.error("Error creating task:", error);
-    return NextResponse.json(
-      { error: "Failed to create task" },
-      { status: 500 },
-    );
+    return serverError("GET_DASHBOARD", error);
   }
 }
